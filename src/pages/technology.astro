@@ -1,0 +1,1015 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import ContactCTA from "../components/shared/ContactCTA.astro";
+
+const chapters = [
+  { id: "architecture", label: "Architecture" },
+  { id: "execution", label: "Execution" },
+  { id: "agents", label: "Managers and agents" },
+  { id: "coordination", label: "From objective to result" },
+  { id: "knowledge", label: "Knowledge and learning" },
+  { id: "governance", label: "Governance" },
+  { id: "integrations", label: "Integrations" },
+  { id: "reliability", label: "Reliability" },
+];
+
+const principles = [
+  { t: "Structure over prompts", d: "Roles, responsibilities and rules are explicit, durable parts of the system." },
+  { t: "Authority before action", d: "What may happen is checked before it happens." },
+  { t: "Everything leaves a record", d: "Work, decisions and results can be traced after the fact." },
+  { t: "Learning must change behavior", d: "Knowledge is wired into the procedures and decisions it affects." },
+  { t: "Channels are replaceable", d: "Products, research and results belong to the company, never to one platform." },
+];
+
+const log = [
+  { t: "09:12:04", a: "research agent", e: "Assignment completed", c: "objective: new collection" },
+  { t: "09:12:05", a: "commerce manager", e: "Result reviewed", c: "follow-up issued" },
+  { t: "09:13:40", a: "neo", e: "Escalation raised", c: "owner approval required" },
+  { t: "09:14:02", a: "runtime", e: "Checkpoint verified", c: "state consistent" },
+  { t: "09:20:11", a: "owner", e: "Approval granted", c: "recorded in Cerebro" },
+];
+---
+
+<BaseLayout
+  variant="home"
+  title="Technology"
+  description="Governed execution, persistent roles, institutional knowledge and observable operations: the architecture behind Digit."
+  path="/technology"
+>
+  <PageHero
+    tone="technology"
+    kicker="Technology"
+    title="The architecture of <span>an autonomous company.</span>"
+    lede="Digit is not one large model trying to do everything. It is an organization expressed in software: roles with responsibilities, governed execution, connected knowledge, and people holding the decisions that matter."
+  />
+
+  <div class="wrap doc">
+    <nav class="toc" aria-label="Chapters" data-toc>
+      <p class="label">On this page</p>
+      <ol>
+        {
+          chapters.map((c, i) => (
+            <li>
+              <a href={`#${c.id}`} data-toc-link={c.id}>
+                <span class="label">{String(i + 1).padStart(2, "0")}</span>
+                {c.label}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="chapters">
+      <section class="chapter" id="architecture" aria-labelledby="architecture-title">
+        <p class="label kicker reveal">01 · Technical architecture and philosophy</p>
+        <h2 class="h2 reveal" id="architecture-title">An organization, expressed in software.</h2>
+        <div class="text reveal">
+          <p>
+            Digit is structured the way a well-run company is: an owner who sets direction, an executive layer that
+            coordinates, managers who own areas of the business, and specialist agents who do the work. Beneath them sit a
+            governed runtime, an institutional knowledge layer and the integrations that connect everything to the outside
+            world.
+          </p>
+          <p>
+            Each layer has one job, and the boundaries between them are deliberate. That is what makes the system
+            understandable, governable and able to improve.
+          </p>
+        </div>
+        <figure class="schematic arch reveal" aria-label="Architecture layers">
+          <div class="side gov"><span>Authority checks</span></div>
+          <div class="bands">
+            <div class="band b1"><b>Owner</b><span>Mission Control</span></div>
+            <div class="band b2"><b>Executive layer</b><span>Neo: priorities, coordination, escalation</span></div>
+            <div class="band b3"><b>Managers</b><span>Own areas of the business</span></div>
+            <div class="band b4"><b>Specialist agents</b><span>Do the work</span></div>
+            <div class="band b5"><b>Governed runtime</b><span>Assignments, scope, limits, records</span></div>
+            <div class="band b6"><b>Integrations</b><span>Deliberate, scoped capabilities</span></div>
+          </div>
+          <div class="side know"><span>Cerebro · knowledge and learning</span></div>
+        </figure>
+        <ul class="principles reveal">
+          {
+            principles.map((p) => (
+              <li>
+                <h3>{p.t}</h3>
+                <p>{p.d}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="chapter" id="execution" aria-labelledby="execution-title">
+        <p class="label kicker reveal">02 · Runtime and execution infrastructure</p>
+        <h2 class="h2 reveal" id="execution-title">Every piece of work is a bounded assignment.</h2>
+        <div class="text reveal">
+          <p>
+            Agents do not run indefinitely or act on open-ended instructions. Work is issued as an assignment: a specific
+            task for a specific role, with a defined scope, limits on what it may touch, and a record of everything it does.
+            The runtime starts the work when it is needed, enforces those boundaries while it runs, and closes it out with a
+            result.
+          </p>
+          <p>
+            Identity and execution are separate. An agent's role, history and responsibilities persist between assignments
+            without anything running idle in between.
+          </p>
+        </div>
+        <figure class="schematic exec reveal" aria-label="Assignment lifecycle">
+          <ol class="lifecycle">
+            <li><span class="label">01</span><b>Issued</b><small>A task for a role</small></li>
+            <li><span class="label">02</span><b>Checked</b><small>Against its authority</small></li>
+            <li class="now"><span class="label">03</span><b>Running</b><small>Inside its scope and limits</small></li>
+            <li><span class="label">04</span><b>Completed</b><small>With a result</small></li>
+            <li><span class="label">05</span><b>Recorded</b><small>Every action, traceable</small></li>
+          </ol>
+          <dl class="card">
+            <div><dt>Role</dt><dd>Research agent</dd></div>
+            <div><dt>Scope</dt><dd>Market research for one objective</dd></div>
+            <div><dt>Limits</dt><dd>Read-only access; no spending; no outside contact</dd></div>
+            <div><dt>Record</dt><dd>Every step, input and result</dd></div>
+          </dl>
+        </figure>
+      </section>
+
+      <section class="chapter" id="agents" aria-labelledby="agents-title">
+        <p class="label kicker reveal">03 · Managers and specialized agents</p>
+        <h2 class="h2 reveal" id="agents-title">Roles, not one giant model.</h2>
+        <div class="text reveal">
+          <p>
+            Work is organized the way a company organizes people. Managers own areas of the business, such as a particular
+            business or a function like research. They plan, assign, review and escalate. Specialist agents hold narrower
+            roles, like researching, writing, designing or analysing, and are called in when their skills are needed.
+          </p>
+          <p>
+            Each role has a persistent identity: responsibilities, permissions and a history of its work. That continuity is
+            what lets the organization improve, because lessons attach to the roles that will use them.
+          </p>
+        </div>
+        <figure class="schematic org reveal" aria-label="Organizational structure">
+          <div class="tier"><span class="box owner">Owner</span></div>
+          <div class="tier"><span class="box exec">Neo · executive layer</span></div>
+          <div class="tier managers">
+            <span class="box mgr">Business manager</span>
+            <span class="box mgr">Business manager</span>
+            <span class="box mgr">Function manager</span>
+          </div>
+          <div class="tier specialists">
+            <span class="chip">Research</span>
+            <span class="chip">Writing</span>
+            <span class="chip">Design</span>
+            <span class="chip">Analysis</span>
+            <span class="chip">Operations</span>
+          </div>
+        </figure>
+      </section>
+
+      <section class="chapter" id="coordination" aria-labelledby="coordination-title">
+        <p class="label kicker reveal">04 · Organizational and agentic execution</p>
+        <h2 class="h2 reveal" id="coordination-title">From objective to result.</h2>
+        <div class="text reveal">
+          <p>
+            An objective, such as launching a product or understanding a market, becomes a plan. The plan becomes assignments
+            across managers and specialists, which run in parallel where they can and in sequence where they must. Results
+            come back, are reviewed against what was expected, and lead to follow-up work or a decision.
+          </p>
+          <p>At every step the work can be inspected: who is doing what, why, and what it depends on.</p>
+        </div>
+        <figure class="schematic flow reveal" aria-label="Objective to result">
+          <div class="step">Objective</div>
+          <div class="step">Plan</div>
+          <div class="fan">
+            <div class="step small">Assignment</div>
+            <div class="step small">Assignment</div>
+            <div class="step small">Assignment</div>
+          </div>
+          <div class="step">Results</div>
+          <div class="step">Review</div>
+          <div class="step final">Decision or follow-up</div>
+        </figure>
+      </section>
+
+      <section class="chapter" id="knowledge" aria-labelledby="knowledge-title">
+        <p class="label kicker reveal">05 · Knowledge and learning architecture</p>
+        <h2 class="h2 reveal" id="knowledge-title">Experience, turned into intelligence.</h2>
+        <div class="text reveal">
+          <p>
+            Everything that happens produces records: work done, results observed, decisions taken. Cerebro organizes them
+            into connected knowledge of six kinds (knowledge, evidence, experience, procedures, organization and governance),
+            each with its source, authority and durability.
+          </p>
+          <p>
+            Learning is the step that matters. A lesson is linked to the evidence that supports it and to the procedure or
+            default it changed. Records are superseded rather than overwritten, so the company can always see what it used to
+            believe and why that changed. <a href="/platform#cerebro">More about Cerebro</a>.
+          </p>
+        </div>
+        <figure class="schematic chain reveal" aria-label="How experience becomes intelligence">
+          <ol>
+            <li style="--c: #d6e2ff"><b>Work</b></li>
+            <li style="--c: #f3b968"><b>Outcome</b></li>
+            <li style="--c: #4fd8b0"><b>Evidence</b></li>
+            <li style="--c: #36c6ff"><b>Lesson</b></li>
+            <li style="--c: #d6e2ff"><b>Procedure</b></li>
+            <li style="--c: #8f86ff"><b>Next decision</b></li>
+          </ol>
+          <p class="label back">And around again, with more to draw on each time</p>
+        </figure>
+      </section>
+
+      <section class="chapter" id="governance" aria-labelledby="governance-title">
+        <p class="label kicker reveal">06 · Governance and authority</p>
+        <h2 class="h2 reveal" id="governance-title">Autonomy is delegated, never assumed.</h2>
+        <div class="text reveal">
+          <p>
+            Every action is classified before it runs. Routine work proceeds on its own. Consequential work, such as spending,
+            publishing, contacting people outside the company or changing security, waits for the owner's explicit approval of
+            that specific action. Some actions are never allowed at all.
+          </p>
+          <p>
+            Permissions are granted per role and per kind of work, widened only by the owner after a workflow has proven
+            reliable, and can be withdrawn at any time. No part of the system can approve its own requests, and a pause stops
+            autonomous work everywhere at once.
+          </p>
+        </div>
+        <figure class="schematic tiers reveal" aria-label="Authority tiers">
+          <div class="t go">
+            <p class="label">Proceeds</p>
+            <h3>Routine work</h3>
+            <ul><li>Research and analysis</li><li>Drafts and preparation</li><li>Internal coordination</li></ul>
+          </div>
+          <div class="t ask">
+            <p class="label">Needs the owner</p>
+            <h3>Consequential work</h3>
+            <ul><li>Spending and commitments</li><li>Publishing and outside contact</li><li>Account and security changes</li></ul>
+          </div>
+          <div class="t no">
+            <p class="label">Never allowed</p>
+            <h3>Out of bounds</h3>
+            <ul><li>Approving its own requests</li><li>Granting itself permissions</li><li>Working around a pause</li></ul>
+          </div>
+        </figure>
+      </section>
+
+      <section class="chapter" id="integrations" aria-labelledby="integrations-title">
+        <p class="label kicker reveal">07 · Integrations and capabilities</p>
+        <h2 class="h2 reveal" id="integrations-title">Connected deliberately.</h2>
+        <div class="text reveal">
+          <p>
+            A business runs on other services: storefronts, marketplaces, publishing platforms, communication tools,
+            analytics. The platform connects to them through capabilities, each a defined set of actions with its own
+            permissions, enabled deliberately and only for the roles that need it.
+          </p>
+          <p>
+            Credentials stay with the platform, out of prompts, records and agent memory. A capability is checked against the
+            service's current rules before it is enabled, and every use of it is recorded.
+          </p>
+        </div>
+        <figure class="schematic capability reveal" aria-label="Anatomy of a capability">
+          <div class="cap-head">
+            <span class="label">Capability</span>
+            <b>Publish content</b>
+          </div>
+          <dl>
+            <div><dt>Actions</dt><dd>Prepare a draft · submit for review · publish</dd></div>
+            <div><dt>Available to</dt><dd>The roles that own publishing for that business</dd></div>
+            <div><dt>Approval</dt><dd>Publishing requires the owner</dd></div>
+            <div><dt>Credentials</dt><dd>Held by the platform, never by an agent</dd></div>
+            <div><dt>Record</dt><dd>Every call, with its actor and result</dd></div>
+          </dl>
+        </figure>
+      </section>
+
+      <section class="chapter" id="reliability" aria-labelledby="reliability-title">
+        <p class="label kicker reveal">08 · Observability, reliability and resilience</p>
+        <h2 class="h2 reveal" id="reliability-title">Nothing happens in the dark.</h2>
+        <div class="text reveal">
+          <p>
+            An autonomous system has to be observable. Every action is recorded as an event with a time, an actor and a cause,
+            so any outcome can be traced back through the decisions that led to it. Health is watched continuously, and
+            problems surface in Mission Control.
+          </p>
+          <p>
+            Failures are expected and handled: work is retried, rerouted or escalated, and anything uncertain stops rather
+            than guesses. Missing data stays missing; it is never invented to fill a gap. Company state is checkpointed and
+            verified, and recovery is tested.
+          </p>
+        </div>
+        <figure class="schematic log reveal" aria-label="Example event record">
+          <div class="log-head"><span class="label">Event record</span><span class="label">Example</span></div>
+          <ol>
+            {
+              log.map((l) => (
+                <li>
+                  <time>{l.t}</time>
+                  <span class="actor">{l.a}</span>
+                  <span class="event">{l.e}</span>
+                  <span class="cause">{l.c}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </figure>
+      </section>
+    </div>
+  </div>
+
+  <ContactCTA secondary={{ href: "/platform", label: "Explore the platform" }} />
+</BaseLayout>
+
+<script>
+  // Highlight the chapter currently being read in the table of contents.
+  const links = new Map<string, HTMLElement>();
+  document.querySelectorAll<HTMLElement>("[data-toc-link]").forEach((a) => links.set(a.dataset.tocLink!, a));
+  const sections = [...links.keys()].map((id) => document.getElementById(id)).filter((s): s is HTMLElement => !!s);
+  if (sections.length) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          links.forEach((a, id) => {
+            const on = id === e.target.id;
+            a.classList.toggle("is-active", on);
+            if (on) a.setAttribute("aria-current", "true");
+            else a.removeAttribute("aria-current");
+          });
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach((s) => io.observe(s));
+  }
+</script>
+
+<style>
+  .doc {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 80px);
+    padding-top: clamp(72px, 9vw, 120px);
+    padding-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .toc {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    align-self: start;
+  }
+
+  .toc ol {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  .toc a {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 8px 0 8px 16px;
+    font-size: 14.5px;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color var(--fast) var(--ease);
+  }
+
+  .toc a .label {
+    font-size: 10.5px;
+  }
+
+  .toc a:hover {
+    color: var(--ink);
+  }
+
+  .toc a.is-active {
+    color: var(--ink);
+  }
+
+  .toc a.is-active::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  .toc a.is-active .label {
+    color: var(--cyan);
+  }
+
+  .chapter {
+    padding-bottom: clamp(88px, 11vw, 150px);
+    scroll-margin-top: calc(var(--header-h) + 24px);
+  }
+
+  .chapter .h2 {
+    font-size: clamp(32px, 3.6vw, 52px);
+    max-width: 18em;
+  }
+
+  .text {
+    margin-top: 24px;
+    max-width: 44em;
+  }
+
+  .text p {
+    color: var(--ink-2);
+    font-size: 17.5px;
+    text-wrap: pretty;
+  }
+
+  .text p + p {
+    margin-top: 1em;
+  }
+
+  .text a {
+    color: var(--cyan-hi);
+  }
+
+  .schematic {
+    position: relative;
+    margin: 40px 0 0;
+    padding: clamp(18px, 2.4vw, 28px);
+    border-radius: 20px;
+    border: 1px solid var(--line-2);
+    background:
+      linear-gradient(rgba(60, 170, 255, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(90deg, rgba(60, 170, 255, 0.035) 1px, transparent 1px) 0 0 / 32px 32px,
+      rgba(3, 8, 18, 0.72);
+    font-size: 14.5px;
+  }
+
+  /* 01 architecture */
+  .arch {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 132px;
+    gap: 10px;
+  }
+
+  .side {
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 181, 71, 0.45);
+    background: rgba(255, 181, 71, 0.05);
+  }
+
+  .side span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffcf85;
+  }
+
+  .side.know {
+    border: 1px solid rgba(39, 196, 255, 0.45);
+    background: radial-gradient(closest-side, rgba(39, 196, 255, 0.16), rgba(39, 196, 255, 0.04));
+  }
+
+  .side.know span {
+    color: var(--cyan-hi);
+  }
+
+  .bands {
+    display: grid;
+    gap: 8px;
+  }
+
+  .band {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 22, 44, 0.75);
+  }
+
+  .band b {
+    font-weight: 580;
+  }
+
+  .band span {
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  .b1 {
+    border-color: rgba(127, 227, 255, 0.5);
+  }
+
+  .b2 {
+    border-color: rgba(127, 227, 255, 0.35);
+  }
+
+  .principles {
+    list-style: none;
+    margin: 40px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .principles li {
+    padding-top: 14px;
+    border-top: 1px solid var(--line-2);
+  }
+
+  .principles h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 580;
+  }
+
+  .principles p {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  /* 02 execution */
+  .lifecycle {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .lifecycle li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 22, 44, 0.75);
+  }
+
+  .lifecycle li:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translate(50%, -50%);
+    color: var(--cyan);
+    z-index: 1;
+  }
+
+  .lifecycle .label {
+    color: var(--cyan);
+    font-size: 10.5px;
+  }
+
+  .lifecycle b {
+    font-weight: 580;
+  }
+
+  .lifecycle small {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  .lifecycle .now {
+    border-color: rgba(39, 196, 255, 0.7);
+    background: rgba(39, 196, 255, 0.1);
+    box-shadow: 0 0 24px -8px rgba(39, 196, 255, 0.6);
+  }
+
+  .card {
+    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .card div,
+  .capability dl div {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: rgba(6, 14, 28, 0.8);
+  }
+
+  .card dt,
+  .capability dt {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .card dd,
+  .capability dd {
+    margin: 4px 0 0;
+    color: var(--ink);
+  }
+
+  /* 03 org */
+  .org {
+    display: grid;
+    gap: 26px;
+    justify-items: center;
+    padding-block: 32px;
+  }
+
+  .tier {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .tier:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -26px;
+    height: 26px;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(127, 227, 255, 0.1), rgba(127, 227, 255, 0.6));
+  }
+
+  .box {
+    padding: 11px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 22, 44, 0.8);
+    font-weight: 560;
+  }
+
+  .owner {
+    border-color: rgba(127, 227, 255, 0.6);
+  }
+
+  .exec {
+    border-color: rgba(127, 227, 255, 0.45);
+    box-shadow: 0 0 24px -10px rgba(39, 196, 255, 0.7);
+  }
+
+  .mgr {
+    border-color: rgba(143, 134, 255, 0.5);
+  }
+
+  .chip {
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    font-size: 13.5px;
+    color: var(--ink-2);
+  }
+
+  /* 04 flow */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .step {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 14px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 22, 44, 0.8);
+    text-align: center;
+    font-weight: 560;
+  }
+
+  .flow > .step:not(:last-child)::after,
+  .fan::after {
+    content: "→";
+    position: absolute;
+    right: -11px;
+    top: 50%;
+    transform: translate(50%, -50%);
+    color: var(--cyan);
+    font-weight: 400;
+  }
+
+  .fan {
+    position: relative;
+    flex: 1.1 1 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  .step.small {
+    padding: 9px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  .step.final {
+    border-color: rgba(39, 196, 255, 0.7);
+    background: rgba(39, 196, 255, 0.1);
+  }
+
+  /* 05 chain */
+  .chain ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .chain li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+    background: rgba(10, 22, 44, 0.8);
+  }
+
+  .chain li::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 8px var(--c);
+  }
+
+  .chain li:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -9px;
+    top: 50%;
+    transform: translate(50%, -50%);
+    color: var(--cyan);
+  }
+
+  .chain b {
+    font-weight: 560;
+  }
+
+  .back {
+    margin-top: 16px;
+    text-align: right;
+  }
+
+  .back::before {
+    content: "↺ ";
+    color: var(--cyan);
+  }
+
+  /* 06 tiers */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .t {
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 22, 44, 0.8);
+  }
+
+  .t h3 {
+    margin: 8px 0 0;
+    font-size: 18px;
+    font-weight: 580;
+  }
+
+  .t ul {
+    margin: 12px 0 0;
+    padding-left: 18px;
+    color: var(--ink-2);
+    display: grid;
+    gap: 4px;
+  }
+
+  .go {
+    border-color: rgba(61, 220, 151, 0.45);
+  }
+
+  .go .label {
+    color: #6fe6b2;
+  }
+
+  .ask {
+    border-color: rgba(255, 181, 71, 0.5);
+  }
+
+  .ask .label {
+    color: #ffcf85;
+  }
+
+  .no {
+    border-color: rgba(255, 90, 106, 0.45);
+  }
+
+  .no .label {
+    color: #ff8f9b;
+  }
+
+  /* 07 capability */
+  .cap-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cap-head b {
+    font-size: 18px;
+    font-weight: 580;
+  }
+
+  .capability dl {
+    margin: 14px 0 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  @media (max-width: 1240px) {
+    .capability dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .capability dl div:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* 08 log */
+  .log-head {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .log ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .log li {
+    display: grid;
+    grid-template-columns: 90px 160px 190px minmax(0, 1fr);
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .log li:last-child {
+    border-bottom: 0;
+  }
+
+  .log time {
+    color: var(--ink-3);
+  }
+
+  .actor {
+    color: var(--cyan-hi);
+  }
+
+  .event {
+    color: var(--ink);
+  }
+
+  .cause {
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 1080px) {
+    .doc {
+      grid-template-columns: 1fr;
+    }
+
+    .toc {
+      position: static;
+    }
+
+    .toc ol {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-left: 0;
+    }
+
+    .toc a {
+      padding: 7px 14px 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line-2);
+      font-size: 13.5px;
+    }
+
+    .toc a.is-active::before {
+      display: none;
+    }
+
+    .principles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .arch {
+      grid-template-columns: 1fr;
+    }
+
+    .side {
+      padding: 10px;
+    }
+
+    .side span {
+      writing-mode: horizontal-tb;
+      transform: none;
+    }
+
+    .side.gov {
+      order: -1;
+    }
+
+    .band {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .band span {
+      text-align: left;
+    }
+
+    .principles,
+    .lifecycle,
+    .card,
+    .chain ol,
+    .tiers,
+    .capability dl {
+      grid-template-columns: 1fr;
+    }
+
+    .lifecycle li:not(:last-child)::after,
+    .chain li:not(:last-child)::after {
+      content: "↓";
+      right: 50%;
+      top: auto;
+      bottom: -9px;
+      transform: translate(50%, 50%);
+    }
+
+    .flow {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 22px;
+    }
+
+    .flow > .step:not(:last-child)::after,
+    .fan::after {
+      content: "↓";
+      right: 50%;
+      top: auto;
+      bottom: -11px;
+      transform: translate(50%, 50%);
+    }
+
+    .fan {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .back {
+      text-align: left;
+    }
+
+    .log li {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+</style>

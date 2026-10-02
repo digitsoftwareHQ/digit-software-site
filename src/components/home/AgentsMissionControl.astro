@@ -1,0 +1,173 @@
+---
+import MissionControlMock from "../shared/MissionControlMock.astro";
+
+const questions = [
+  { n: 1, q: "Is the company healthy?" },
+  { n: 2, q: "What needs me?" },
+  { n: 3, q: "What do the agents recommend?" },
+  { n: 4, q: "What is happening, and what comes next?" },
+  { n: 5, q: "What did we learn, and what changed?" },
+];
+---
+
+<section class="section agents" id="agents" aria-labelledby="agents-title">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="label kicker">Agents and Mission Control</p>
+      <h2 class="h2" id="agents-title">Agents run the company.<br /><span class="muted-h">Mission Control keeps its owner in command.</span></h2>
+    </div>
+
+    <div class="intro">
+      <div class="reveal" style="--d: 80ms">
+        <p class="label label--lit">Agents</p>
+        <p class="body big">
+          Agents do the work of running the business. They carry out tasks, coordinate with one another, handle routine
+          decisions, spot problems and opportunities early, and bring anything consequential to the owner.
+        </p>
+        <p class="body">Each one has a defined role and works within limits it cannot change.</p>
+      </div>
+      <div class="reveal" style="--d: 160ms">
+        <p class="label label--lit">Mission Control</p>
+        <p class="body big">
+          Mission Control is how the owner stays connected to all of it: the state of the company, what the agents
+          recommend and why, what is waiting for a decision, and the detail behind anything.
+        </p>
+        <p class="body">It is built around the questions a CEO actually asks.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap stage">
+    <MissionControlMock variant="agents" />
+  </div>
+
+  <div class="wrap">
+    <ol class="questions reveal">
+      {
+        questions.map((q) => (
+          <li>
+            <b>{q.n}</b>
+            {q.q}
+          </li>
+        ))
+      }
+    </ol>
+    <p class="more reveal"><a href="/platform#mission-control">More about Mission Control <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+<style>
+  .agents {
+    background:
+      radial-gradient(1000px 600px at 50% 46%, rgba(23, 92, 200, 0.16), transparent 70%),
+      var(--bg-0);
+  }
+
+  .head {
+    max-width: 980px;
+  }
+
+  .muted-h {
+    color: var(--ink-3);
+  }
+
+  .intro {
+    margin-top: clamp(40px, 5vw, 64px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(32px, 6vw, 96px);
+    max-width: 1100px;
+  }
+
+  .intro .label {
+    margin-bottom: 16px;
+  }
+
+  .big {
+    font-size: clamp(18px, 1.5vw, 20px);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .big + .body {
+    margin-top: 14px;
+  }
+
+  .stage {
+    margin-top: clamp(56px, 7vw, 104px);
+  }
+
+  .questions {
+    list-style: none;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .questions li {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.4;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-2);
+  }
+
+  .questions b {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan-hi);
+    border: 1px solid rgba(39, 196, 255, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .more {
+    margin-top: 40px;
+  }
+
+  .more a {
+    font-weight: 560;
+    color: var(--cyan-hi);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(127, 227, 255, 0.3);
+    padding-bottom: 2px;
+    transition: border-color var(--fast) var(--ease);
+  }
+
+  .more a:hover {
+    border-color: var(--cyan-hi);
+  }
+
+  @media (max-width: 1080px) {
+    .questions {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .intro {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .questions {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .questions li {
+      padding: 14px 0;
+    }
+  }
+</style>

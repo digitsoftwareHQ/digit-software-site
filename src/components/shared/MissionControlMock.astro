@@ -1,0 +1,730 @@
+---
+/**
+ * Illustrative Mission Control screen. Fictional company, example content, no live data.
+ * variant "agents" speaks about the agents in general; "neo" attributes the brief to Neo.
+ */
+interface Props {
+  variant?: "agents" | "neo";
+  caption?: string;
+}
+const { variant = "agents", caption = "Illustrative interface with example content." } = Astro.props;
+const neo = variant === "neo";
+---
+
+<div class="mc-stage">
+  <div class="mc-frame" aria-label="Illustrative Mission Control interface" role="img">
+    <div class="mc glass" aria-hidden="true">
+      <div class="mc-top">
+        <span class="mc-brand"><i></i>Mission Control</span>
+        <span class="mc-search">{neo ? "Ask Neo, or search the company" : "Ask anything, or search the company"}</span>
+        <span class="mc-status"><i></i>{neo ? "Neo · operating" : "Agents · operating"}</span>
+      </div>
+      <div class="mc-body">
+        <nav class="mc-rail">
+          <span class="on"><svg viewBox="0 0 20 20"><path d="M3 9l7-6 7 6v8H3z" /></svg></span>
+          <span><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5" /><path d="M10 6v4l3 2" /></svg></span>
+          <span><svg viewBox="0 0 20 20"><path d="M3 15h14M5 12l3-4 3 2 4-5" /></svg></span>
+          <span><svg viewBox="0 0 20 20"><circle cx="6" cy="7" r="2" /><circle cx="14" cy="6" r="2" /><circle cx="11" cy="14" r="2" /><path d="M7.6 8.2l2.6 4.2M8 7l4-.7M13.4 7.9l-1.6 4.3" /></svg></span>
+          <span><svg viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="12" rx="2" /><path d="M3 8h14" /></svg></span>
+        </nav>
+        <div class="mc-main">
+          <div class="mc-head">
+            <p class="mc-eyebrow">Tuesday · 09:41</p>
+            <p class="mc-hello">Good morning.</p>
+            <p class="mc-sub">Here is what changed while you were away.</p>
+          </div>
+
+          <div class="mc-grid">
+            <div class="tile t-pulse">
+              <b class="mk">1</b>
+              <p class="t-title">Company pulse</p>
+              <div class="rings">
+                <div class="ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" /><circle class="arc ok" cx="22" cy="22" r="18" pathLength="100" style="--v: 82" /></svg><span><b>Operations</b>Steady</span></div>
+                <div class="ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" /><circle class="arc lit" cx="22" cy="22" r="18" pathLength="100" style="--v: 64" /></svg><span><b>Knowledge</b>Growing</span></div>
+                <div class="ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" /><circle class="arc warn" cx="22" cy="22" r="18" pathLength="100" style="--v: 30" /></svg><span><b>Attention</b>Two waiting</span></div>
+              </div>
+              <svg class="spark" viewBox="0 0 300 48" preserveAspectRatio="none"><path d="M0 34 C 20 30, 30 36, 45 31 S 75 18, 92 24 S 120 38, 140 30 S 170 12, 190 18 S 225 30, 240 22 S 275 10, 300 14" /></svg>
+              <p class="t-meta">Activity across all teams, last 24 hours</p>
+            </div>
+
+            <div class="tile t-wait">
+              <b class="mk">2</b>
+              <p class="t-title">Waiting for you</p>
+              <div class="ask">
+                <span class="dot warn"></span>
+                <div><p>Approve a price change</p><span>Above the limit agents can set on their own</span></div>
+                <em>Review</em>
+              </div>
+              <div class="ask">
+                <span class="dot warn"></span>
+                <div><p>A second supplier is proposed</p><span>From the commerce manager, with evidence</span></div>
+                <em>Review</em>
+              </div>
+              <div class="ask done">
+                <span class="dot ok"></span>
+                <div><p>Weekly briefing is ready</p><span>No action needed</span></div>
+              </div>
+            </div>
+
+            <div class="tile t-neo">
+              <b class="mk">3</b>
+              <p class="t-title"><span class="neo-dot"></span>{neo ? "Neo" : "Operations brief"}</p>
+              {neo ? (
+                <p class="msg">
+                  Overnight the commerce team finished the listing draft and passed review. One task was blocked on an image, so
+                  I reassigned it. Two decisions need you; I recommend approving the first.
+                </p>
+              ) : (
+                <p class="msg">
+                  Overnight the commerce team finished the listing draft and passed review. A task blocked on an image was
+                  reassigned. Two decisions need you; the first is recommended.
+                </p>
+              )}
+              <p class="t-meta">07:12 · with evidence attached</p>
+            </div>
+
+            <div class="tile t-ops">
+              <b class="mk">4</b>
+              <p class="t-title">Operations <span>Objective: launch the new collection</span></p>
+              <div class="stages">
+                <span class="st done">Research</span>
+                <span class="st done">Build</span>
+                <span class="st done">Review</span>
+                <span class="st now">Approval</span>
+                <span class="st">Publish</span>
+                <span class="st">Measure</span>
+              </div>
+              <div class="teams">
+                <span><i class="ok"></i>Commerce manager</span>
+                <span><i class="ok"></i>Research</span>
+                <span><i class="warn"></i>Creative · one blocked task</span>
+              </div>
+            </div>
+
+            <div class="tile t-learn">
+              <b class="mk">5</b>
+              <p class="t-title">What we learned → what changed</p>
+              <div class="learned">
+                <div>
+                  <span class="kind k-know">Lesson</span>
+                  <p>Weekly briefings get acted on; daily ones don't</p>
+                </div>
+                <svg class="arrow" viewBox="0 0 40 12"><path d="M0 6h36M31 1l5 5-5 5" /></svg>
+                <div>
+                  <span class="kind k-proc">Procedure</span>
+                  <p>Owner briefing, now weekly</p>
+                </div>
+              </div>
+              <p class="t-meta">Recorded in Cerebro with its evidence</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {caption && <p class="label mc-caption">{caption}</p>}
+</div>
+
+<style>
+  /* ---- the interface ---- */
+
+  .mc-stage {
+    perspective: 1800px;
+  }
+
+  .mc-frame {
+    position: relative;
+  }
+
+  .mc-frame::before {
+    content: "";
+    position: absolute;
+    inset: 8% -4% -10%;
+    background: radial-gradient(closest-side, rgba(39, 150, 255, 0.28), transparent);
+    filter: blur(40px);
+    z-index: -1;
+  }
+
+  .mc {
+    border-radius: 22px;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 1.45;
+    transform-origin: 50% 100%;
+    background:
+      radial-gradient(900px 400px at 50% -20%, rgba(39, 150, 255, 0.14), transparent 70%),
+      linear-gradient(rgba(60, 170, 255, 0.03) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, rgba(60, 170, 255, 0.03) 1px, transparent 1px) 0 0 / 40px 40px,
+      rgba(4, 10, 22, 0.92);
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .mc {
+        animation: mc-tilt linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 42%;
+      }
+    }
+  }
+
+  @keyframes mc-tilt {
+    from {
+      transform: rotateX(22deg) translateY(40px) scale(0.92);
+      opacity: 0.3;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  .mc-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 52px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mc-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-stretch: 108%;
+    min-width: 180px;
+  }
+
+  .mc-brand i {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: linear-gradient(135deg, var(--cyan-hi), var(--blue-lit));
+    box-shadow: 0 0 12px rgba(39, 196, 255, 0.7);
+  }
+
+  .mc-search {
+    flex: 1;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 7px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .mc-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink-2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    min-width: 180px;
+    justify-content: flex-end;
+  }
+
+  .mc-status i,
+  .neo-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 0 rgba(39, 196, 255, 0.6);
+    animation: live 2.4s var(--ease) infinite;
+  }
+
+  @keyframes live {
+    70% {
+      box-shadow: 0 0 0 8px rgba(39, 196, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(39, 196, 255, 0);
+    }
+  }
+
+  .mc-body {
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr);
+  }
+
+  .mc-rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .mc-rail span {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    color: var(--ink-3);
+  }
+
+  .mc-rail span.on {
+    color: var(--cyan-hi);
+    background: rgba(39, 196, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(39, 196, 255, 0.3);
+  }
+
+  .mc-rail svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mc-main {
+    padding: 26px 28px 30px;
+  }
+
+  .mc-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .mc-hello {
+    margin-top: 6px;
+    font-size: 28px;
+    font-weight: 560;
+    font-stretch: 112%;
+    letter-spacing: -0.025em;
+  }
+
+  .mc-sub {
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+
+  .mc-grid {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .tile {
+    position: relative;
+    padding: 16px 18px 18px;
+    border-radius: 14px;
+    background: rgba(8, 18, 36, 0.72);
+    border: 1px solid rgba(56, 190, 255, 0.16);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  }
+
+  .t-pulse {
+    grid-column: span 5;
+  }
+
+  .t-wait {
+    grid-column: span 4;
+  }
+
+  .t-neo {
+    grid-column: span 3;
+    background: linear-gradient(160deg, rgba(20, 70, 140, 0.4), rgba(8, 18, 36, 0.72));
+    border-color: rgba(90, 210, 255, 0.3);
+  }
+
+  .t-ops {
+    grid-column: span 7;
+  }
+
+  .t-learn {
+    grid-column: span 5;
+  }
+
+  .mk {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: #02121f;
+    background: var(--cyan-hi);
+    box-shadow: 0 0 0 4px rgba(39, 196, 255, 0.16), 0 0 18px rgba(39, 196, 255, 0.6);
+  }
+
+  .t-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 14px;
+  }
+
+  .t-title span:not(.neo-dot) {
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--ink-3);
+    margin-left: auto;
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+
+  .t-meta {
+    margin-top: 10px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+
+  .rings {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .ring {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ring svg {
+    width: 40px;
+    height: 40px;
+    flex: none;
+    transform: rotate(-90deg);
+  }
+
+  .ring circle:not(.arc) {
+    fill: none;
+    stroke: rgba(110, 170, 255, 0.14);
+    stroke-width: 4;
+  }
+
+  .ring .arc {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: var(--v) 100;
+  }
+
+  .arc.ok {
+    stroke: #3ddc97;
+  }
+
+  .arc.lit {
+    stroke: var(--cyan);
+  }
+
+  .arc.warn {
+    stroke: #ffb547;
+  }
+
+  .ring span {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+
+  .ring b {
+    font-weight: 560;
+    color: var(--ink);
+  }
+
+  .spark {
+    margin-top: 14px;
+    width: 100%;
+    height: 44px;
+  }
+
+  .spark path {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    filter: drop-shadow(0 0 4px rgba(39, 196, 255, 0.6));
+  }
+
+  .ask {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .ask:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .ask p {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .ask span:not(.dot) {
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+
+  .ask em {
+    font-style: normal;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    color: var(--cyan-hi);
+    border: 1px solid rgba(39, 196, 255, 0.35);
+    background: rgba(39, 196, 255, 0.08);
+  }
+
+  .ask.done p {
+    color: var(--ink-2);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot.warn,
+  .teams i.warn {
+    background: #ffb547;
+    box-shadow: 0 0 8px rgba(255, 181, 71, 0.6);
+  }
+
+  .dot.ok,
+  .teams i.ok {
+    background: #3ddc97;
+  }
+
+  .msg {
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .st {
+    position: relative;
+    padding: 9px 10px 8px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--line);
+  }
+
+  .st.done {
+    color: var(--ink-2);
+    border-color: rgba(61, 220, 151, 0.28);
+  }
+
+  .st.done::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(61, 220, 151, 0.6);
+  }
+
+  .st.now {
+    color: var(--ink);
+    border-color: rgba(39, 196, 255, 0.6);
+    background: rgba(39, 196, 255, 0.1);
+    box-shadow: 0 0 20px -6px rgba(39, 196, 255, 0.6);
+  }
+
+  .st.now::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    bottom: 4px;
+    height: 2px;
+    width: 40%;
+    border-radius: 2px;
+    background: var(--cyan);
+    animation: progress 2.8s var(--ease) infinite alternate;
+  }
+
+  @keyframes progress {
+    to {
+      width: calc(100% - 20px);
+    }
+  }
+
+  .teams {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+
+  .teams span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .teams i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .learned {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+  }
+
+  .learned p {
+    margin-top: 6px;
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .kind::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+  }
+
+  .k-know {
+    color: #36c6ff;
+  }
+
+  .k-proc {
+    color: #d6e2ff;
+  }
+
+  .arrow path {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 1.3;
+  }
+
+  .mc-caption {
+    margin-top: 22px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .mc-caption span {
+    color: var(--cyan);
+    margin-right: 10px;
+  }
+
+
+  @media (max-width: 1080px) {
+    .t-pulse,
+    .t-wait {
+      grid-column: span 6;
+    }
+
+    .t-ops,
+    .t-learn {
+      grid-column: span 12;
+    }
+
+    .t-neo {
+      grid-column: span 12;
+      order: -2;
+    }
+
+    .t-wait {
+      order: -1;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .mc-rail,
+    .mc-search,
+    .t-pulse,
+    .t-ops {
+      display: none;
+    }
+
+    .mc-body {
+      grid-template-columns: 1fr;
+    }
+
+    .mc-main {
+      padding: 20px 16px 22px;
+    }
+
+    .mc-status,
+    .mc-brand {
+      min-width: 0;
+    }
+
+    .mc-status {
+      margin-left: auto;
+    }
+
+    .mc-grid {
+      gap: 16px;
+    }
+
+    .t-wait,
+    .t-learn,
+    .t-neo {
+      grid-column: span 12;
+    }
+
+    .learned {
+      grid-template-columns: 1fr;
+    }
+
+    .learned .arrow {
+      transform: rotate(90deg);
+      width: 24px;
+    }
+  }
+</style>

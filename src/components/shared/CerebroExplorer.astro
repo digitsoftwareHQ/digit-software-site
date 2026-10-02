@@ -1,0 +1,513 @@
+---
+import { CLASS_INFO, RECORDS, RELATIONS } from "../../data/cerebro-example";
+import { CLASSES } from "../../scripts/universe";
+
+const start = RECORDS[0];
+const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
+// The starting record's relationships are rendered on the server so the inspector is complete without JavaScript.
+const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.id).map((r) => {
+  const other = RECORDS.find((x) => x.id === (r.from === start.id ? r.to : r.from))!;
+  return { verb: r.from === start.id ? `${r.type} →` : `← ${r.type}`, title: other.title, color: colorOf(other.cls) };
+});
+---
+
+<div class="cerebro-explorer">
+    <div class="explorer reveal" data-cerebro>
+    <div class="field" data-cerebro-stage>
+      <canvas aria-hidden="true" data-cerebro-canvas></canvas>
+      <div class="labels" aria-hidden="true" data-cerebro-labels></div>
+      <p class="label hint" aria-hidden="true">
+        <span class="hint-fine">Hover to focus · select to inspect</span><span class="hint-touch">Tap a point to inspect it</span>
+      </p>
+    </div>
+
+    <aside class="inspector" aria-labelledby="cerebro-record-title" data-inspector>
+      <p class="label">Cerebro record <span class="ex">Example</span></p>
+      <h3 class="i-title" id="cerebro-record-title" tabindex="-1" data-i-title>{start.title}</h3>
+      <div class="chips">
+        <span class="chip" data-i-kind style={`--c: ${CLASSES.find((c) => c.key === start.cls)!.color}`}>
+          {CLASS_INFO[start.cls].name}
+        </span>
+        <span class="chip" data-i-status>{start.status}</span>
+      </div>
+      <p class="i-overview" data-i-overview>{start.overview}</p>
+      <dl class="kv">
+        <dt>Source</dt>
+        <dd data-i-source>{start.source}</dd>
+        <dt>Confidence</dt>
+        <dd data-i-confidence>{start.confidence ?? "Not assessed"}</dd>
+      </dl>
+      <p class="label rel-label">Relationships</p>
+      <ul class="rels" data-i-rels>
+        {
+          startRels.map((r) => (
+            <li>
+              <button type="button" style={`--c: ${r.color}`}>
+                <i />
+                <span class="v">{r.verb}</span>
+                <span class="t">{r.title}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+
+  <ul class="legend reveal" aria-label="Kinds of knowledge">
+    {
+      CLASSES.map((c) => (
+        <li style={`--c: ${c.color}`}>
+          <p>
+            <i />
+            {CLASS_INFO[c.key as keyof typeof CLASS_INFO].name}
+          </p>
+          <span>{CLASS_INFO[c.key as keyof typeof CLASS_INFO].blurb}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="label caption reveal">Example records from a fictional organization. Each color is a kind of knowledge.</p>
+
+</div>
+
+<script>
+  import { CLASSES, Universe, classCenters, rng, type Graph, type GraphNode } from "../../scripts/universe";
+  import { CLASS_INFO, RECORDS, RELATIONS } from "../../data/cerebro-example";
+
+  const root = document.querySelector<HTMLElement>("[data-cerebro]");
+  const canvas = document.querySelector<HTMLCanvasElement>("[data-cerebro-canvas]");
+  const labels = document.querySelector<HTMLElement>("[data-cerebro-labels]");
+  const stage = document.querySelector<HTMLElement>("[data-cerebro-stage]");
+
+  function buildGraph(): Graph {
+    const rand = rng(31);
+    const centers = classCenters(CLASSES.length, 150);
+    const idx = new Map(CLASSES.map((c, i) => [c.key, i]));
+    const nodes: GraphNode[] = [];
+    const perClass = new Map<number, number>();
+    for (const r of RECORDS) {
+      const c = idx.get(r.cls)!;
+      const k = perClass.get(c) ?? 0;
+      perClass.set(c, k + 1);
+      const [cx, cy, cz] = centers[c];
+      const a = k * 2.399963 + c;
+      const d = k === 0 ? 8 : 34 + 16 * k;
+      nodes.push({
+        x: cx + Math.cos(a) * d,
+        y: cy + Math.sin(a) * d * 0.7,
+        z: cz + Math.sin(a * 1.7) * d * 0.6,
+        c,
+        tier: k === 0 ? 0 : 1,
+        id: r.id,
+        title: r.title,
+      });
+    }
+    const byId = new Map(nodes.map((n, i) => [n.id!, i]));
+    const edges = RELATIONS.map((rel) => ({ a: byId.get(rel.from)!, b: byId.get(rel.to)!, strong: true }));
+    // Quiet detail around each kind: the rest of the fictional company's records.
+    CLASSES.forEach((_, c) => {
+      const [cx, cy, cz] = centers[c];
+      for (let i = 0; i < 11; i++) {
+        const u = rand(), v = rand(), w = rand();
+        const r = 30 + 90 * Math.cbrt(w);
+        const th = 2 * Math.PI * u, ph = Math.acos(2 * v - 1);
+        nodes.push({
+          x: cx + r * Math.sin(ph) * Math.cos(th),
+          y: cy + r * Math.cos(ph) * 0.8,
+          z: cz + r * Math.sin(ph) * Math.sin(th),
+          c,
+          tier: 2,
+        });
+        const me = nodes.length - 1;
+        let best = -1;
+        let bd = Infinity;
+        for (let j = 0; j < me; j++) {
+          if (nodes[j].c !== c || j === me) continue;
+          const dd = (nodes[j].x - nodes[me].x) ** 2 + (nodes[j].y - nodes[me].y) ** 2 + (nodes[j].z - nodes[me].z) ** 2;
+          if (dd < bd) {
+            bd = dd;
+            best = j;
+          }
+        }
+        if (best >= 0) edges.push({ a: me, b: best, strong: false });
+      }
+    });
+    return { nodes, edges };
+  }
+
+  if (root && canvas && labels && stage) {
+    const graph = buildGraph();
+    const ids = graph.nodes.map((n) => n.id);
+    const title = root.querySelector<HTMLElement>("[data-i-title]")!;
+    const kind = root.querySelector<HTMLElement>("[data-i-kind]")!;
+    const status = root.querySelector<HTMLElement>("[data-i-status]")!;
+    const overview = root.querySelector<HTMLElement>("[data-i-overview]")!;
+    const source = root.querySelector<HTMLElement>("[data-i-source]")!;
+    const confidence = root.querySelector<HTMLElement>("[data-i-confidence]")!;
+    const rels = root.querySelector<HTMLElement>("[data-i-rels]")!;
+    const recById = new Map(RECORDS.map((r) => [r.id, r]));
+
+    let universe: Universe | null = null;
+
+    const show = (id: string, moveFocus: boolean) => {
+      const r = recById.get(id);
+      if (!r) return;
+      const cls = CLASSES.find((c) => c.key === r.cls)!;
+      title.textContent = r.title;
+      kind.textContent = CLASS_INFO[r.cls].name;
+      kind.style.setProperty("--c", cls.color);
+      status.textContent = r.status;
+      overview.textContent = r.overview;
+      source.textContent = r.source;
+      confidence.textContent = r.confidence ?? "Not assessed";
+      rels.textContent = "";
+      for (const rel of RELATIONS) {
+        if (rel.from !== id && rel.to !== id) continue;
+        const otherId = rel.from === id ? rel.to : rel.from;
+        const other = recById.get(otherId)!;
+        const li = document.createElement("li");
+        const b = document.createElement("button");
+        b.type = "button";
+        const oc = CLASSES.find((c) => c.key === other.cls)!;
+        b.style.setProperty("--c", oc.color);
+        const verb = rel.from === id ? `${rel.type} →` : `← ${rel.type}`;
+        b.innerHTML = `<i></i><span class="v"></span><span class="t"></span>`;
+        b.querySelector(".v")!.textContent = verb;
+        b.querySelector(".t")!.textContent = other.title;
+        b.addEventListener("click", () => select(otherId, true));
+        li.appendChild(b);
+        rels.appendChild(li);
+      }
+      if (moveFocus) title.focus({ preventScroll: true });
+    };
+
+    const select = (id: string, fromKeyboardOrList: boolean) => {
+      const i = ids.indexOf(id);
+      if (i < 0) return;
+      universe?.pin(i);
+      show(id, fromKeyboardOrList);
+    };
+
+    const init = () => {
+      universe = new Universe(canvas, {
+        graph,
+        center: (W, H) => ({ x: W * 0.5, y: H * 0.5 }),
+        radius: (W, H) => Math.min(W * 0.6, H * 0.78),
+        nebula: 0.7,
+        yaw: 0.2,
+        pitch: -0.18,
+        spin: 0.11,
+        sway: 0.42,
+        focusEvery: 0,
+        labelLayer: labels,
+        pointerTarget: stage,
+        hoverFocus: true,
+        intro: false,
+        pullDepth: 160,
+        onFocus: (i) => {
+          if (i === null) return;
+          const id = graph.nodes[i].id;
+          if (id) show(id, false);
+        },
+      });
+      universe.pin(0);
+      show(RECORDS[0].id, false);
+    };
+
+    // Build lazily, just before the section scrolls into view.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          io.disconnect();
+          init();
+        }
+      },
+      { rootMargin: "400px 0px" },
+    );
+    io.observe(root);
+  }
+</script>
+
+<style>
+
+  .explorer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .field {
+    position: relative;
+    isolation: isolate;
+    min-height: 600px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(640px 400px at 50% 50%, rgba(39, 150, 255, 0.12), transparent 70%),
+      rgba(3, 8, 18, 0.6);
+  }
+
+  .field canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .labels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hint {
+    position: absolute;
+    left: 18px;
+    bottom: 14px;
+    font-size: 10.5px;
+    pointer-events: none;
+  }
+
+  .hint-touch {
+    display: none;
+  }
+
+  @media (hover: none) {
+    .hint-fine {
+      display: none;
+    }
+
+    .hint-touch {
+      display: inline;
+    }
+  }
+
+  .inspector {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 22px;
+    border: 1px solid var(--glass-edge);
+    background: linear-gradient(170deg, rgba(14, 30, 60, 0.7), rgba(5, 11, 24, 0.7));
+    box-shadow: var(--shadow-float);
+  }
+
+  .ex {
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    color: var(--ink-3);
+    font-size: 10px;
+  }
+
+  .i-title {
+    margin-top: 14px;
+    font-size: 22px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    outline-offset: 6px;
+  }
+
+  .chips {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+  }
+
+  .chip[data-i-kind] {
+    color: var(--c);
+    border-color: color-mix(in srgb, var(--c) 45%, transparent);
+  }
+
+  .chip[data-i-kind]::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 8px var(--c);
+  }
+
+  .i-overview {
+    margin-top: 16px;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+
+  .kv {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 8px 12px;
+    margin: 18px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+
+  .kv dt {
+    color: var(--ink-3);
+  }
+
+  .kv dd {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .rel-label {
+    margin-top: 22px;
+  }
+
+  .rels {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .rels :global(button) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 8px auto minmax(0, 1fr);
+    gap: 10px;
+    align-items: baseline;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+  }
+
+  .rels :global(button:hover) {
+    border-color: rgba(127, 227, 255, 0.45);
+    background: rgba(39, 196, 255, 0.06);
+  }
+
+  .rels :global(button i) {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 8px var(--c);
+    transform: translateY(-1px);
+  }
+
+  .rels :global(.v) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  .legend {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .legend li {
+    padding-top: 14px;
+    border-top: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+  }
+
+  .legend p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 560;
+    font-size: 15px;
+  }
+
+  .legend i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 10px var(--c);
+  }
+
+  .legend span {
+    display: block;
+    margin-top: 6px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  .caption {
+    margin-top: 28px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    max-width: 80ch;
+  }
+
+
+
+
+
+
+  @media (max-width: 1080px) {
+    .explorer {
+      grid-template-columns: 1fr;
+    }
+
+    .field {
+      min-height: 480px;
+    }
+
+    .legend {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+  }
+
+  @media (max-width: 600px) {
+    .field {
+      min-height: 400px;
+    }
+
+    .legend {
+      grid-template-columns: 1fr;
+    }
+
+    .legend {
+      gap: 0;
+    }
+
+    .legend li {
+      padding: 12px 0;
+    }
+
+    .inspector {
+      padding: 20px;
+    }
+  }
+</style>

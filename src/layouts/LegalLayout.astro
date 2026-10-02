@@ -1,0 +1,77 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  updated: string;
+}
+const { title, description, path, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} path={path}>
+  <div class="legal wrap">
+    <header class="legal-head">
+      <p class="label kicker">Digit Software</p>
+      <h1 class="h2">{title}</h1>
+      <p class="updated label">Last updated: {updated}</p>
+    </header>
+    <article class="prose">
+      <slot />
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-top: clamp(64px, 9vw, 120px);
+    padding-bottom: clamp(80px, 10vw, 140px);
+  }
+
+  .legal-head {
+    max-width: 760px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .updated {
+    margin-top: 20px;
+  }
+
+  .prose {
+    max-width: 720px;
+    margin-top: 12px;
+  }
+
+  .prose :global(section) {
+    padding-top: 32px;
+  }
+
+  .prose :global(h2) {
+    margin: 0 0 12px;
+    font-size: 21px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.012em;
+  }
+
+  .prose :global(p) {
+    color: var(--ink-2);
+    font-size: 16.5px;
+  }
+
+  .prose :global(p + p) {
+    margin-top: 12px;
+  }
+
+  .prose :global(a) {
+    color: var(--cyan-hi);
+    text-decoration-color: rgba(127, 227, 255, 0.35);
+    text-underline-offset: 3px;
+  }
+
+  .prose :global(a:hover) {
+    text-decoration-color: var(--cyan-hi);
+  }
+</style>

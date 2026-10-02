@@ -1,0 +1,170 @@
+---
+import { BUSINESSES } from "../../data/businesses";
+import BusinessEmblem from "../shared/BusinessEmblem.astro";
+import CycleDiagram from "../shared/CycleDiagram.astro";
+
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<section class="section businesses" id="businesses" aria-labelledby="businesses-title">
+  <div class="wrap">
+    <div class="grid">
+      <div class="copy reveal">
+        <p class="label kicker">Businesses</p>
+        <h2 class="h2" id="businesses-title">Where the platform goes to work.</h2>
+        <p class="lede">
+          We own and operate a portfolio of businesses built to run with increasing autonomy. Each one runs on the Digit
+          platform, and what it learns from real operations flows back into the technology and into every business
+          alongside it.
+        </p>
+        <a class="btn btn--ghost cta" href="/businesses">See the portfolio <Fragment set:html={arrow} /></a>
+      </div>
+      <div class="reveal" style="--d: 120ms">
+        <CycleDiagram />
+      </div>
+    </div>
+
+    <ul class="areas">
+      {
+        BUSINESSES.map((b, i) => (
+          <li class="reveal" style={`--d: ${i * 70}ms`}>
+            <a class="area" href={`/businesses#${b.id}`} style={`--h: ${b.hue}`}>
+              <BusinessEmblem id={b.id} hue={b.hue} size={56} />
+              <h3>{b.name}</h3>
+              <p>{b.line}</p>
+              <span class="go" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .businesses {
+    background: var(--bg-0);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .copy .lede {
+    margin-top: 28px;
+  }
+
+  .cta {
+    margin-top: 36px;
+  }
+
+  .areas {
+    list-style: none;
+    margin: clamp(56px, 7vw, 96px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .area {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px 22px 26px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: linear-gradient(170deg, rgba(12, 24, 48, 0.55), rgba(4, 9, 20, 0.55));
+    text-decoration: none;
+    transition:
+      border-color 300ms var(--ease),
+      transform 300ms var(--ease),
+      background 300ms var(--ease);
+  }
+
+  .area::before {
+    content: "";
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    top: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--h), transparent);
+    opacity: 0.6;
+  }
+
+  .area:hover {
+    border-color: color-mix(in srgb, var(--h) 45%, transparent);
+    transform: translateY(-3px);
+    background: linear-gradient(170deg, rgba(16, 32, 64, 0.65), rgba(4, 9, 20, 0.6));
+  }
+
+  .area h3 {
+    margin: 22px 0 0;
+    font-size: 19px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+
+  .area p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .go {
+    margin-top: auto;
+    padding-top: 18px;
+    color: var(--ink-3);
+    transition: color 300ms var(--ease), transform 300ms var(--ease);
+  }
+
+  .area:hover .go {
+    color: var(--h);
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 1080px) {
+    .areas {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .areas {
+      grid-template-columns: 1fr;
+    }
+
+    .area {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      column-gap: 18px;
+      align-items: start;
+    }
+
+    .area :global(.emblem) {
+      grid-row: span 2;
+    }
+
+    .area h3 {
+      margin-top: 2px;
+    }
+
+    .go {
+      display: none;
+    }
+  }
+</style>

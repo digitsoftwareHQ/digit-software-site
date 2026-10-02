@@ -1,0 +1,69 @@
+---
+/** Platform → Businesses → Results → Learning, turning continuously. */
+---
+
+<figure class="cycle" aria-hidden="true">
+  <svg viewBox="0 0 440 320">
+    <circle class="arc" cx="220" cy="160" r="104" />
+    <circle class="arc dim" cx="220" cy="160" r="122" />
+    <circle class="travel" r="4">
+      <animateMotion dur="9s" repeatCount="indefinite" path="M 220 56 A 104 104 0 1 1 219.9 56" />
+    </circle>
+    <g class="n"><circle cx="220" cy="56" r="7" /><text x="220" y="30" text-anchor="middle">Platform</text></g>
+    <g class="n"><circle cx="324" cy="160" r="7" /><text x="346" y="164" text-anchor="start">Businesses</text></g>
+    <g class="n"><circle cx="220" cy="264" r="7" /><text x="220" y="298" text-anchor="middle">Results</text></g>
+    <g class="n"><circle cx="116" cy="160" r="7" /><text x="94" y="164" text-anchor="end">Learning</text></g>
+    <text class="mid" x="220" y="156" text-anchor="middle">Each turn</text>
+    <text class="mid" x="220" y="174" text-anchor="middle">improves the next</text>
+  </svg>
+</figure>
+
+<style>
+  .cycle {
+    margin: 0;
+  }
+
+  .cycle svg {
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .arc {
+    fill: none;
+    stroke: rgba(110, 190, 255, 0.45);
+    stroke-width: 1.2;
+  }
+  .arc.dim {
+    stroke: rgba(110, 190, 255, 0.18);
+    stroke-dasharray: 3 5;
+  }
+  .travel {
+    fill: #eafaff;
+    filter: drop-shadow(0 0 6px rgba(127, 227, 255, 0.9));
+  }
+  .mid {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    fill: var(--ink-3);
+  }
+  .n circle {
+    fill: var(--bg-2);
+    stroke: var(--cyan);
+    stroke-width: 1.4;
+  }
+  .n text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    fill: var(--ink-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .travel {
+      display: none;
+    }
+  }
+</style>

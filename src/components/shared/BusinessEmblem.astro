@@ -1,0 +1,108 @@
+---
+/** Line-art emblem for a business area. Drawn on a 120x120 grid; scales from icon size to a large tile. */
+interface Props {
+  id: string;
+  hue: string;
+  size?: number;
+  class?: string;
+}
+const { id, hue, size = 120, class: cls } = Astro.props;
+---
+
+<svg class:list={["emblem", cls]} viewBox="0 0 120 120" width={size} height={size} style={`--h: ${hue}`} aria-hidden="true">
+  {id === "e-commerce" && (
+    <g>
+      <path class="ln faint" d="M18 86 L60 107 L102 86" />
+      <g>
+        <path class="ln" d="M24 66 L42 57 L60 66 L42 75 Z" />
+        <path class="ln" d="M24 66 L24 82 L42 91 L42 75" />
+        <path class="ln" d="M60 66 L60 82 L42 91" />
+      </g>
+      <g>
+        <path class="ln" d="M60 66 L78 57 L96 66 L78 75 Z" />
+        <path class="ln" d="M60 66 L60 82 L78 91 L78 75" />
+        <path class="ln" d="M96 66 L96 82 L78 91" />
+      </g>
+      <g class="lift">
+        <path class="ln hi" d="M42 38 L60 29 L78 38 L60 47 Z" />
+        <path class="ln hi" d="M42 38 L42 54 L60 63 L60 47" />
+        <path class="ln hi" d="M78 38 L78 54 L60 63" />
+      </g>
+      <circle class="dot" cx="60" cy="18" r="2.4" />
+    </g>
+  )}
+  {id === "media" && (
+    <g>
+      <rect class="ln faint" x="30" y="22" width="68" height="46" rx="7" />
+      <rect class="ln" x="22" y="30" width="68" height="46" rx="7" />
+      <path class="ln hi" d="M49 44 L49 62 L64 53 Z" />
+      <path class="ln" d="M14 96 C 22 84, 28 84, 34 96 S 46 108, 54 96 S 66 84, 74 96 S 86 108, 94 96 S 104 86, 108 92" />
+      <circle class="dot" cx="98" cy="22" r="2.4" />
+    </g>
+  )}
+  {id === "marketing" && (
+    <g>
+      <circle class="ln faint" cx="34" cy="86" r="62" />
+      <circle class="ln" cx="34" cy="86" r="44" />
+      <circle class="ln" cx="34" cy="86" r="26" />
+      <circle class="dot" cx="34" cy="86" r="4" />
+      <path class="ln hi" d="M40 80 L60 62 L72 70 L100 38" />
+      <path class="ln hi" d="M88 38 L100 38 L100 50" />
+    </g>
+  )}
+  {id === "web-solutions" && (
+    <g>
+      <rect class="ln" x="16" y="24" width="88" height="66" rx="8" />
+      <path class="ln" d="M16 38 H104" />
+      <circle class="dot" cx="25" cy="31" r="1.8" />
+      <circle class="dot faint-dot" cx="32" cy="31" r="1.8" />
+      <circle class="ln hi" cx="60" cy="64" r="17" />
+      <path class="ln hi" d="M43 64 H77 M60 47 C 52 54, 52 74, 60 81 M60 47 C 68 54, 68 74, 60 81" />
+      <path class="ln faint" d="M38 100 H82" />
+    </g>
+  )}
+  {id === "software-development" && (
+    <g>
+      <path class="ln hi" d="M38 34 L18 60 L38 86" />
+      <path class="ln hi" d="M82 34 L102 60 L82 86" />
+      <rect class="ln" x="46" y="38" width="28" height="14" rx="3" />
+      <rect class="ln" x="46" y="56" width="28" height="14" rx="3" />
+      <rect class="ln faint" x="46" y="74" width="28" height="14" rx="3" />
+      <path class="ln faint" d="M60 22 V38" />
+      <circle class="dot" cx="60" cy="18" r="2.4" />
+    </g>
+  )}
+</svg>
+
+<style>
+  .emblem {
+    overflow: visible;
+  }
+
+  .ln {
+    fill: none;
+    stroke: color-mix(in srgb, var(--h) 70%, #9fb2d8);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .ln.hi {
+    stroke: var(--h);
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--h) 70%, transparent));
+  }
+
+  .ln.faint {
+    stroke: color-mix(in srgb, var(--h) 30%, #2a3654);
+  }
+
+  .dot {
+    fill: var(--h);
+    filter: drop-shadow(0 0 6px var(--h));
+  }
+
+  .faint-dot {
+    opacity: 0.5;
+  }
+</style>

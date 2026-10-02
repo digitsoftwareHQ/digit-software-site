@@ -1,0 +1,172 @@
+---
+const reserved = [
+  { t: "Money", d: "Spending, pricing above set limits, and financial commitments." },
+  { t: "Security", d: "Access, accounts, credentials, and anything that widens permissions." },
+  { t: "Direction", d: "Strategy, priorities, and which businesses to start or stop." },
+  { t: "Public actions", d: "Publishing, launching, and speaking for the company." },
+  { t: "The irreversible", d: "Anything that cannot be undone." },
+];
+---
+
+<section class="section governance" id="governance" aria-labelledby="governance-title">
+  <div class="wrap">
+    <div class="authority">
+      <div class="auth-copy reveal">
+        <p class="label kicker">Governed autonomy</p>
+        <h2 class="h2 auth-title" id="governance-title">Autonomy where it helps. Human authority where it matters.</h2>
+        <p class="body big">
+          Agents handle routine work on their own, and quickly. Anything with real consequences waits for the owner, and
+          Mission Control shows what is being asked, who is asking, and the evidence behind it.
+        </p>
+        <p class="body">
+          Authority is granted for each kind of work and widened only by the owner, after that work has proven reliable. No
+          part of the system can approve its own request or expand its own permissions.
+        </p>
+        <p class="axiom">Capability is not authority.</p>
+      </div>
+
+      <div class="auth-side reveal" style="--d: 120ms">
+        <p class="label">Reserved for the owner</p>
+        <ul class="reserved">
+          {
+            reserved.map((r) => (
+              <li>
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <rect x="3.5" y="7" width="9" height="6.5" rx="1.5" />
+                  <path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" />
+                </svg>
+                <div>
+                  <p>{r.t}</p>
+                  <span>{r.d}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <ol class="flow" aria-label="How a consequential action moves">
+          <li><b>Agents</b> propose</li>
+          <li><b>Owner</b> decides</li>
+          <li><b>The system</b> carries it out</li>
+          <li><b>Cerebro</b> records it</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .governance {
+    background:
+      radial-gradient(700px 500px at 88% 50%, rgba(23, 92, 200, 0.12), transparent 70%),
+      var(--bg-0);
+  }
+
+  .authority {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  .auth-title {
+    font-size: clamp(32px, 3.6vw, 52px);
+  }
+  .auth-copy .big {
+    margin-top: 28px;
+  }
+  .axiom {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 22px;
+    font-weight: 560;
+    font-stretch: 110%;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .auth-side {
+    padding: 28px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-edge);
+    background: linear-gradient(170deg, rgba(14, 30, 60, 0.6), rgba(5, 11, 24, 0.6));
+  }
+  .reserved {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+  }
+  .reserved li {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  .reserved svg {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 1.4;
+  }
+  .reserved p {
+    font-weight: 560;
+  }
+  .reserved span {
+    display: block;
+    margin-top: 2px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .flow {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    counter-reset: f;
+  }
+  .flow li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--ink-2);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+  }
+  .flow b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .flow li:not(:last-child)::after {
+    content: "→";
+    margin-left: 6px;
+    color: var(--cyan);
+  }
+  .big {
+    font-size: clamp(18px, 1.5vw, 20px);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .big + .body {
+    margin-top: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .authority {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .auth-side {
+      padding: 22px;
+    }
+  }
+</style>

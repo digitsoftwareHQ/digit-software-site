@@ -1,0 +1,140 @@
+---
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+const items = [
+  { t: "Agentic execution", d: "Work runs as bounded assignments with a role, a scope and a record.", href: "/technology#execution" },
+  { t: "Organizational structure", d: "Managers and specialist agents with persistent roles.", href: "/technology#agents" },
+  { t: "Knowledge", d: "Connected records with their evidence and provenance.", href: "/technology#knowledge" },
+  { t: "Learning", d: "Lessons that change procedures, defaults and priorities.", href: "/technology#knowledge" },
+  { t: "Governance", d: "Authority checked before anything consequential happens.", href: "/technology#governance" },
+  { t: "Integrations", d: "Deliberate, scoped connections to the tools a business runs on.", href: "/technology#integrations" },
+  { t: "Observability", d: "Every action traceable to an actor, a time and a cause.", href: "/technology#reliability" },
+  { t: "Resilience", d: "Checkpointed state, failure handling and tested recovery.", href: "/technology#reliability" },
+];
+---
+
+<section class="section tech" id="technology" aria-labelledby="tech-title">
+  <div class="wrap">
+    <div class="head">
+      <div class="section-head reveal">
+        <p class="label kicker">Technology</p>
+        <h2 class="h2" id="tech-title">What's underneath.</h2>
+        <p class="lede">
+          Most of the hard problems in an autonomous company are problems of structure: who may do what, how work is
+          tracked, what gets remembered, and how the company recovers when something goes wrong.
+        </p>
+      </div>
+      <a class="btn btn--ghost cta reveal" href="/technology">Explore the technology <Fragment set:html={arrow} /></a>
+    </div>
+
+    <ol class="spec">
+      {
+        items.map((it, i) => (
+          <li class="reveal" style={`--d: ${(i % 4) * 60}ms`}>
+            <a class="cell" href={it.href}>
+              <span class="label idx">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{it.t}</h3>
+              <p>{it.d}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .tech {
+    background:
+      radial-gradient(900px 500px at 50% 0%, rgba(39, 150, 255, 0.08), transparent 70%),
+      linear-gradient(rgba(60, 170, 255, 0.028) 1px, transparent 1px) 0 0 / 44px 44px,
+      linear-gradient(90deg, rgba(60, 170, 255, 0.028) 1px, transparent 1px) 0 0 / 44px 44px,
+      var(--bg-1);
+    border-block: 1px solid var(--line);
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cta {
+    flex: none;
+  }
+
+  .spec {
+    list-style: none;
+    margin: clamp(48px, 6vw, 72px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line-2);
+    border-left: 1px solid var(--line);
+  }
+
+  .cell {
+    position: relative;
+    display: block;
+    height: 100%;
+    padding: 24px 24px 28px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(2, 4, 10, 0.55);
+    text-decoration: none;
+    transition: background 400ms var(--ease);
+  }
+
+  .cell::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 0;
+    height: 1px;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+    transition: width 600ms var(--ease-out);
+  }
+
+  .cell:hover {
+    background: rgba(10, 24, 50, 0.6);
+  }
+
+  .cell:hover::before {
+    width: 48px;
+  }
+
+  .idx {
+    color: var(--cyan);
+  }
+
+  .cell h3 {
+    margin: 14px 0 0;
+    font-size: 18.5px;
+    font-weight: 580;
+    font-stretch: 106%;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .cell p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 960px) {
+    .spec {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .spec {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

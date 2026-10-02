@@ -1,0 +1,443 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import ContactCTA from "../components/shared/ContactCTA.astro";
+import { getJournal, formatDate } from "../lib/journal";
+
+const journal = await getJournal();
+
+const beliefs = [
+  { t: "Structure before scale", d: "An autonomous company needs roles, rules and records before it needs more agents." },
+  { t: "Learning should change something", d: "A lesson that leaves the next decision unchanged is not finished." },
+  { t: "Authority stays with people", d: "Autonomy is granted, bounded and revocable. Consequential decisions belong to the owner." },
+  { t: "Build it by running it", d: "We operate our own businesses on what we build. It is the quickest way to learn what works." },
+];
+
+const lanes = [
+  { t: "Essays", d: "How autonomous companies should work, and why." },
+  { t: "Platform notes", d: "How the technology works and what has changed in it." },
+  { t: "Company news", d: "Announcements and updates from Digit Software." },
+];
+---
+
+<BaseLayout
+  variant="home"
+  title="Company"
+  description="Digit Software builds software that helps businesses think, operate and improve on their own, and runs its own businesses on it."
+  path="/company"
+>
+  <PageHero
+    tone="company"
+    kicker="Company"
+    title="We build the software, <span>and the companies that run on it.</span>"
+    lede="Digit Software makes technology that helps businesses think, operate and improve on their own, and we run our own businesses on it. Each side makes the other better."
+    index={[
+      { href: "#about", label: "About" },
+      { href: "#vision", label: "Vision" },
+      { href: "#journal", label: "Journal" },
+      { href: "#contact", label: "Contact" },
+    ]}
+  >
+    <svg slot="backdrop" class="horizon" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="hz" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="rgba(127,227,255,0)" />
+          <stop offset="0.55" stop-color="rgba(127,227,255,0.55)" />
+          <stop offset="1" stop-color="rgba(139,123,255,0)" />
+        </linearGradient>
+      </defs>
+      <circle cx="1120" cy="980" r="760" fill="none" stroke="url(#hz)" stroke-width="1" />
+      <circle cx="1120" cy="980" r="700" fill="none" stroke="rgba(110,190,255,0.08)" stroke-width="1" />
+      <circle cx="1120" cy="980" r="640" fill="none" stroke="rgba(110,190,255,0.05)" stroke-width="1" />
+    </svg>
+  </PageHero>
+
+  <section class="section about" id="about" aria-labelledby="about-title">
+    <div class="wrap grid">
+      <div class="reveal">
+        <p class="label kicker">About</p>
+        <h2 class="h2" id="about-title">About Digit Software</h2>
+      </div>
+      <div class="about-body">
+        <p class="first reveal">
+          Digit Software builds technology for companies that run themselves. Agents carry out the work of operating a
+          business, Cerebro keeps what the company learns, and Mission Control keeps its owner informed and in command.
+        </p>
+        <p class="reveal">
+          We also own and operate businesses on that technology. Running real operations keeps the work honest: it shows
+          quickly what is useful, what isn't, and what the next version needs to do.
+        </p>
+        <div class="pillars">
+          <div class="pillar reveal" style="--d: 80ms">
+            <span class="label label--lit">01</span>
+            <h3>We build the platform</h3>
+            <p>
+              Software that lets a business run with increasing autonomy: agents that do the work, institutional
+              intelligence that learns, and a command center that keeps the owner in control.
+            </p>
+            <a href="/platform">The platform <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="pillar reveal" style="--d: 160ms">
+            <span class="label label--lit">02</span>
+            <h3>We operate businesses on it</h3>
+            <p>
+              Across e-commerce, media, marketing, web solutions and software development. Real operations are where the
+              platform proves itself and where it learns the most.
+            </p>
+            <a href="/businesses">The businesses <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section vision" id="vision" aria-labelledby="vision-title">
+    <div class="wrap">
+      <div class="vision-head reveal">
+        <p class="label kicker">Vision</p>
+        <h2 class="h2" id="vision-title">Software that runs a company, and keeps getting better at it.</h2>
+      </div>
+
+      <div class="essay">
+        <p class="reveal">
+          Every company does two kinds of work: the work it exists to do, and the work of running itself. Planning,
+          coordinating, following up, checking results, deciding what to change. Most of that second kind has always fallen
+          to people, with software helping at the edges.
+        </p>
+        <p class="reveal">
+          That is changing. Software can now take on much of the running itself, and the real question becomes how to make
+          it trustworthy. A company that operates this way needs structure: clear roles, a shared memory, an honest record of
+          what happened, and firm limits on what may happen without a person's approval.
+        </p>
+        <blockquote class="pull reveal">
+          <p>A company should not only be able to operate itself. It should become better at operating itself.</p>
+        </blockquote>
+        <p class="reveal">
+          That is the idea at the center of Digit. Each operation should leave the company a little more capable than
+          before, so experience accumulates instead of evaporating when a task ends or a person moves on.
+        </p>
+        <p class="reveal">
+          People stay in charge throughout. Autonomy is something the owner grants, widens and withdraws, one kind of work
+          at a time, and every consequential decision remains theirs.
+        </p>
+      </div>
+
+      <ul class="beliefs">
+        {
+          beliefs.map((b, i) => (
+            <li class="reveal" style={`--d: ${i * 70}ms`}>
+              <h3>{b.t}</h3>
+              <p>{b.d}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section journal" id="journal" aria-labelledby="journal-title">
+    <div class="wrap">
+      <div class="journal-head reveal">
+        <div>
+          <p class="label kicker">Journal</p>
+          <h2 class="h2" id="journal-title">Notes from Digit.</h2>
+        </div>
+        <p class="lede">
+          Writing from Digit Software: essays on autonomous companies, notes on how the platform works, and company news.
+        </p>
+      </div>
+
+      {
+        journal.length > 0 ? (
+          <ul class="entries">
+            {journal.map((e) => (
+              <li class="reveal">
+                <a href={`/company/journal/${e.id}`}>
+                  <p class="label">
+                    {e.data.kind} · <time datetime={e.data.date.toISOString()}>{formatDate(e.data.date)}</time>
+                  </p>
+                  <h3>{e.data.title}</h3>
+                  <p class="desc">{e.data.description}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="lanes reveal">
+            {lanes.map((l) => (
+              <div class="lane">
+                <h3>{l.t}</h3>
+                <p>{l.d}</p>
+              </div>
+            ))}
+            <p class="label empty">New entries will appear here.</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <ContactCTA id="contact" secondary={{ href: "/businesses", label: "See the businesses" }} />
+</BaseLayout>
+
+<style>
+  .horizon {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .about-body p {
+    font-size: clamp(18px, 1.5vw, 20px);
+    color: var(--ink-2);
+    max-width: 34em;
+  }
+
+  .about-body p + p {
+    margin-top: 1em;
+  }
+
+  .about-body .first {
+    font-size: clamp(22px, 2.1vw, 28px);
+    line-height: 1.4;
+    font-weight: 500;
+    font-stretch: 104%;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+
+  .pillars {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .pillar {
+    padding: 26px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-edge);
+    background: linear-gradient(170deg, rgba(14, 30, 60, 0.55), rgba(5, 11, 24, 0.55));
+  }
+
+  .pillar h3 {
+    margin: 14px 0 0;
+    font-size: 21px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+  }
+
+  .pillar p {
+    margin-top: 10px;
+    font-size: 15.5px !important;
+  }
+
+  .pillar a {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: 560;
+    color: var(--cyan-hi);
+    text-decoration: none;
+  }
+
+  .vision {
+    background:
+      radial-gradient(900px 600px at 20% 40%, rgba(139, 123, 255, 0.07), transparent 70%),
+      var(--bg-0);
+    border-top: 1px solid var(--line);
+  }
+
+  .vision-head {
+    max-width: 920px;
+  }
+
+  .essay {
+    margin-top: clamp(48px, 6vw, 80px);
+    margin-left: auto;
+    max-width: 760px;
+  }
+
+  .essay > p {
+    font-size: clamp(18px, 1.6vw, 21px);
+    line-height: 1.65;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  .essay > p + p {
+    margin-top: 1.1em;
+  }
+
+  .pull {
+    margin: clamp(48px, 6vw, 72px) 0 clamp(48px, 6vw, 72px) calc(-1 * clamp(0px, 6vw, 96px));
+    padding: 8px 0 8px 28px;
+    border-left: 1px solid var(--cyan);
+  }
+
+  .pull p {
+    font-size: clamp(26px, 2.8vw, 38px);
+    line-height: 1.25;
+    font-weight: 520;
+    font-stretch: 108%;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .beliefs {
+    list-style: none;
+    margin: clamp(72px, 9vw, 120px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+  }
+
+  .beliefs li {
+    padding-top: 20px;
+    border-top: 1px solid var(--line-2);
+  }
+
+  .beliefs h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.01em;
+  }
+
+  .beliefs p {
+    margin-top: 8px;
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+
+  .journal {
+    border-top: 1px solid var(--line);
+    background: var(--bg-0);
+  }
+
+  .journal-head {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: end;
+  }
+
+  .journal-head .lede {
+    max-width: 30em;
+  }
+
+  .entries {
+    list-style: none;
+    margin: clamp(48px, 6vw, 72px) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line-2);
+  }
+
+  .entries a {
+    display: block;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .entries h3 {
+    margin: 10px 0 0;
+    font-size: 24px;
+    font-weight: 560;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+  }
+
+  .entries .desc {
+    margin-top: 8px;
+    color: var(--ink-2);
+  }
+
+  .lanes {
+    margin-top: clamp(48px, 6vw, 72px);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background:
+      linear-gradient(rgba(60, 170, 255, 0.025) 1px, transparent 1px) 0 0 / 44px 44px,
+      linear-gradient(90deg, rgba(60, 170, 255, 0.025) 1px, transparent 1px) 0 0 / 44px 44px,
+      rgba(4, 9, 20, 0.6);
+    overflow: hidden;
+  }
+
+  .lane {
+    padding: 32px 28px 36px;
+    border-right: 1px solid var(--line);
+  }
+
+  .lane:nth-child(3) {
+    border-right: 0;
+  }
+
+  .lane h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 580;
+    font-stretch: 108%;
+  }
+
+  .lane p {
+    margin-top: 8px;
+    color: var(--ink-2);
+    font-size: 15.5px;
+  }
+
+  .empty {
+    grid-column: 1 / -1;
+    padding: 18px 28px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+  }
+
+  @media (max-width: 960px) {
+    .beliefs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .grid,
+    .journal-head {
+      grid-template-columns: 1fr;
+    }
+
+    .pull {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pillars,
+    .beliefs,
+    .lanes {
+      grid-template-columns: 1fr;
+    }
+
+    .lane {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .lane:nth-child(3) {
+      border-bottom: 0;
+    }
+  }
+</style>

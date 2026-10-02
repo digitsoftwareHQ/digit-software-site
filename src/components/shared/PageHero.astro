@@ -1,0 +1,150 @@
+---
+/** Hero for inner pages: kicker, title, lede, an optional on-page index, and a page-specific backdrop slot. */
+interface Props {
+  kicker: string;
+  title: string;
+  lede: string;
+  index?: { href: string; label: string }[];
+  tone?: "company" | "platform" | "businesses" | "technology";
+}
+const { kicker, title, lede, index = [], tone = "company" } = Astro.props;
+---
+
+<section class:list={["page-hero", `tone-${tone}`]} aria-labelledby="page-title">
+  <div class="backdrop" aria-hidden="true"><slot name="backdrop" /></div>
+  <div class="wrap inner">
+    <p class="label kicker hero-in" style="--d: 80ms">{kicker}</p>
+    <h1 class="display title hero-in" id="page-title" style="--d: 160ms" set:html={title} />
+    <p class="lede hero-in" style="--d: 320ms">{lede}</p>
+    {
+      index.length > 0 && (
+        <nav class="index hero-in" style="--d: 460ms" aria-label="On this page">
+          <ol>
+            {index.map((it, i) => (
+              <li>
+                <a href={it.href}>
+                  <span class="label">{String(i + 1).padStart(2, "0")}</span>
+                  {it.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: clamp(132px, 16vw, 200px) 0 clamp(72px, 9vw, 120px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .tone-company {
+    background:
+      radial-gradient(900px 520px at 78% 18%, rgba(139, 123, 255, 0.12), transparent 70%),
+      radial-gradient(800px 500px at 10% 0%, rgba(39, 150, 255, 0.1), transparent 70%),
+      var(--bg-0);
+  }
+
+  .tone-platform {
+    background:
+      radial-gradient(1000px 600px at 70% 30%, rgba(23, 92, 200, 0.22), transparent 70%),
+      var(--bg-0);
+  }
+
+  .tone-businesses {
+    background:
+      radial-gradient(800px 500px at 85% 20%, rgba(39, 196, 255, 0.1), transparent 70%),
+      radial-gradient(700px 500px at 15% 90%, rgba(139, 123, 255, 0.08), transparent 70%),
+      var(--bg-0);
+  }
+
+  .tone-technology {
+    background:
+      radial-gradient(900px 520px at 50% 0%, rgba(39, 150, 255, 0.12), transparent 70%),
+      linear-gradient(rgba(60, 170, 255, 0.035) 1px, transparent 1px) 0 0 / 44px 44px,
+      linear-gradient(90deg, rgba(60, 170, 255, 0.035) 1px, transparent 1px) 0 0 / 44px 44px,
+      var(--bg-1);
+  }
+
+  .title {
+    font-size: clamp(42px, 6vw, 92px);
+    max-width: 13em;
+  }
+
+  .title :global(span) {
+    color: var(--ink-3);
+  }
+
+  .lede {
+    margin-top: 32px;
+    max-width: 38em;
+  }
+
+  .index {
+    margin-top: clamp(48px, 6vw, 72px);
+  }
+
+  .index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .index a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px 9px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(8, 16, 32, 0.5);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition:
+      border-color var(--fast) var(--ease),
+      color var(--fast) var(--ease),
+      background var(--fast) var(--ease);
+  }
+
+  .index a .label {
+    font-size: 10.5px;
+    color: var(--cyan);
+  }
+
+  .index a:hover {
+    color: var(--ink);
+    border-color: rgba(127, 227, 255, 0.5);
+    background: rgba(39, 196, 255, 0.07);
+  }
+
+  .js .hero-in {
+    animation: page-in 1100ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+    }
+  }
+</style>

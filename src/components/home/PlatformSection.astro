@@ -1,0 +1,81 @@
+---
+import PlatformStack from "../shared/PlatformStack.astro";
+import type { StackLayer } from "../../data/types";
+
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+const layers: StackLayer[] = [
+  {
+    id: "mission-control",
+    name: "Mission Control",
+    role: "The owner's command center",
+    text: "The whole company in one place: what is happening, what it means, and what needs a decision.",
+    art: "tiles",
+  },
+  {
+    id: "agents",
+    name: "Agents",
+    role: "The operation itself",
+    text: "Agents with defined roles run the day-to-day work, coordinate with each other and escalate what matters.",
+    art: "teams",
+  },
+  {
+    id: "cerebro",
+    name: "Cerebro",
+    role: "Institutional intelligence",
+    text: "Everything the company knows and has learned, connected, with the evidence behind it.",
+    art: "cluster",
+  },
+  {
+    id: "execution",
+    name: "Governed execution",
+    role: "How work gets done",
+    text: "Every action runs with a role, a scope and a record, inside the authority the owner has granted.",
+    art: "rails",
+  },
+];
+---
+
+<section class="section platform" id="platform" aria-labelledby="platform-title">
+  <div class="wrap">
+    <div class="head">
+      <div class="section-head reveal">
+        <p class="label kicker">The Digit platform</p>
+        <h2 class="h2" id="platform-title">Built like a company, because it runs one.</h2>
+        <p class="lede">
+          An autonomous company needs what any well-run company has: clear direction, people responsible for the work, a
+          memory of what happened, and rules about who decides what. Digit brings all of it together in one system.
+        </p>
+      </div>
+      <a class="btn btn--ghost cta reveal" href="/platform">Explore the platform <Fragment set:html={arrow} /></a>
+    </div>
+
+    <div class="stack-wrap">
+      <PlatformStack layers={layers} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .platform {
+    background:
+      radial-gradient(800px 500px at 20% 30%, rgba(23, 92, 200, 0.1), transparent 70%),
+      var(--bg-0);
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cta {
+    flex: none;
+  }
+
+  .stack-wrap {
+    margin-top: clamp(56px, 7vw, 96px);
+  }
+</style>

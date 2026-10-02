@@ -1,0 +1,316 @@
+---
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+  <canvas class="hero-canvas" aria-hidden="true" data-hero-canvas></canvas>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="u-tip hero-tip" aria-hidden="true" data-hero-tip>
+    <span class="u-tip-kind"><i></i><span data-kind></span></span>
+    <span class="u-tip-title" data-title></span>
+  </div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy" data-hero-copy>
+      <p class="label kicker hero-in" style="--d: 120ms">Digit Software</p>
+      <h1 class="display hero-title" id="hero-title">
+        <span class="hero-in" style="--d: 220ms">Software for companies <br class="br-wide" />that run themselves.</span>
+        <span class="lit hero-in" style="--d: 420ms">And get better at it.</span>
+      </h1>
+      <p class="lede hero-in" style="--d: 640ms">
+        Digit builds software that helps businesses think, operate and improve on their own, while the people who own
+        them stay in control of what matters.
+      </p>
+      <div class="ctas hero-in" style="--d: 800ms">
+        <a class="btn btn--primary" href="/platform">Explore the platform <Fragment set:html={arrow} /></a>
+        <a class="btn btn--ghost" href="#operations">How it works</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap hero-foot hero-in" style="--d: 1200ms">
+    <a class="scroll-cue" href="#platform" aria-label="Scroll to the platform">
+      <span class="label">Scroll</span>
+      <i aria-hidden="true"></i>
+    </a>
+  </div>
+</section>
+
+<script>
+  import { Universe, generateUniverse } from "../../scripts/universe";
+  import { FOCUS_LABELS } from "../../data/cerebro-example";
+
+  const hero = document.querySelector<HTMLElement>("[data-hero]");
+  const canvas = document.querySelector<HTMLCanvasElement>("[data-hero-canvas]");
+  const tip = document.querySelector<HTMLElement>("[data-hero-tip]");
+  const copy = document.querySelector<HTMLElement>("[data-hero-copy]");
+
+
+  // Typography quiet zones: one rectangle per rendered line of the headline, lede and buttons, so the universe
+  // can pass right up to the letters without ever running through them.
+  let quiet: { l: number; t: number; r: number; b: number }[] = [];
+  const measureQuiet = () => {
+    if (!canvas || !copy) return;
+    const c = canvas.getBoundingClientRect();
+    const rects: { l: number; t: number; r: number; b: number }[] = [];
+    copy.querySelectorAll<HTMLElement>("h1 > span, .lede, .ctas, .kicker").forEach((el) => {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const list = el.classList.contains("ctas") ? [el.getBoundingClientRect()] : [...range.getClientRects()];
+      for (const r of list) {
+        if (r.width < 2) continue;
+        rects.push({ l: r.left - c.left - 14, t: r.top - c.top - 10, r: r.right - c.left + 14, b: r.bottom - c.top + 8 });
+      }
+    });
+    quiet = rects;
+  };
+
+  if (hero && canvas && copy) {
+    measureQuiet();
+    document.fonts?.ready.then(measureQuiet);
+    window.addEventListener("resize", measureQuiet, { passive: true });
+    // The copy animates in; re-measure once it has settled.
+    setTimeout(measureQuiet, 2300);
+    const w = window.innerWidth;
+    const mode = w < 760 ? "phone" : w < 1080 ? "tablet" : "desk";
+    const count = mode === "phone" ? 170 : mode === "tablet" ? 250 : 340;
+    const graph = generateUniverse({
+      seed: 20260920,
+      count,
+      weights: { knowledge: 1, evidence: 0.6, experience: 0.36, procedures: 0.66, organization: 0.56, governance: 0.28 },
+    });
+
+    const universe = new Universe(canvas, {
+      graph,
+      center: (W, H) => {
+        if (W < 760) return { x: W * 0.56, y: H * 0.24 };
+        if (W < 1080) return { x: W * 0.64, y: H * 0.34 };
+        return { x: W * 0.72, y: H * 0.5 };
+      },
+      radius: (W, H) => {
+        if (W < 760) return Math.min(W * 0.56, H * 0.26);
+        if (W < 1080) return Math.min(W * 0.42, H * 0.34);
+        return Math.min(W * 0.32, H * 0.56);
+      },
+      quiet: () => quiet,
+      nebula: 1,
+      focusLabels: [...FOCUS_LABELS],
+      tip: mode === "phone" ? null : tip,
+      pointerTarget: hero,
+      hoverFocus: mode === "desk",
+      births: true,
+      focusEvery: 5600,
+    });
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const h = hero.offsetHeight || 1;
+        universe.setScroll(window.scrollY / (h * 0.95));
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(900px 640px at 70% 48%, rgba(23, 92, 200, 0.2), transparent 65%),
+      radial-gradient(1200px 700px at 50% -10%, rgba(39, 150, 255, 0.1), transparent 60%),
+      var(--bg-0);
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(2, 4, 10, 0.6) 0%, rgba(2, 4, 10, 0.22) 32%, rgba(2, 4, 10, 0) 52%),
+      linear-gradient(180deg, rgba(2, 4, 10, 0) 72%, var(--bg-0) 100%);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    padding-top: calc(var(--header-h) + 40px);
+    padding-bottom: 120px;
+    pointer-events: none;
+  }
+
+  .hero-copy {
+    max-width: 980px;
+    pointer-events: auto;
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 5vw, 78px);
+  }
+
+  .br-wide {
+    display: none;
+  }
+
+  @media (min-width: 1080px) {
+    .br-wide {
+      display: inline;
+    }
+  }
+
+  .hero-title > span {
+    display: block;
+  }
+
+  .hero-title .lit {
+    margin-top: 0.06em;
+    padding-bottom: 0.08em;
+  }
+
+  .hero-copy .lede {
+    margin-top: 32px;
+    max-width: 31em;
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .hero-foot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 32px;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 24px;
+    pointer-events: none;
+  }
+
+  .scroll-cue {
+    pointer-events: auto;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    padding: 6px;
+  }
+
+  .scroll-cue i {
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(180deg, var(--cyan), rgba(39, 196, 255, 0));
+    transform-origin: top;
+    animation: cue 2.6s var(--ease) infinite;
+  }
+
+  @keyframes cue {
+    0% {
+      transform: scaleY(0);
+      opacity: 1;
+    }
+    60% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 0;
+    }
+  }
+
+  /* Load-in: copy rises in sequence while the universe dollies in behind it. */
+  .js .hero-in {
+    animation: hero-in 1300ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+      filter: blur(6px);
+    }
+  }
+
+  @media (max-width: 1079px) {
+    .hero {
+      justify-content: flex-end;
+    }
+
+    .hero-inner {
+      padding-top: 46vh;
+      padding-bottom: 112px;
+    }
+
+    .hero-shade {
+      background: linear-gradient(180deg, rgba(2, 4, 10, 0) 20%, rgba(2, 4, 10, 0.55) 52%, rgba(2, 4, 10, 0.86) 72%, var(--bg-0) 100%);
+    }
+  }
+
+  @media (max-width: 759px) {
+    .hero-inner {
+      padding-top: 41svh;
+      padding-bottom: 92px;
+    }
+
+    .kicker {
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(31px, 8.7vw, 44px);
+      font-stretch: 104%;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy .lede {
+      margin-top: 22px;
+      font-size: 17px;
+    }
+
+    .ctas {
+      margin-top: 30px;
+    }
+
+    .ctas .btn {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+
+    .hero-foot {
+      bottom: 22px;
+    }
+
+    .scroll-cue {
+      display: none;
+    }
+
+  }
+</style>

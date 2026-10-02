@@ -1,0 +1,584 @@
+---
+const steps = [
+  {
+    t: "Operate",
+    d: "Managers and agents carry out work toward an objective: a launch, a campaign, a research question.",
+  },
+  {
+    t: "Observe",
+    d: "What they do is recorded as it happens, including what went wrong and what was skipped.",
+  },
+  {
+    t: "Measure",
+    d: "Results are compared with what was expected. A number that wasn't captured stays missing; it is never guessed.",
+  },
+  {
+    t: "Learn",
+    d: "What worked and what didn't becomes a lesson in Cerebro, linked to the evidence behind it.",
+  },
+  {
+    t: "Adapt",
+    d: "Lessons change something: a procedure, a default, a priority. A lesson that changes nothing isn't finished.",
+  },
+  {
+    t: "Improve",
+    d: "The next piece of work starts from a better place, and so does every similar piece of work across the company.",
+  },
+];
+
+const ledger = [
+  ["A success", "shows what to repeat."],
+  ["A failure", "shows what to change."],
+  ["An experiment", "produces evidence."],
+  ["Evidence", "becomes knowledge."],
+  ["Knowledge", "changes the next decision."],
+];
+
+// Loop geometry
+const CX = 260;
+const CY = 260;
+const R = 196;
+const stations = steps.map((s, i) => {
+  const a = (i / steps.length) * Math.PI * 2 - Math.PI / 2;
+  return { ...s, x: CX + Math.cos(a) * R, y: CY + Math.sin(a) * R, a };
+});
+
+// Knowledge that accumulates at the centre as the loop turns (deterministic).
+const kinds = ["#36c6ff", "#4fd8b0", "#f3b968", "#d6e2ff", "#8f86ff", "#ff7aa8"];
+let seed = 7;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+const memory = Array.from({ length: 36 }, (_, i) => {
+  const a = rnd() * Math.PI * 2;
+  const d = 8 + Math.sqrt(rnd()) * 74;
+  return { x: CX + Math.cos(a) * d, y: CY + Math.sin(a) * d * 0.9, c: kinds[i % 6], step: Math.min(5, Math.floor(i / 7) + 1), r: i % 5 === 0 ? 3.4 : 2.1 };
+});
+const memoryLinks: [number, number][] = [];
+memory.forEach((p, i) => {
+  if (i === 0) return;
+  let best = 0;
+  let bd = Infinity;
+  for (let j = 0; j < i; j++) {
+    const d = (p.x - memory[j].x) ** 2 + (p.y - memory[j].y) ** 2;
+    if (d < bd) {
+      bd = d;
+      best = j;
+    }
+  }
+  memoryLinks.push([i, best]);
+});
+---
+
+<section class="section loop" id="operations" aria-labelledby="operations-title">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="label kicker">How Digit operates and improves</p>
+      <h2 class="h2" id="operations-title">Every operation makes the next one better.</h2>
+      <p class="lede">
+        Most automation stops when the task is done. Digit keeps going: it looks at what actually happened, learns from
+        it, and carries the lesson into what it does next.
+      </p>
+    </div>
+
+    <div class="contrast reveal">
+      <div class="row old">
+        <p class="label">Typical automation</p>
+        <p class="seq"><span>Instruction</span><span>Execution</span><span>Done</span></p>
+      </div>
+      <div class="row new">
+        <p class="label label--lit">Digit</p>
+        <p class="seq">
+          <span>Operate</span><span>Observe</span><span>Measure</span><span>Learn</span><span>Adapt</span><span>Improve</span><span class="again">Operate again</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="scrolly" data-loop data-step="0">
+      <div class="visual">
+        <div class="sticky">
+          <svg viewBox="0 0 520 520" class="ring" aria-hidden="true">
+            <defs>
+              <radialGradient id="lp-core">
+                <stop offset="0" stop-color="rgba(39,150,255,0.32)" />
+                <stop offset="1" stop-color="rgba(39,150,255,0)" />
+              </radialGradient>
+              <linearGradient id="lp-comet" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="rgba(127,227,255,0)" />
+                <stop offset="1" stop-color="rgba(127,227,255,1)" />
+              </linearGradient>
+            </defs>
+            <circle cx={CX} cy={CY} r="120" fill="url(#lp-core)" />
+            <circle class="track" cx={CX} cy={CY} r={R} />
+            <circle class="track-in" cx={CX} cy={CY} r={R - 14} />
+            <circle class="progress" cx={CX} cy={CY} r={R} pathLength="600" transform={`rotate(-90 ${CX} ${CY})`} />
+
+            <g class="spokes">
+              {stations.map((s, i) => (
+                <line class={`spoke s${i}`} x1={CX + Math.cos(s.a) * 76} y1={CY + Math.sin(s.a) * 76} x2={s.x - Math.cos(s.a) * 14} y2={s.y - Math.sin(s.a) * 14} />
+              ))}
+            </g>
+
+            <g class="memory">
+              {memoryLinks.map(([a, b]) => (
+                <line
+                  class="mlink"
+                  data-s={Math.max(memory[a].step, memory[b].step)}
+                  x1={memory[a].x}
+                  y1={memory[a].y}
+                  x2={memory[b].x}
+                  y2={memory[b].y}
+                />
+              ))}
+              {memory.map((m) => (
+                <circle class="mdot" data-s={m.step} cx={m.x} cy={m.y} r={m.r} fill={m.c} />
+              ))}
+            </g>
+            <text class="core-label" x={CX - 100} y={CY + 4} text-anchor="middle">CEREBRO</text>
+
+            {stations.map((s, i) => (
+              <g class={`station st${i}`} data-i={i}>
+                <circle class="halo" cx={s.x} cy={s.y} r="22" />
+                <circle class="node" cx={s.x} cy={s.y} r="7" />
+                <text
+                  x={s.x + Math.cos(s.a) * 40}
+                  y={s.y + Math.sin(s.a) * 40 + 5}
+                  text-anchor={Math.abs(Math.cos(s.a)) < 0.2 ? "middle" : Math.cos(s.a) > 0 ? "start" : "end"}
+                >
+                  {s.t}
+                </text>
+              </g>
+            ))}
+
+            <g class="comet" style={`transform-origin: ${CX}px ${CY}px`}>
+              <circle cx={CX} cy={CY - R} r="5" fill="#eafaff" />
+              <circle cx={CX} cy={CY - R} r="14" fill="rgba(127,227,255,0.25)" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <ol class="steps">
+        {
+          steps.map((s, i) => (
+            <li class="step" data-step-i={i}>
+              <p class="label">
+                0{i + 1}
+                <span class="bar" />
+              </p>
+              <h3 class="h3">{s.t}</h3>
+              <p class="body">{s.d}</p>
+            </li>
+          ))
+        }
+        <li class="step step-again" data-step-i="6">
+          <p class="again-line">Then it operates again, from a better place.</p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="ledger reveal">
+      <p class="label">What each outcome is worth</p>
+      <dl>
+        {
+          ledger.map(([a, b]) => (
+            <div>
+              <dt>{a}</dt>
+              <dd>{b}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-loop]");
+  if (root) {
+    const steps = [...root.querySelectorAll<HTMLElement>("[data-step-i]")];
+    const narrow = window.matchMedia("(max-width: 900px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const setStep = (i: number) => {
+      root.dataset.step = String(i);
+      steps.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.stepI) === i));
+    };
+    const complete = () => {
+      root.dataset.step = "6";
+      steps.forEach((s) => s.classList.remove("is-on"));
+    };
+    if (reduce) {
+      root.classList.add("is-complete");
+      complete();
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (narrow.matches) return;
+          for (const e of entries) {
+            if (e.isIntersecting) setStep(Number((e.target as HTMLElement).dataset.stepI));
+          }
+        },
+        { rootMargin: "-45% 0px -45% 0px" },
+      );
+      steps.forEach((s) => io.observe(s));
+      // On narrow screens the ring is not sticky, so it is shown complete above the steps.
+      const onNarrow = () => {
+        root.classList.toggle("is-narrow", narrow.matches);
+        if (narrow.matches) complete();
+        else setStep(0);
+      };
+      onNarrow();
+      narrow.addEventListener("change", onNarrow);
+    }
+  }
+</script>
+
+<style>
+  .loop {
+    background:
+      radial-gradient(800px 700px at 28% 60%, rgba(23, 92, 200, 0.12), transparent 70%),
+      var(--bg-0);
+  }
+
+  .contrast {
+    margin-top: clamp(48px, 6vw, 72px);
+    border-top: 1px solid var(--line);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 24px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .seq {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+    font-size: clamp(18px, 1.9vw, 24px);
+    font-weight: 520;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+  }
+
+  .seq span:not(:last-child)::after {
+    content: "→";
+    margin: 0 0.5em;
+    color: var(--ink-4);
+    font-weight: 400;
+  }
+
+  .old .seq {
+    color: var(--ink-3);
+  }
+
+  .new .seq span:not(:last-child)::after {
+    color: var(--cyan);
+  }
+
+  .again {
+    color: var(--cyan-hi);
+  }
+
+  /* ---- scrollytelling ---- */
+
+  .scrolly {
+    margin-top: clamp(56px, 7vw, 96px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: clamp(32px, 6vw, 96px);
+  }
+
+  .sticky {
+    position: sticky;
+    top: calc(var(--header-h) + 5vh);
+  }
+
+  .ring {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    overflow: visible;
+    margin-inline: auto;
+  }
+
+  .track {
+    fill: none;
+    stroke: rgba(110, 190, 255, 0.16);
+    stroke-width: 1;
+  }
+
+  .track-in {
+    fill: none;
+    stroke: rgba(110, 190, 255, 0.07);
+    stroke-width: 1;
+    stroke-dasharray: 2 6;
+  }
+
+  .progress {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 0 600;
+    filter: drop-shadow(0 0 6px rgba(39, 196, 255, 0.8));
+    transition: stroke-dasharray 900ms var(--ease-out);
+  }
+
+  .spoke {
+    stroke: rgba(127, 227, 255, 0.6);
+    stroke-width: 1;
+    stroke-dasharray: 3 5;
+    opacity: 0;
+    transition: opacity 700ms var(--ease);
+  }
+
+  .station .node {
+    fill: var(--bg-2);
+    stroke: rgba(110, 190, 255, 0.5);
+    stroke-width: 1.4;
+    transition: fill 500ms var(--ease), stroke 500ms var(--ease);
+  }
+
+  .station .halo {
+    fill: rgba(39, 196, 255, 0.16);
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0.4);
+    transition: opacity 500ms var(--ease), transform 700ms var(--ease-out);
+  }
+
+  .station text {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 560;
+    font-stretch: 108%;
+    fill: var(--ink-3);
+    transition: fill 500ms var(--ease);
+  }
+
+  .mdot,
+  .mlink {
+    opacity: 0;
+    transition: opacity 900ms var(--ease);
+  }
+
+  .mlink {
+    stroke: rgba(130, 200, 255, 0.35);
+    stroke-width: 0.8;
+  }
+
+  .core-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    fill: var(--ink-4);
+  }
+
+  .comet {
+    transition: transform 900ms var(--ease-out);
+  }
+
+  /* progress per step (0..5); 6 = complete */
+  [data-step="0"] .progress { stroke-dasharray: 8 600; }
+  [data-step="1"] .progress { stroke-dasharray: 100 600; }
+  [data-step="2"] .progress { stroke-dasharray: 200 600; }
+  [data-step="3"] .progress { stroke-dasharray: 300 600; }
+  [data-step="4"] .progress { stroke-dasharray: 400 600; }
+  [data-step="5"] .progress { stroke-dasharray: 500 600; }
+  [data-step="6"] .progress { stroke-dasharray: 600 600; }
+
+  [data-step="0"] .comet { transform: rotate(0deg); }
+  [data-step="1"] .comet { transform: rotate(60deg); }
+  [data-step="2"] .comet { transform: rotate(120deg); }
+  [data-step="3"] .comet { transform: rotate(180deg); }
+  [data-step="4"] .comet { transform: rotate(240deg); }
+  [data-step="5"] .comet { transform: rotate(300deg); }
+  [data-step="6"] .comet { transform: rotate(360deg); }
+
+  [data-step="0"] .st0 .node, [data-step="1"] .st1 .node, [data-step="2"] .st2 .node,
+  [data-step="3"] .st3 .node, [data-step="4"] .st4 .node, [data-step="5"] .st5 .node,
+  [data-step="6"] .st0 .node {
+    fill: #eafaff;
+    stroke: var(--cyan);
+  }
+
+  [data-step="0"] .st0 .halo, [data-step="1"] .st1 .halo, [data-step="2"] .st2 .halo,
+  [data-step="3"] .st3 .halo, [data-step="4"] .st4 .halo, [data-step="5"] .st5 .halo,
+  [data-step="6"] .st0 .halo {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  [data-step="0"] .st0 text, [data-step="1"] .st1 text, [data-step="2"] .st2 text,
+  [data-step="3"] .st3 text, [data-step="4"] .st4 text, [data-step="5"] .st5 text,
+  [data-step="6"] .st0 text {
+    fill: var(--ink);
+  }
+
+  /* Learn feeds memory; Adapt and Improve draw on it. */
+  [data-step="3"] .s3, [data-step="4"] .s4, [data-step="4"] .s3,
+  [data-step="5"] .s5, [data-step="5"] .s4, [data-step="6"] .s0 {
+    opacity: 1;
+  }
+
+  [data-step="1"] [data-s="1"],
+  [data-step="2"] [data-s="1"], [data-step="2"] [data-s="2"],
+  [data-step="3"] [data-s="1"], [data-step="3"] [data-s="2"], [data-step="3"] [data-s="3"],
+  [data-step="4"] [data-s="1"], [data-step="4"] [data-s="2"], [data-step="4"] [data-s="3"], [data-step="4"] [data-s="4"],
+  [data-step="5"] .mdot, [data-step="5"] .mlink,
+  [data-step="6"] .mdot, [data-step="6"] .mlink {
+    opacity: 1;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .step {
+    min-height: 62vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.32;
+    transition: opacity 600ms var(--ease);
+  }
+
+  .step:first-child {
+    min-height: 44vh;
+    justify-content: flex-start;
+    padding-top: 6vh;
+  }
+
+  .step.is-on {
+    opacity: 1;
+  }
+
+  .step .label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--cyan);
+  }
+
+  .bar {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--cyan), rgba(39, 196, 255, 0));
+  }
+
+  .step .h3 {
+    margin-top: 14px;
+    font-size: clamp(30px, 3vw, 42px);
+    font-stretch: 112%;
+    letter-spacing: -0.025em;
+  }
+
+  .step .body {
+    margin-top: 14px;
+    font-size: 18px;
+    max-width: 30em;
+  }
+
+  .step-again {
+    min-height: 48vh;
+  }
+
+  .again-line {
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 540;
+    font-stretch: 110%;
+    letter-spacing: -0.02em;
+    color: var(--cyan-hi);
+    max-width: 18em;
+  }
+
+  .ledger {
+    margin-top: clamp(64px, 8vw, 120px);
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line-2);
+  }
+
+  .ledger dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .ledger dt {
+    font-size: 19px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.01em;
+  }
+
+  .ledger dd {
+    margin: 4px 0 0;
+    color: var(--ink-2);
+  }
+
+  /* No-JS / reduced motion / narrow screens: everything shown, loop complete. */
+  .scrolly:not([data-step]) .step,
+  .is-complete .step,
+  .is-narrow .step {
+    opacity: 1;
+  }
+
+  @media (max-width: 900px) {
+    .scrolly {
+      grid-template-columns: 1fr;
+    }
+
+    .sticky {
+      position: relative;
+      top: 0;
+    }
+
+    .ring {
+      max-width: 400px;
+    }
+
+    .step,
+    .step:first-child,
+    .step-again {
+      min-height: 0;
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .step .h3 {
+      font-size: 26px;
+      margin-top: 8px;
+    }
+
+    .step .body {
+      font-size: 16.5px;
+      margin-top: 8px;
+    }
+
+    .row,
+    .ledger {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .ledger dl {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .ledger dl {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+</style>

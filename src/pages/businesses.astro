@@ -1,0 +1,302 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import BusinessEmblem from "../components/shared/BusinessEmblem.astro";
+import CycleDiagram from "../components/shared/CycleDiagram.astro";
+import ContactCTA from "../components/shared/ContactCTA.astro";
+import { BUSINESSES } from "../data/businesses";
+
+const model = [
+  { t: "One platform", d: "Every business runs on the same platform, so an improvement reaches all of them at once." },
+  { t: "Shared intelligence", d: "What one business learns is available to the others through Cerebro." },
+  { t: "Owner authority", d: "Each business operates within limits its owner sets. Consequential decisions stay with people." },
+  { t: "Its own identity", d: "Each business can trade under its own name and brand, built for its own customers." },
+];
+---
+
+<BaseLayout
+  variant="home"
+  title="Businesses"
+  description="Digit owns and operates businesses across e-commerce, media, marketing, web solutions and software development, all running on the Digit platform."
+  path="/businesses"
+>
+  <PageHero
+    tone="businesses"
+    kicker="Businesses"
+    title="A portfolio built to run <span>with increasing autonomy.</span>"
+    lede="Digit owns and operates businesses across five areas. Each runs on the Digit platform, and what each one learns makes the others, and the platform itself, better."
+  >
+    <ul class="strip hero-in" style="--d: 460ms">
+      {
+        BUSINESSES.map((b) => (
+          <li>
+            <a href={`#${b.id}`} style={`--h: ${b.hue}`}>
+              <BusinessEmblem id={b.id} hue={b.hue} size={44} />
+              <span>{b.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </PageHero>
+
+  <section class="section portfolio" id="portfolio" aria-labelledby="portfolio-title">
+    <div class="wrap grid">
+      <div>
+        <div class="reveal">
+          <p class="label kicker">Portfolio</p>
+          <h2 class="h2" id="portfolio-title">How the portfolio works.</h2>
+          <p class="lede">
+            The platform is built for real organizations, and real operations are where it learns the most. Every business in
+            the portfolio produces experience: what worked, what didn't, and why. That experience flows back into how all
+            of them run and into the technology underneath.
+          </p>
+        </div>
+        <ul class="model">
+          {
+            model.map((m, i) => (
+              <li class="reveal" style={`--d: ${i * 70}ms`}>
+                <h3>{m.t}</h3>
+                <p>{m.d}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="reveal" style="--d: 120ms">
+        <CycleDiagram />
+      </div>
+    </div>
+  </section>
+
+  {
+    BUSINESSES.map((b, i) => (
+      <section class:list={["section", "area", { flip: i % 2 === 1 }]} id={b.id} aria-labelledby={`${b.id}-title`} style={`--h: ${b.hue}`}>
+        <div class="wrap area-grid">
+          <div class="area-copy">
+            <p class="label kicker reveal">{String(i + 1).padStart(2, "0")} · Business area</p>
+            <h2 class="h2 reveal" id={`${b.id}-title`}>{b.name}</h2>
+            <p class="line reveal">{b.line}</p>
+            <p class="body reveal">{b.body}</p>
+            <div class="work reveal">
+              <p class="label">The work</p>
+              <ul>
+                {b.work.map((w) => (
+                  <li>{w}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div class="tile reveal" style="--d: 120ms" aria-hidden="true">
+            <BusinessEmblem id={b.id} hue={b.hue} size={220} />
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <ContactCTA secondary={{ href: "/platform", label: "Explore the platform" }} />
+</BaseLayout>
+
+<style>
+  .strip {
+    list-style: none;
+    margin: clamp(48px, 6vw, 72px) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .strip a {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 18px 8px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(8, 16, 32, 0.55);
+    font-size: 14.5px;
+    font-weight: 520;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
+  }
+
+  .strip a:hover {
+    color: var(--ink);
+    border-color: color-mix(in srgb, var(--h) 55%, transparent);
+  }
+
+  .strip :global(.emblem) {
+    width: 30px;
+    height: 30px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .portfolio .lede {
+    margin-top: 28px;
+  }
+
+  .model {
+    list-style: none;
+    margin: 44px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 28px;
+  }
+
+  .model li {
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .model h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 580;
+    font-stretch: 106%;
+  }
+
+  .model p {
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+
+  .area {
+    border-top: 1px solid var(--line);
+    background:
+      radial-gradient(700px 500px at 78% 50%, color-mix(in srgb, var(--h) 9%, transparent), transparent 70%),
+      var(--bg-0);
+  }
+
+  .area.flip {
+    background:
+      radial-gradient(700px 500px at 22% 50%, color-mix(in srgb, var(--h) 9%, transparent), transparent 70%),
+      var(--bg-0);
+  }
+
+  .area-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .flip .area-copy {
+    order: 2;
+  }
+
+  .area .kicker::before {
+    background: linear-gradient(90deg, var(--h), transparent);
+  }
+
+  .line {
+    margin-top: 20px;
+    font-size: clamp(20px, 1.9vw, 26px);
+    line-height: 1.35;
+    font-weight: 500;
+    font-stretch: 104%;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 26em;
+  }
+
+  .area .body {
+    margin-top: 18px;
+    font-size: 17px;
+    max-width: 36em;
+  }
+
+  .work {
+    margin-top: 32px;
+  }
+
+  .work ul {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+    max-width: 560px;
+  }
+
+  .work li {
+    position: relative;
+    padding: 11px 0 11px 18px;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .work li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--h);
+    box-shadow: 0 0 8px var(--h);
+  }
+
+  .tile {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 380px;
+    width: 100%;
+    margin-inline: auto;
+    display: grid;
+    place-items: center;
+    border-radius: 28px;
+    border: 1px solid color-mix(in srgb, var(--h) 28%, transparent);
+    background:
+      radial-gradient(closest-side, color-mix(in srgb, var(--h) 14%, transparent), transparent),
+      linear-gradient(rgba(60, 170, 255, 0.03) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(90deg, rgba(60, 170, 255, 0.03) 1px, transparent 1px) 0 0 / 32px 32px,
+      rgba(4, 9, 20, 0.6);
+    box-shadow: var(--shadow-float);
+  }
+
+  .tile :global(.emblem) {
+    width: 58%;
+    height: auto;
+  }
+
+  @media (max-width: 900px) {
+    .grid,
+    .area-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flip .area-copy {
+      order: 0;
+    }
+
+    .tile {
+      max-width: 260px;
+      margin: 8px 0 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .model,
+    .work ul {
+      grid-template-columns: 1fr;
+    }
+
+    .tile {
+      max-width: 200px;
+    }
+  }
+</style>

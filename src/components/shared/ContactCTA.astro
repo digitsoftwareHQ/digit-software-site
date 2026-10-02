@@ -1,0 +1,115 @@
+---
+import { SITE } from "../../data/site";
+
+interface Props {
+  id?: string;
+  secondary?: { href: string; label: string } | null;
+}
+const { id = "contact", secondary = { href: "/platform", label: "Explore the platform" } } = Astro.props;
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+// A quiet echo of the knowledge universe from the top of the page (deterministic).
+let seed = 3;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+const kinds = ["#36c6ff", "#36c6ff", "#d6e2ff", "#8f86ff", "#4fd8b0", "#36c6ff"];
+const pts = Array.from({ length: 46 }, (_, i) => {
+  const a = rnd() * Math.PI * 2;
+  const d = Math.sqrt(rnd());
+  return { x: 600 + Math.cos(a) * d * 560, y: 200 + Math.sin(a) * d * 170, r: i % 7 === 0 ? 2.6 : 1.4, c: kinds[i % 6] };
+});
+const links: [number, number][] = [];
+pts.forEach((p, i) => {
+  let best = -1;
+  let bd = Infinity;
+  pts.forEach((q, j) => {
+    if (j >= i) return;
+    const d = (p.x - q.x) ** 2 + (p.y - q.y) ** 2;
+    if (d < bd) {
+      bd = d;
+      best = j;
+    }
+  });
+  if (best >= 0) links.push([i, best]);
+});
+---
+
+<section class="section contact" id={id} aria-labelledby={`${id}-title`}>
+  <svg class="echo" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    {links.map(([a, b]) => <line x1={pts[a].x} y1={pts[a].y} x2={pts[b].x} y2={pts[b].y} />)}
+    {pts.map((p) => <circle cx={p.x} cy={p.y} r={p.r} fill={p.c} />)}
+  </svg>
+  <div class="wrap inner reveal">
+    <p class="label kicker">Contact</p>
+    <h2 class="h2" id={`${id}-title`}>Interested in what we're building?</h2>
+    <p class="lede">
+      If you're thinking about how companies will run, working on similar problems, or simply curious about Digit, we'd
+      like to hear from you.
+    </p>
+    <div class="ctas">
+      <a class="btn btn--primary" href={`mailto:${SITE.email}`}>{SITE.email} <Fragment set:html={arrow} /></a>
+      {secondary && <a class="btn btn--ghost" href={secondary.href}>{secondary.label}</a>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background:
+      radial-gradient(700px 360px at 50% 55%, rgba(30, 110, 230, 0.2), transparent 70%),
+      var(--bg-0);
+    border-top: 1px solid var(--line);
+  }
+
+  .echo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(closest-side, transparent 38%, black 70%, transparent 100%);
+    mask-image: radial-gradient(closest-side, transparent 38%, black 70%, transparent 100%);
+  }
+
+  .echo line {
+    stroke: rgba(120, 190, 255, 0.16);
+    stroke-width: 1;
+  }
+
+  .echo circle {
+    filter: drop-shadow(0 0 4px rgba(39, 196, 255, 0.6));
+  }
+
+  .inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .inner .h2 {
+    max-width: 14em;
+  }
+
+  .inner .lede {
+    margin-top: 24px;
+    max-width: 34em;
+  }
+
+  .ctas {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  @media (max-width: 520px) {
+    .ctas .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

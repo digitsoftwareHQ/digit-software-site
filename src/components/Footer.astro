@@ -1,0 +1,147 @@
+---
+import { FOOTER_NAV, SITE } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="about">
+        <a class="brand" href="/" aria-label="Digit Software, home">
+          <img src="/assets/digit-mark.svg" alt="" width="24" height="24" loading="lazy" />
+          <span>Digit <span>Software</span></span>
+        </a>
+        <p>Software for companies that run themselves, and get better at it.</p>
+        <a class="mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+      {FOOTER_NAV.map((col) => (
+        <nav class="col" aria-label={col.title}>
+          <a class="label col-title" href={col.href}>{col.title}</a>
+          <ul>
+            {col.links.map((l) => (
+              <li><a href={l.href}>{l.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+    <div class="bottom">
+      <p>&copy; {year} Digit Software. All rights reserved.</p>
+      <p class="label">digit.software</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    border-top: 1px solid var(--line);
+    padding: 72px 0 40px;
+    background: linear-gradient(180deg, var(--bg-0), #01030a);
+  }
+
+  .top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) repeat(5, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .col-title {
+    text-decoration: none;
+    transition: color var(--fast) var(--ease);
+  }
+
+  .col-title:hover {
+    color: var(--ink);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 650;
+    font-stretch: 114%;
+    letter-spacing: -0.02em;
+  }
+
+  .brand img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .brand > span > span {
+    font-weight: 450;
+    color: var(--ink-3);
+  }
+
+  .about p {
+    margin-top: 18px;
+    max-width: 30ch;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+
+  .mail {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: 15px;
+    color: var(--cyan-hi);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(127, 227, 255, 0.3);
+    transition: border-color var(--fast) var(--ease);
+  }
+
+  .mail:hover {
+    border-color: var(--cyan-hi);
+  }
+
+  .col ul {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+
+  .col li a {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color var(--fast) var(--ease);
+  }
+
+  .col li a:hover {
+    color: var(--ink);
+  }
+
+  .bottom {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 1080px) {
+    .top {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: 44px;
+    }
+
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .top {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 36px;
+    }
+  }
+</style>
