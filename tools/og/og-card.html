@@ -1,10 +1,10 @@
 <!doctype html>
 <!--
-  Source for public/assets/digit-social-v5.png (1200x630 social preview card).
+  Source for public/assets/digit-social-v6.png (1200x630 social preview card).
   Regenerate: serve the repository root over HTTP (e.g. `python3 -m http.server 4400` from the repo root),
   open http://127.0.0.1:4400/tools/og/og-card.html in a 1200x630 viewport at device scale 1, and capture a PNG.
   Text stays inside a centred safe area so platforms that crop the card keep the message intact.
-  The knowledge universe is a deterministic still; nothing in it is real data.
+  The knowledge network is a deterministic still; nothing in it is real data.
 -->
 <html lang="en">
   <head>
@@ -91,20 +91,6 @@
         background-clip: text;
         color: transparent;
       }
-      .url {
-        position: absolute;
-        left: 96px;
-        bottom: 84px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 17px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: #7c87a6;
-      }
-      .url b {
-        color: #27c4ff;
-        font-weight: 500;
-      }
     </style>
   </head>
   <body>
@@ -119,34 +105,70 @@
           <span class="lit">and improve on their own.</span>
         </h1>
       </div>
-      <div class="url"><b>●</b>&nbsp; digit.software</div>
     </div>
     <script>
-      // Deterministic still of the knowledge universe (same grammar as the site's hero).
+      // Deterministic still of the Cerebro knowledge network: six kinds of knowledge, each a hub with its records
+      // around it, related records linked within each kind, and hubs linked across kinds.
       const C = ["#36c6ff", "#4fd8b0", "#f3b968", "#d6e2ff", "#8f86ff", "#ff7aa8"];
-      const W = [1, 0.6, 0.36, 0.66, 0.56, 0.28];
-      let a = 20260920;
+      let seed = 20261003;
       const r = () => {
-        a = (a + 0x6d2b79f5) >>> 0;
-        let t = a;
+        seed = (seed + 0x6d2b79f5) >>> 0;
+        let t = seed;
         t = Math.imul(t ^ (t >>> 15), t | 1);
         t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
         return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
       };
+      const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+      const rgba = (h, a) => `rgba(${rgb(h).join(",")},${a})`;
+
+      // World: hubs on a squashed sphere, records around each hub.
       const nodes = [];
-      const total = W.reduce((s, w) => s + w, 0);
+      const hubs = [];
       for (let c = 0; c < 6; c++) {
-        const phi = Math.acos(1 - (2 * (c + 0.5)) / 6), th = Math.PI * (1 + Math.sqrt(5)) * c, R = 252;
-        const cx = R * Math.sin(phi) * Math.cos(th), cy = R * Math.cos(phi) * 0.75, cz = R * Math.sin(phi) * Math.sin(th);
-        const n = Math.round((300 * W[c]) / total);
-        for (let i = 0; i < n; i++) {
-          const hub = i < 3, u = r(), v = r(), w = r();
-          const rad = hub ? 6 + 26 * w : 16 + 84 * Math.pow(w, 0.42);
+        const phi = Math.acos(1 - (2 * (c + 0.5)) / 6), th = Math.PI * (1 + Math.sqrt(5)) * c, R = 178;
+        const hub = { x: R * Math.sin(phi) * Math.cos(th), y: R * Math.cos(phi) * 0.95, z: R * Math.sin(phi) * Math.sin(th), c, tier: 0 };
+        hubs.push(nodes.length);
+        nodes.push(hub);
+        for (let i = 0; i < 16; i++) {
+          const item = i < 7;
+          const u = r(), v = r(), w = r();
+          const rad = item ? 34 + 30 * w : 46 + 52 * Math.sqrt(w);
           const t2 = 2 * Math.PI * u, p2 = Math.acos(2 * v - 1);
-          nodes.push({ x: cx + rad * Math.sin(p2) * Math.cos(t2), y: cy + rad * Math.cos(p2) * 0.8, z: cz + rad * Math.sin(p2) * Math.sin(t2), c, tier: hub ? 0 : r() < 0.34 ? 1 : 2 });
+          nodes.push({ x: hub.x + rad * Math.sin(p2) * Math.cos(t2), y: hub.y + rad * Math.cos(p2) * 0.8, z: hub.z + rad * Math.sin(p2) * Math.sin(t2), c, tier: item ? 1 : 2 });
         }
       }
-      const yaw = 0.95, pitch = -0.24, D = 900, f = (300 * D) / 340, X = 860, Y = 330;
+      const d3 = (a, b) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2;
+      const nearest = (n, pool, k) => pool.filter((m) => m !== n).sort((a, b) => d3(n, a) - d3(n, b)).slice(0, k);
+
+      // Relationships.
+      const edges = []; // { a, b, kind }
+      const seen = new Set();
+      const link = (a, b, kind) => {
+        const ia = nodes.indexOf(a), ib = nodes.indexOf(b), key = ia < ib ? ia + "-" + ib : ib + "-" + ia;
+        if (seen.has(key)) return;
+        seen.add(key);
+        edges.push({ a, b, kind });
+      };
+      for (const h of hubs.map((i) => nodes[i])) {
+        const own = nodes.filter((n) => n.c === h.c && n !== h);
+        for (const n of own.filter((n) => n.tier === 1)) {
+          link(h, n, "spoke");
+          for (const m of nearest(n, own.filter((o) => o.tier === 1), 1)) link(n, m, "item");
+        }
+        for (const n of own.filter((n) => n.tier === 2)) for (const m of nearest(n, own.concat(h), 1)) link(n, m, "detail");
+        for (const o of nearest(h, hubs.map((i) => nodes[i]), 3)) link(h, o, "bridge");
+      }
+      // A few records related across kinds.
+      const bridges = edges.filter((e) => e.kind === "bridge");
+      for (const e of bridges.slice(0, 5)) {
+        const A = nodes.filter((n) => n.c === e.a.c && n.tier === 1), B = nodes.filter((n) => n.c === e.b.c && n.tier === 1);
+        let best = null, bd = Infinity;
+        for (const a of A) for (const b of B) if (d3(a, b) < bd) { bd = d3(a, b); best = [a, b]; }
+        if (best) link(best[0], best[1], "cross");
+      }
+
+      // Camera.
+      const yaw = 2.3, pitch = -0.34, D = 900, f = (225 * D) / 300, X = 975, Y = 322;
       const cy0 = Math.cos(yaw), sy0 = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
       for (const n of nodes) {
         const x1 = n.x * cy0 - n.z * sy0, z1 = n.x * sy0 + n.z * cy0;
@@ -154,66 +176,117 @@
         n.k = f / (D + z2);
         n.sx = X + x1 * n.k;
         n.sy = Y + y2 * n.k;
-        n.d = Math.max(0, Math.min(1, (n.k / (f / D) - 0.62) / 0.75));
+        n.depth = Math.max(0, Math.min(1, (n.k / (f / D) - 0.72) / 0.56)); // 0 far .. 1 near
       }
+
       const g = document.getElementById("u").getContext("2d");
       const sprite = (col) => {
         const s = document.createElement("canvas");
         s.width = s.height = 64;
         const x = s.getContext("2d");
-        const v = parseInt(col.slice(1), 16), rr = (v >> 16) & 255, gg = (v >> 8) & 255, bb = v & 255;
         const gr = x.createRadialGradient(32, 32, 0, 32, 32, 32);
-        gr.addColorStop(0, `rgba(${rr},${gg},${bb},0.85)`);
-        gr.addColorStop(0.18, `rgba(${rr},${gg},${bb},0.32)`);
-        gr.addColorStop(0.45, `rgba(${rr},${gg},${bb},0.08)`);
-        gr.addColorStop(1, `rgba(${rr},${gg},${bb},0)`);
+        gr.addColorStop(0, rgba(col, 0.9));
+        gr.addColorStop(0.2, rgba(col, 0.34));
+        gr.addColorStop(0.5, rgba(col, 0.08));
+        gr.addColorStop(1, rgba(col, 0));
         x.fillStyle = gr;
         x.fillRect(0, 0, 64, 64);
         return s;
       };
       const S = C.map(sprite);
-      // nebulae
+
+      // Soft depth glow under each kind.
       g.globalCompositeOperation = "lighter";
-      for (let c = 0; c < 6; c++) {
-        const own = nodes.filter((n) => n.c === c);
-        const mx = own.reduce((s, n) => s + n.sx, 0) / own.length, my = own.reduce((s, n) => s + n.sy, 0) / own.length;
-        const k = own.reduce((s, n) => s + n.k, 0) / own.length;
-        g.globalAlpha = 0.28;
-        g.drawImage(S[c], mx - 170 * k, my - 170 * k, 340 * k, 340 * k);
+      for (const hi of hubs) {
+        const h = nodes[hi];
+        g.globalAlpha = 0.16 + 0.1 * h.depth;
+        const s = 260 * h.k;
+        g.drawImage(S[h.c], h.sx - s / 2, h.sy - s / 2, s, s);
       }
       g.globalCompositeOperation = "source-over";
-      // relationships
-      g.strokeStyle = "rgba(120,190,255,0.13)";
-      g.lineWidth = 1;
-      g.beginPath();
-      for (const n of nodes) {
-        const near = nodes
-          .filter((m) => m !== n && m.c === n.c)
-          .sort((p, q) => (p.x - n.x) ** 2 + (p.y - n.y) ** 2 + (p.z - n.z) ** 2 - ((q.x - n.x) ** 2 + (q.y - n.y) ** 2 + (q.z - n.z) ** 2))
-          .slice(0, n.tier === 2 ? 1 : 2);
-        for (const m of near) {
-          g.moveTo(n.sx, n.sy);
-          g.lineTo(m.sx, m.sy);
-        }
+
+      // Relationships, far to near.
+      const curve = (a, b, bend) => {
+        const mx = (a.sx + b.sx) / 2, my = (a.sy + b.sy) / 2;
+        const dx = mx - X, dy = my - Y, len = Math.hypot(dx, dy) || 1;
+        const off = Math.hypot(b.sx - a.sx, b.sy - a.sy) * bend;
+        return [mx + (dx / len) * off, my + (dy / len) * off];
+      };
+      const style = { detail: [0.55, 0.12], item: [0.9, 0.3], spoke: [1, 0.42], cross: [0.9, 0.34], bridge: [1.5, 0.62] };
+      edges.sort((p, q) => (p.a.depth + p.b.depth) - (q.a.depth + q.b.depth));
+      for (const e of edges) {
+        const [w, al] = style[e.kind];
+        const depth = (e.a.depth + e.b.depth) / 2;
+        g.lineWidth = w * (0.75 + 0.5 * depth);
+        g.globalAlpha = al * (0.45 + 0.55 * depth);
+        const grad = g.createLinearGradient(e.a.sx, e.a.sy, e.b.sx, e.b.sy);
+        grad.addColorStop(0, C[e.a.c]);
+        grad.addColorStop(1, C[e.b.c]);
+        g.strokeStyle = e.a.c === e.b.c ? C[e.a.c] : grad;
+        g.beginPath();
+        g.moveTo(e.a.sx, e.a.sy);
+        if (e.kind === "bridge" || e.kind === "cross") {
+          const [cx, cy] = curve(e.a, e.b, e.kind === "bridge" ? 0.14 : 0.08);
+          g.quadraticCurveTo(cx, cy, e.b.sx, e.b.sy);
+        } else g.lineTo(e.b.sx, e.b.sy);
+        g.stroke();
       }
-      g.stroke();
-      // nodes
-      nodes.sort((p, q) => p.k - q.k);
-      for (const n of nodes) {
-        const rr = [4.8, 2.9, 1.7][n.tier] * (n.k / (f / D));
-        const al = (0.34 + 0.66 * n.d) * [1, 0.85, 0.58][n.tier];
+
+      // Signals travelling between kinds.
+      g.globalCompositeOperation = "lighter";
+      for (const [i, t] of [[0, 0.42], [2, 0.6], [4, 0.36], [7, 0.55]]) {
+        const e = bridges[i];
+        if (!e) continue;
+        const [cx, cy] = curve(e.a, e.b, 0.14);
+        const x = (1 - t) ** 2 * e.a.sx + 2 * (1 - t) * t * cx + t * t * e.b.sx;
+        const y = (1 - t) ** 2 * e.a.sy + 2 * (1 - t) * t * cy + t * t * e.b.sy;
+        const col = t < 0.5 ? C[e.a.c] : C[e.b.c];
+        g.globalAlpha = 0.9;
+        g.drawImage(S[C.indexOf(col)], x - 13, y - 13, 26, 26);
+        g.globalAlpha = 1;
+        g.fillStyle = "#f2fbff";
+        g.beginPath();
+        g.arc(x, y, 1.9, 0, Math.PI * 2);
+        g.fill();
+      }
+      g.globalCompositeOperation = "source-over";
+
+      // Knowledge, far to near.
+      const order = nodes.slice().sort((p, q) => p.k - q.k);
+      for (const n of order) {
+        const rr = [7.2, 3.6, 1.8][n.tier] * (n.k / (f / D));
+        const al = (0.42 + 0.58 * n.depth) * [1, 0.95, 0.6][n.tier];
         if (n.tier < 2) {
           g.globalCompositeOperation = "lighter";
-          g.globalAlpha = al * 0.6;
-          const gs = rr * (n.tier === 0 ? 9 : 7);
+          g.globalAlpha = al * (n.tier === 0 ? 0.85 : 0.55);
+          const gs = rr * (n.tier === 0 ? 10 : 7);
           g.drawImage(S[n.c], n.sx - gs / 2, n.sy - gs / 2, gs, gs);
           g.globalCompositeOperation = "source-over";
+        }
+        if (n.tier === 0) {
+          g.globalAlpha = 0.5 * (0.5 + 0.5 * n.depth);
+          g.strokeStyle = C[n.c];
+          g.lineWidth = 1;
+          g.beginPath();
+          g.arc(n.sx, n.sy, rr * 2.5, 0, Math.PI * 2);
+          g.stroke();
+          g.globalAlpha = 0.22 * (0.5 + 0.5 * n.depth);
+          g.beginPath();
+          g.arc(n.sx, n.sy, rr * 3.6, 0, Math.PI * 2);
+          g.stroke();
         }
         g.globalAlpha = al;
         g.fillStyle = C[n.c];
         g.beginPath();
         g.arc(n.sx, n.sy, rr, 0, Math.PI * 2);
         g.fill();
+        if (n.tier === 0) {
+          g.globalAlpha = 0.9;
+          g.fillStyle = "#f2fbff";
+          g.beginPath();
+          g.arc(n.sx, n.sy, rr * 0.42, 0, Math.PI * 2);
+          g.fill();
+        }
       }
       g.globalAlpha = 1;
     </script>

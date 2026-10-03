@@ -234,8 +234,17 @@ import { edit, parts } from "../content/schema";
       grid-template-columns: 1fr;
     }
 
+    /* On phones the emblem leads its section, like the business cards on Home, instead of trailing the list. */
+    .area-grid,
+    .flip .area-grid {
+      gap: 28px;
+    }
+
     .tile {
-      max-width: 200px;
+      order: -1;
+      max-width: 112px;
+      margin: 0;
+      border-radius: 22px;
     }
   }
 </style>

@@ -235,6 +235,15 @@ p {
   text-wrap: pretty;
 }
 
+/* Phone columns are narrow enough that any heading can strand its last word; balanced lines keep them even. */
+@media (max-width: 600px) {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+}
+
 /* Owner formatting steps (src/content/format.json). A chosen step renders as a data-v-* attribute; the default
    renders nothing, so none of these rules touch the standard design. Size and width scale the base an element
    declares for itself (--fs, --measure); spacing adds or removes one step above or below the element. */
@@ -277,12 +286,16 @@ p {
   font-size: calc(var(--fs, 1em) * var(--v-size-larger)) !important;
 }
 
-[data-v-width="narrower"] {
-  max-width: calc(var(--measure, 100%) * var(--v-width-narrower)) !important;
-}
+/* Width steps shape the desktop composition. On phones the column already sets the measure, and a narrower step
+   would squeeze copy into one- and two-word lines, so elements keep their own measure there. */
+@media (min-width: 601px) {
+  [data-v-width="narrower"] {
+    max-width: calc(var(--measure, 100%) * var(--v-width-narrower)) !important;
+  }
 
-[data-v-width="wider"] {
-  max-width: calc(var(--measure, 100%) * var(--v-width-wider)) !important;
+  [data-v-width="wider"] {
+    max-width: calc(var(--measure, 100%) * var(--v-width-wider)) !important;
+  }
 }
 
 [data-v-above="looser"] {

@@ -2,14 +2,14 @@ export const SITE = {
   name: "Digit Software",
   url: "https://digit.software",
   email: "info@digit.software",
-  ogImage: "/assets/digit-social-v5.png",
+  ogImage: "/assets/digit-social-v6.png",
   ogImageAlt: "Digit Software: software for businesses that can think, operate, and improve on their own.",
 } as const;
 
 /** Page titles and meta descriptions. */
 export const SEO = {
   home: {
-    title: "Digit Software | Software for Autonomous Business Operations",
+    title: "Digit Software | Engineering the Infrastructure of the Future",
     description:
       "Digit Software engineers intelligent software, autonomous systems, and the infrastructure behind businesses that can operate and improve with increasing independence.",
   },

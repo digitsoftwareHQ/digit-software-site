@@ -170,4 +170,25 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
       display: none;
     }
   }
+
+  /* On phones the column beside the emblem gets too narrow for the summary: emblem and title share the first row,
+     and the summary runs the full card width below them. */
+  @media (max-width: 480px) {
+    .area {
+      align-items: center;
+    }
+
+    .area :global(.emblem) {
+      grid-row: auto;
+    }
+
+    .area h3 {
+      margin-top: 0;
+    }
+
+    .area p {
+      grid-column: 1 / -1;
+      margin-top: 14px;
+    }
+  }
 </style>

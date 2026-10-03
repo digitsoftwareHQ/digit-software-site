@@ -36,7 +36,7 @@ src/
   data/cerebro-example.ts  the illustrative Cerebro records and the order of the knowledge kinds
   styles/global.css    design tokens and shared primitives
 public/                favicons, brand mark, social card, CNAME
-tools/og/              source for the social card (public/assets/digit-social-v5.png)
+tools/og/              source for the social card (public/assets/digit-social-v6.png)
 integrations/owner-edit/  Owner Editing Mode (development only, see below)
 scripts/check-site.mjs post-build checks
 scripts/test-owner-edit.mjs  content and Owner Editing Mode tests
