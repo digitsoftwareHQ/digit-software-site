@@ -46,9 +46,9 @@
   --wider: 118%;
 
   /* Headline scale. Fluid from a 390px phone to a ~1440px desktop, then capped.
-     Below 390px the heroes track the viewport so their lines keep their shape.
-     Home hero >= inner-page hero > section heading at every width. */
-  --type-home: clamp(34px, min(10.3vw, 29.5px + 2.7vw), 70px);
+     On phones the Home hero is a fixed share of the text column, so its four-line
+     shape holds from 360px to ~450px; inner-page heroes track the viewport below 390px. */
+  --type-home: clamp(32px, min((100vw - 2 * var(--gutter)) * 0.1015, 29.5px + 2.7vw), 70px);
   --type-page: clamp(34px, min(10.3vw, 31.8px + 2.1vw), 62px);
   --type-h2: clamp(32px, 25px + 1.6vw, 48px);
 
