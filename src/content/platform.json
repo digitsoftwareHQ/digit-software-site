@@ -1,0 +1,162 @@
+{
+  "hero": {
+    "eyebrow": "The Digit Platform",
+    "title": "Software that's intelligent enough to run businesses.",
+    "body": [
+      "Digit's platform is built for software that does more than answer questions or wait for instructions.",
+      "It can coordinate work, use specialized agents, keep track of what the business knows, act through connected systems, and surface the decisions that still need a person."
+    ],
+    "primary": "See the Platform",
+    "secondary": "Our Technology"
+  },
+  "overview": {
+    "eyebrow": "How It Fits Together",
+    "headline": "The parts work together.",
+    "body": [
+      "Running a business requires more than a capable model or a collection of isolated agents.",
+      "Digit combines software for coordination, execution, knowledge, oversight, and specialized work into one operating platform.",
+      "Neo coordinates the operation. Mission Control gives people a view across the business. Cerebro keeps what the organization knows. Specialized agents perform focused work. Morpheus provides the execution environment beneath them.",
+      "Each part has a different job, but they work from the same operation."
+    ],
+    "note": "Illustrative platform model. Not live operational data."
+  },
+  "layers": {
+    "neo": {
+      "name": "Neo",
+      "body": "Coordinates priorities, work, decisions, and what needs attention."
+    },
+    "mission-control": {
+      "name": "Mission Control",
+      "body": "Shows what is happening across the business and gives people a place to inspect and direct it."
+    },
+    "cerebro": {
+      "name": "Cerebro",
+      "body": "Keeps institutional knowledge connected and available across future work."
+    },
+    "agents": {
+      "name": "Specialized Agents",
+      "body": "Perform focused work across research, analysis, creation, review, monitoring, and other business functions."
+    },
+    "morpheus": {
+      "name": "Morpheus",
+      "body": "Provides the execution environment that lets software carry work through approved systems and capabilities."
+    }
+  },
+  "neo": {
+    "eyebrow": "Neo",
+    "headline": "Neo coordinates the business.",
+    "lead": "Neo is Digit's operating executive.",
+    "body": [
+      "Instead of treating every request as an isolated task, Neo works across the broader operation. Priorities, active work, business context, decisions, problems, and opportunities can stay connected as the company moves forward.",
+      "Neo can coordinate work across different parts of the business, bring the right problems to a person, and keep routine operations moving within the limits the business has set.",
+      "The goal is simple: people should be able to lead the company without personally coordinating every piece of work inside it."
+    ],
+    "diagramCore": "NEO",
+    "items": [
+      {
+        "title": "Priorities",
+        "body": "Keep important work connected to what the business is trying to accomplish."
+      },
+      {
+        "title": "Coordination",
+        "body": "Bring different kinds of work together when an objective crosses systems or specialties."
+      },
+      {
+        "title": "Decisions",
+        "body": "Separate work that can continue autonomously from decisions that need a person."
+      },
+      {
+        "title": "Attention",
+        "body": "Surface the issues that actually matter instead of turning every event into an alert."
+      }
+    ]
+  },
+  "missionControl": {
+    "eyebrow": "Mission Control",
+    "headline": "See the business as it operates.",
+    "lead": "Mission Control is the human interface to Digit's autonomous operations.",
+    "body": [
+      "It brings the business into one place so people can understand what is happening without digging through agents, logs, tools, and disconnected systems.",
+      "The view can cover operations, businesses, financials, objectives, decisions, learning, company knowledge, and system health. When something needs a person, Mission Control should make the next step clear."
+    ],
+    "items": [
+      {
+        "title": "Company",
+        "body": "Understand the state of the organization and its businesses."
+      },
+      {
+        "title": "Operations",
+        "body": "See what is active, what has finished, and what is blocked."
+      },
+      {
+        "title": "Decisions",
+        "body": "Review the actions that need human judgment before they continue."
+      },
+      {
+        "title": "Financials",
+        "body": "Inspect revenue, expenses, profit, budgets, and financial activity where available."
+      },
+      {
+        "title": "Learning",
+        "body": "See what the business has learned from recent work and experiments."
+      },
+      {
+        "title": "System",
+        "body": "Understand whether the software and connected services are operating normally."
+      }
+    ],
+    "caption": "Illustrative interface. Not live company data.",
+    "questions": [
+      "Is everything running normally?",
+      "What needs my attention?",
+      "What is happening now?",
+      "What changed?",
+      "What does the system recommend?",
+      "What did the business learn?"
+    ]
+  },
+  "cerebro": {
+    "eyebrow": "Cerebro",
+    "headline": "What the business knows, in one connected system.",
+    "intro": "Businesses produce useful knowledge every day. Research, operating experience, decisions, evidence, procedures, results, and lessons often end up scattered across files and software.",
+    "lead": "Cerebro gives Digit a place to keep that knowledge connected.",
+    "body": [
+      "A record can retain what was learned, where it came from, how it relates to other knowledge, and where it may be useful again. That gives future work access to more than the current conversation or task.",
+      "Cerebro is built as institutional memory for an operating company."
+    ],
+    "kinds": {
+      "knowledge": {
+        "title": "Knowledge",
+        "body": "Information the business expects to use again."
+      },
+      "evidence": {
+        "title": "Evidence",
+        "body": "The source material behind a conclusion or decision."
+      },
+      "governance": {
+        "title": "Decisions",
+        "body": "Important choices and the reasoning or context attached to them."
+      },
+      "procedures": {
+        "title": "Procedures",
+        "body": "How recurring work should be handled."
+      },
+      "organization": {
+        "title": "Organization",
+        "body": "Context about businesses, roles, responsibilities, and operating structure."
+      },
+      "experience": {
+        "title": "Learning",
+        "body": "Lessons produced through results, experiments, failures, and repeated patterns."
+      }
+    },
+    "explorerNote": "Illustrative records showing how different kinds of company knowledge can relate to one another."
+  },
+  "closing": {
+    "headline": "The platform is only useful if it can operate in the real world.",
+    "body": [
+      "The deeper engineering behind Digit covers execution, knowledge, integrations, governance, reliability, and the systems required to carry intelligent work across a business."
+    ],
+    "cta": "Explore the Technology"
+  }
+}

@@ -1,6 +1,7 @@
 // Post-build checks for the static site in dist/ (run `npm run build` first).
 // Verifies internal links and anchors, referenced assets, required metadata, stale or placeholder copy,
-// and that nothing loads from a third party (the privacy policy promises no third-party scripts or analytics).
+// that nothing loads from a third party (the privacy policy promises no third-party scripts or analytics),
+// and that no part of the development-only Owner Editing Mode reaches the production build.
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
 
@@ -80,6 +81,14 @@ for (const file of files.filter((f) => /\.(css|js)$/.test(f))) {
   for (const m of src.matchAll(/url\((["']?)(https?:[^)"']+)\1\)|import\s*\(?["'](https?:[^"']+)["']/g)) {
     warn(`${file.slice(DIST.length)}: third-party load ${m[2] ?? m[3]}`);
   }
+}
+
+// Owner Editing Mode is development-only (integrations/owner-edit). The built site must carry no part of it:
+// no editing attributes, no editor script or styles, no save endpoint, no ?edit handling.
+const EDITOR_TRACES = [/\bdata-edit/, /OWNER_EDIT_/, /__owner-edit/, /digit-owner-edit/, /\boe-(?:on|ui|bar|panel|hover|active)\b/, /owner-edit/i];
+for (const file of files.filter((f) => /\.(html|js|mjs|css|json|xml|txt|webmanifest)$/.test(f))) {
+  const src = readFileSync(file, "utf8");
+  for (const re of EDITOR_TRACES) if (re.test(src)) warn(`${file.slice(DIST.length)}: Owner Editing Mode trace ${re} in the production build`);
 }
 
 const kb = (p) => (statSync(p).size / 1024).toFixed(1);

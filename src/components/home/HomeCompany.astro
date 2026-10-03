@@ -1,25 +1,21 @@
 ---
+import { home } from "../../content/home";
+import { edit, parts } from "../../content/schema";
+
+const c = home.company;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
 <section class="section company" id="company" aria-labelledby="company-title">
   <div class="wrap grid">
     <div class="lead reveal">
-      <p class="label kicker">About Digit</p>
-      <h2 class="h2" id="company-title">Building the technology behind a new kind of business.</h2>
+      <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
+      <h2 class="h2" id="company-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
     </div>
     <div class="essay">
-      <p class="first reveal">Digit Software develops technology that helps businesses take on more of their own operation.</p>
-      <p class="reveal">
-        We use that technology across businesses we own in e-commerce, media, marketing, web solutions, and software
-        development. Running those businesses gives us a practical way to test what we build, learn from real operations,
-        and find out where the technology needs to get better.
-      </p>
-      <p class="reveal">
-        Over time, the same technology can support businesses outside Digit through software products, infrastructure, and
-        systems built for their operations.
-      </p>
-      <a class="btn btn--ghost cta reveal" href="/company">Learn More <Fragment set:html={arrow} /></a>
+      <p class="first reveal" {...edit(c.lead, "text", ["size", "width", "above", "below"])}>{c.lead.text}</p>
+      {parts(c.body).map(({ text, part }) => <p class="reveal" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
+      <a class="btn btn--ghost cta reveal" href="/company" {...edit(c.cta, "cta", [], { href: "/company" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
     </div>
   </div>
 </section>
@@ -43,7 +39,8 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
     line-height: 1.6;
     color: var(--ink-2);
     text-wrap: pretty;
-    max-width: 32em;
+    --measure: 32em;
+    max-width: var(--measure);
   }
 
   .essay p + p {
@@ -51,13 +48,15 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   }
 
   .essay .first {
-    font-size: clamp(24px, 2.3vw, 32px);
+    --fs: clamp(24px, 2.3vw, 32px);
+    font-size: var(--fs);
     line-height: 1.32;
     font-weight: 500;
     font-stretch: 106%;
     letter-spacing: -0.016em;
     color: var(--ink);
-    max-width: 22em;
+    --measure: 22em;
+    max-width: var(--measure);
   }
 
   .cta {

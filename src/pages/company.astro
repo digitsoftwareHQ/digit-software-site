@@ -3,39 +3,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/shared/PageHero.astro";
 import ContactCTA from "../components/shared/ContactCTA.astro";
 import { SEO } from "../data/site";
-
-const beliefs = [
-  {
-    t: "Real operations matter.",
-    d: "Software built to run businesses should be shaped by real business problems, not only demonstrations.",
-  },
-  {
-    t: "Learning should survive the task.",
-    d: "Useful knowledge should remain available after the work that produced it is finished.",
-  },
-  {
-    t: "Autonomy needs boundaries.",
-    d: "Software can take on more responsibility without taking every decision away from people.",
-  },
-  {
-    t: "Better software should lead to better operations.",
-    d: "The point is not to make agents look busy. The point is to help the business perform better.",
-  },
-];
+import { company as c } from "../content/company";
+import { edit, parts } from "../content/schema";
 ---
 
 <BaseLayout variant="home" title={SEO.company.title} description={SEO.company.description} path="/company">
-  <PageHero
-    tone="company"
-    kicker="Company"
-    title="Building the technology behind a new kind of business."
-    body={[
-      "Digit Software is a software company building technology for autonomous business operations.",
-      "We develop that technology and use it across businesses of our own, giving us a direct way to learn how intelligent software performs when it is responsible for real work.",
-    ]}
-    primary={{ href: "/platform", label: "Our Platform" }}
-    secondary={{ href: "/businesses", label: "Our Businesses" }}
-  >
+  <PageHero tone="company" copy={c.hero} primary="/platform" secondary="/businesses">
     <svg slot="backdrop" class="horizon" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice">
       <defs>
         <linearGradient id="hz" x1="0" y1="0" x2="1" y2="0">
@@ -53,20 +26,12 @@ const beliefs = [
   <section class="section about" id="about" aria-labelledby="about-title">
     <div class="wrap grid">
       <div class="lead reveal">
-        <p class="label kicker">About Digit</p>
-        <h2 class="h2" id="about-title">A software company that operates businesses, too.</h2>
+        <p class="label kicker" {...edit(c.about.eyebrow, "eyebrow")}>{c.about.eyebrow.text}</p>
+        <h2 class="h2" id="about-title" {...edit(c.about.headline, "heading", ["size", "above", "below"])}>{c.about.headline.text}</h2>
       </div>
       <div class="essay">
-        <p class="first reveal">Digit builds software that can take on more of the work involved in running a business.</p>
-        <p class="reveal">
-          That includes coordinating work, carrying out tasks through specialized agents, keeping institutional knowledge
-          available, learning from results, and giving people a clear way to supervise what the software is doing.
-        </p>
-        <p class="reveal">
-          We use the same technology across businesses in our own portfolio. The problems those businesses encounter become
-          engineering problems we can solve. The results show us what works, what does not, and what the software needs next.
-        </p>
-        <p class="reveal">That relationship between software and operations is central to Digit.</p>
+        <p class="first reveal" {...edit(c.about.lead, "text", ["size", "width", "above", "below"])}>{c.about.lead.text}</p>
+        {parts(c.about.body).map(({ text, part }) => <p class="reveal" {...edit(c.about.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
       </div>
     </div>
   </section>
@@ -74,24 +39,11 @@ const beliefs = [
   <section class="section model" id="how-we-work" aria-labelledby="model-title">
     <div class="wrap">
       <div class="model-head reveal">
-        <p class="label kicker">How We Work</p>
-        <h2 class="h2" id="model-title">Build the technology. Run businesses with it. Learn from the results.</h2>
+        <p class="label kicker" {...edit(c.model.eyebrow, "eyebrow")}>{c.model.eyebrow.text}</p>
+        <h2 class="h2" id="model-title" {...edit(c.model.headline, "heading", ["size", "width", "above", "below"])}>{c.model.headline.text}</h2>
       </div>
-      <div class="model-body">
-        <p class="reveal">
-          Digit develops the systems behind increasingly autonomous operations and puts them to work inside its own portfolio.
-        </p>
-        <p class="reveal">
-          Operating businesses gives the technology real constraints. Work has deadlines. Decisions have consequences. Systems
-          fail. Markets change. Results can be measured.
-        </p>
-        <p class="reveal">
-          Those conditions shape what we build far more than a controlled demonstration ever could.
-        </p>
-        <p class="reveal">
-          Over time, the same software and infrastructure can support organizations outside Digit through products,
-          platforms, and systems built for their operations.
-        </p>
+      <div class="model-body" {...edit(c.model.body, "paragraphs", ["above", "below"])}>
+        {c.model.body.text.map((p) => <p class="reveal">{p}</p>)}
       </div>
     </div>
   </section>
@@ -99,34 +51,26 @@ const beliefs = [
   <section class="section vision" id="vision" aria-labelledby="vision-title">
     <div class="wrap">
       <div class="vision-head reveal">
-        <p class="label kicker">Vision</p>
-        <h2 class="h2" id="vision-title">A business should get better at running itself.</h2>
+        <p class="label kicker" {...edit(c.vision.eyebrow, "eyebrow")}>{c.vision.eyebrow.text}</p>
+        <h2 class="h2" id="vision-title" {...edit(c.vision.headline, "heading", ["size", "width", "above", "below"])}>{c.vision.headline.text}</h2>
       </div>
       <div class="essay vision-essay">
-        <p class="reveal">Automation can make individual tasks faster. Digit is interested in the larger problem.</p>
-        <p class="reveal questions">
-          How does a business carry work forward without waiting for a person to assign every next step? How does it keep
-          what it learns? How does it adapt when results change? How does it become more capable without losing human
-          control?
-        </p>
-        <p class="reveal">We are building software around those questions.</p>
-        <p class="reveal">
-          The long-term goal is technology that can take responsibility for more of a company's operation while the people
-          behind the business remain responsible for its direction.
-        </p>
+        <p class="reveal" {...edit(c.vision.intro, "text", ["above", "below"])}>{c.vision.intro.text}</p>
+        <p class="reveal questions" {...edit(c.vision.questions, "text", ["size", "above", "below"])}>{c.vision.questions.text}</p>
+        {parts(c.vision.body).map(({ text, part }) => <p class="reveal" {...edit(c.vision.body, "paragraphs", ["above", "below"], { part })}>{text}</p>)}
       </div>
     </div>
   </section>
 
   <section class="section beliefs-section" id="beliefs" aria-label="How we think">
     <div class="wrap">
-      <p class="label kicker reveal">How We Think</p>
+      <p class="label kicker reveal" {...edit(c.beliefs.eyebrow, "eyebrow")}>{c.beliefs.eyebrow.text}</p>
       <ul class="beliefs">
         {
-          beliefs.map((b, i) => (
+          c.beliefs.items.map((b, i) => (
             <li class="reveal" style={`--d: ${i * 70}ms`}>
-              <h3>{b.t}</h3>
-              <p>{b.d}</p>
+              <h3 {...edit(b.title, "heading")}>{b.title.text}</h3>
+              <p {...edit(b.body, "text")}>{b.body.text}</p>
             </li>
           ))
         }
@@ -134,12 +78,7 @@ const beliefs = [
     </div>
   </section>
 
-  <ContactCTA
-    id="contact"
-    headline="Want to know more about Digit?"
-    body="For company inquiries, partnerships, technology discussions, or general questions, get in touch."
-    secondary={{ href: "/technology", label: "Explore the Technology" }}
-  />
+  <ContactCTA id="contact" copy={c.contact} secondary="/technology" />
 </BaseLayout>
 
 <style>
@@ -161,7 +100,8 @@ const beliefs = [
     font-size: clamp(18px, 1.55vw, 20px);
     line-height: 1.62;
     color: var(--ink-2);
-    max-width: 34em;
+    --measure: 34em;
+    max-width: var(--measure);
     text-wrap: pretty;
   }
 
@@ -170,7 +110,8 @@ const beliefs = [
   }
 
   .essay .first {
-    font-size: clamp(22px, 2.1vw, 28px);
+    --fs: clamp(22px, 2.1vw, 28px);
+    font-size: var(--fs);
     line-height: 1.4;
     font-weight: 500;
     font-stretch: 104%;
@@ -226,7 +167,8 @@ const beliefs = [
   .vision-essay .questions {
     padding-left: 24px;
     border-left: 1px solid var(--cyan);
-    font-size: clamp(20px, 1.9vw, 25px);
+    --fs: clamp(20px, 1.9vw, 25px);
+    font-size: var(--fs);
     line-height: 1.5;
     font-weight: 500;
     font-stretch: 104%;

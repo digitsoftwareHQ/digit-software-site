@@ -1,4 +1,8 @@
 ---
+import { home } from "../../content/home";
+import { edit } from "../../content/schema";
+
+const c = home.hero;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
@@ -12,20 +16,18 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
 
   <div class="wrap hero-inner">
     <div class="hero-copy" data-hero-copy>
-      <h1 class="display hero-title hero-in" id="hero-title" style="--d: 200ms">
-        <span>Software for businesses that can think, operate,</span> <span class="lit">and improve on their own.</span>
+      <h1 class="display hero-title hero-in" id="hero-title" style="--d: 200ms" {...edit(c.title, "heading", ["size", "width", "below"])}>
+        <span>{c.title.text}</span> <span class="lit" {...edit(c.titleAccent, "heading")}>{c.titleAccent.text}</span>
       </h1>
-      <p class="lede hero-in" style="--d: 560ms">
-        We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real business
-        operations.
+      <p class="lede hero-in" style="--d: 560ms" {...edit(c.lede, "text", ["size", "width", "above", "below"])}>
+        {c.lede.text}
       </p>
-      <p class="lede second hero-in" style="--d: 680ms">
-        Digit uses that technology to build and operate businesses of its own, creating systems that learn from experience
-        and become more capable over time.
+      <p class="lede second hero-in" style="--d: 680ms" {...edit(c.support, "text", ["size", "width", "above", "below"])}>
+        {c.support.text}
       </p>
       <div class="ctas hero-in" style="--d: 820ms">
-        <a class="btn btn--primary" href="/platform">Our Platform <Fragment set:html={arrow} /></a>
-        <a class="btn btn--ghost" href="/company">About Us</a>
+        <a class="btn btn--primary" href="/platform" {...edit(c.primary, "cta", [], { href: "/platform" })}>{c.primary.text} <Fragment set:html={arrow} /></a>
+        <a class="btn btn--ghost" href="/company" {...edit(c.secondary, "cta", [], { href: "/company" })}>{c.secondary.text}</a>
       </div>
     </div>
   </div>
@@ -164,7 +166,8 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   }
 
   .hero-title {
-    font-size: var(--type-home);
+    --fs: var(--type-home);
+    font-size: var(--fs);
   }
 
   .hero-title .lit {
@@ -172,13 +175,13 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   }
 
   .hero-copy .lede {
+    --measure: 34em;
     margin-top: 30px;
-    max-width: 34em;
   }
 
   .hero-copy .lede.second {
     margin-top: 14px;
-    font-size: clamp(16px, 1.3vw, 18px);
+    --fs: clamp(16px, 1.3vw, 18px);
     color: var(--ink-3);
   }
 
@@ -280,7 +283,7 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
 
     .hero-copy .lede {
       margin-top: 22px;
-      font-size: 17px;
+      --fs: 17px;
     }
 
     .ctas {

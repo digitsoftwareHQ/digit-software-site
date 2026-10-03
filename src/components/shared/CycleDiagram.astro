@@ -1,24 +1,30 @@
 ---
 /** Technology → Businesses → Results → Learning → Technology, turning continuously. */
+import { globalCopy } from "../../content/global";
+import { edit, type Field } from "../../content/schema";
+
 interface Props {
-  center?: string[];
+  /** Optional lines in the middle of the ring. */
+  center?: Field<string[]>;
 }
-const { center = [] } = Astro.props;
+const { center } = Astro.props;
+const c = globalCopy.cycle;
+const lines = center?.text ?? [];
 ---
 
-<figure class="cycle" role="img" aria-label="Technology, Businesses, Results, Learning, and back to Technology">
+<figure class="cycle" role="img" aria-label={`${c.technology.text}, ${c.businesses.text}, ${c.results.text}, ${c.learning.text}, and back to ${c.technology.text}`}>
   <svg viewBox="0 0 440 320">
     <circle class="arc" cx="220" cy="160" r="104" />
     <circle class="arc dim" cx="220" cy="160" r="122" />
     <circle class="travel" r="4">
       <animateMotion dur="9s" repeatCount="indefinite" path="M 220 56 A 104 104 0 1 1 219.9 56" />
     </circle>
-    <g class="n"><circle cx="220" cy="56" r="7" /><text x="220" y="30" text-anchor="middle">Technology</text></g>
-    <g class="n"><circle cx="324" cy="160" r="7" /><text x="346" y="164" text-anchor="start">Businesses</text></g>
-    <g class="n"><circle cx="220" cy="264" r="7" /><text x="220" y="298" text-anchor="middle">Results</text></g>
-    <g class="n"><circle cx="116" cy="160" r="7" /><text x="94" y="164" text-anchor="end">Learning</text></g>
-    {center.map((line, n) => (
-      <text class="mid" x="220" y={165 - ((center.length - 1) * 18) / 2 + n * 18} text-anchor="middle">{line}</text>
+    <g class="n"><circle cx="220" cy="56" r="7" /><text x="220" y="30" text-anchor="middle" {...edit(c.technology, "label")}>{c.technology.text}</text></g>
+    <g class="n"><circle cx="324" cy="160" r="7" /><text x="346" y="164" text-anchor="start" {...edit(c.businesses, "label")}>{c.businesses.text}</text></g>
+    <g class="n"><circle cx="220" cy="264" r="7" /><text x="220" y="298" text-anchor="middle" {...edit(c.results, "label")}>{c.results.text}</text></g>
+    <g class="n"><circle cx="116" cy="160" r="7" /><text x="94" y="164" text-anchor="end" {...edit(c.learning, "label")}>{c.learning.text}</text></g>
+    {center && lines.map((line, n) => (
+      <text class="mid" x="220" y={165 - ((lines.length - 1) * 18) / 2 + n * 18} text-anchor="middle" {...edit(center, "list")}>{line}</text>
     ))}
   </svg>
 </figure>

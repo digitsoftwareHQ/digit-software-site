@@ -1,20 +1,9 @@
 ---
-const steps = [
-  { t: "Operate", d: "Work gets done toward a business objective." },
-  { t: "Observe", d: "The system keeps a record of what happened." },
-  { t: "Measure", d: "Results are compared with what the business was trying to achieve." },
-  { t: "Learn", d: "Useful results and patterns become knowledge the business can use again." },
-  { t: "Adapt", d: "What the business learns can change how similar work is handled." },
-  { t: "Improve", d: "The next operation starts with what the business learned from the last one." },
-];
+import { home } from "../../content/home";
+import { edit } from "../../content/schema";
 
-const ledger = [
-  ["Success", "Something worth repeating."],
-  ["Failure", "Something worth understanding."],
-  ["Experiment", "A way to test an idea."],
-  ["Evidence", "Something the business can learn from."],
-  ["Knowledge", "Something the business can use."],
-];
+const c = home.improvement;
+const steps = c.steps;
 
 // Loop geometry
 const CX = 260;
@@ -22,7 +11,7 @@ const CY = 260;
 const R = 196;
 const stations = steps.map((s, i) => {
   const a = (i / steps.length) * Math.PI * 2 - Math.PI / 2;
-  return { ...s, x: CX + Math.cos(a) * R, y: CY + Math.sin(a) * R, a };
+  return { title: s.title, x: CX + Math.cos(a) * R, y: CY + Math.sin(a) * R, a };
 });
 
 // Knowledge that accumulates at the centre as the loop turns (deterministic).
@@ -53,23 +42,22 @@ memory.forEach((p, i) => {
 <section class="section loop" id="improvement" aria-labelledby="improvement-title">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="label kicker">Continuous Improvement</p>
-      <h2 class="h2" id="improvement-title">Software that learns from its operations.</h2>
-      <p class="lede">
-        Digit learns from results, failures, experiments, and new evidence produced through its work. What proves useful can
-        become part of how future work is planned, performed, and evaluated.
+      <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
+      <h2 class="h2" id="improvement-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
+      <p class="lede" {...edit(c.lede, "text", ["size", "width", "above", "below"])}>
+        {c.lede.text}
       </p>
     </div>
 
     <div class="contrast reveal">
       <div class="row old">
-        <p class="label">Typical Automation</p>
-        <p class="seq"><span>Instruction</span><span>Execution</span><span>Done</span></p>
+        <p class="label" {...edit(c.typicalLabel, "label")}>{c.typicalLabel.text}</p>
+        <p class="seq" {...edit(c.typical, "list")}>{c.typical.text.map((t) => <span>{t}</span>)}</p>
       </div>
       <div class="row new">
-        <p class="label label--lit">Digit</p>
+        <p class="label label--lit" {...edit(c.digitLabel, "label")}>{c.digitLabel.text}</p>
         <p class="seq">
-          <span>Operate</span><span>Observe</span><span>Measure</span><span>Learn</span><span>Adapt</span><span>Improve</span><span class="again">Operate again</span>
+          {steps.map((s) => <span {...edit(s.title, "heading")}>{s.title.text}</span>)}<span class="again" {...edit(c.again, "label")}>{c.again.text}</span>
         </p>
       </div>
     </div>
@@ -123,8 +111,9 @@ memory.forEach((p, i) => {
                   x={s.x + Math.cos(s.a) * 40}
                   y={s.y + Math.sin(s.a) * 40 + 5}
                   text-anchor={Math.abs(Math.cos(s.a)) < 0.2 ? "middle" : Math.cos(s.a) > 0 ? "start" : "end"}
+                  {...edit(s.title, "heading")}
                 >
-                  {s.t}
+                  {s.title.text}
                 </text>
               </g>
             ))}
@@ -145,13 +134,13 @@ memory.forEach((p, i) => {
                 0{i + 1}
                 <span class="bar" />
               </p>
-              <h3 class="h3">{s.t}</h3>
-              <p class="body">{s.d}</p>
+              <h3 class="h3" {...edit(s.title, "heading", ["size"])}>{s.title.text}</h3>
+              <p class="body" {...edit(s.body, "text")}>{s.body.text}</p>
             </li>
           ))
         }
         <li class="step step-again" data-step-i="6">
-          <p class="again-line">Then it does it again.</p>
+          <p class="again-line" {...edit(c.againLine, "text", ["size"])}>{c.againLine.text}</p>
         </li>
       </ol>
     </div>
@@ -159,10 +148,10 @@ memory.forEach((p, i) => {
     <div class="ledger reveal">
       <dl>
         {
-          ledger.map(([a, b]) => (
+          c.ledger.map((row) => (
             <div>
-              <dt>{a}</dt>
-              <dd>{b}</dd>
+              <dt {...edit(row.term, "label")}>{row.term.text}</dt>
+              <dd {...edit(row.body, "text")}>{row.body.text}</dd>
             </div>
           ))
         }
@@ -453,7 +442,8 @@ memory.forEach((p, i) => {
 
   .step .h3 {
     margin-top: 14px;
-    font-size: clamp(26px, 2.4vw, 34px);
+    --fs: clamp(26px, 2.4vw, 34px);
+    font-size: var(--fs);
     font-stretch: 112%;
     letter-spacing: -0.025em;
   }
@@ -469,7 +459,8 @@ memory.forEach((p, i) => {
   }
 
   .again-line {
-    font-size: clamp(24px, 2.4vw, 32px);
+    --fs: clamp(24px, 2.4vw, 32px);
+    font-size: var(--fs);
     font-weight: 540;
     font-stretch: 110%;
     letter-spacing: -0.02em;

@@ -1,15 +1,19 @@
 ---
-const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+import { home } from "../../content/home";
+import { edit, parts } from "../../content/schema";
 
-const items = [
-  { t: "Execution", d: "Turn objectives into work and carry that work through.", href: "/technology#execution" },
-  { t: "Specialized Agents", d: "Use different capabilities for different kinds of work.", href: "/technology#agents" },
-  { t: "Knowledge", d: "Keep useful context and experience beyond a single task.", href: "/technology#knowledge" },
-  { t: "Learning", d: "Use results from past work to improve future work.", href: "/technology#knowledge" },
-  { t: "Governance", d: "Control what software is allowed to do.", href: "/technology#governance" },
-  { t: "Integrations", d: "Connect work to the systems businesses already use.", href: "/technology#integrations" },
-  { t: "Observability", d: "See what happened, when it happened, and why.", href: "/technology#observability" },
-  { t: "Resilience", d: "Recover from problems without losing the state of the work.", href: "/technology#reliability" },
+const c = home.technology;
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+/** Where each card leads, in the order of the cards in home.json. */
+const hrefs = [
+  "/technology#execution",
+  "/technology#agents",
+  "/technology#knowledge",
+  "/technology#knowledge",
+  "/technology#governance",
+  "/technology#integrations",
+  "/technology#observability",
+  "/technology#reliability",
 ];
 ---
 
@@ -17,27 +21,22 @@ const items = [
   <div class="wrap">
     <div class="head">
       <div class="section-head reveal">
-        <p class="label kicker">Technology</p>
-        <h2 class="h2" id="tech-title">The infrastructure behind intelligent businesses.</h2>
-        <p class="lede">An agent can complete a task. Running part of a business is a much larger engineering problem.</p>
-        <p class="lede">
-          Work has to be coordinated across different systems and capabilities. Context has to carry from one task to the
-          next. Software needs controlled access to outside tools and services. Failures have to be handled. Decisions and
-          actions need to be visible. What the business learns needs to remain useful after the work is done.
-        </p>
-        <p class="closing">We build that infrastructure from the ground up.</p>
+        <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
+        <h2 class="h2" id="tech-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
+        {parts(c.body).map(({ text, part }) => <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
+        <p class="closing" {...edit(c.closing, "text", ["above", "below"])}>{c.closing.text}</p>
       </div>
-      <a class="btn btn--ghost cta reveal" href="/technology">Explore Our Technology <Fragment set:html={arrow} /></a>
+      <a class="btn btn--ghost cta reveal" href="/technology" {...edit(c.cta, "cta", [], { href: "/technology" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
     </div>
 
     <ol class="spec">
       {
-        items.map((it, i) => (
+        c.items.map((it, i) => (
           <li class="reveal" style={`--d: ${(i % 4) * 60}ms`}>
-            <a class="cell" href={it.href}>
+            <a class="cell" href={hrefs[i]}>
               <span class="label idx">{String(i + 1).padStart(2, "0")}</span>
-              <h3>{it.t}</h3>
-              <p>{it.d}</p>
+              <h3 {...edit(it.title, "heading", [], { href: hrefs[i] })}>{it.title.text}</h3>
+              <p {...edit(it.body, "text", [], { href: hrefs[i] })}>{it.body.text}</p>
             </a>
           </li>
         ))

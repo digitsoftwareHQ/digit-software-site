@@ -1,5 +1,8 @@
 ---
-import { LEGAL_NAV, NAV, SITE } from "../data/site";
+import { LEGAL_NAV, NAV } from "../data/site";
+import { globalCopy } from "../content/global";
+import { edit } from "../content/schema";
+const c = globalCopy.footer;
 const year = new Date().getFullYear();
 ---
 
@@ -11,27 +14,27 @@ const year = new Date().getFullYear();
           <img src="/assets/digit-mark.svg" alt="" width="24" height="24" loading="lazy" />
           <span>Digit <span>Software</span></span>
         </a>
-        <p>{SITE.description}</p>
+        <p {...edit(c.description, "text")}>{c.description.text}</p>
       </div>
       <nav class="col" aria-label="Navigation">
-        <p class="label">Navigation</p>
+        <p class="label" {...edit(c.navigationLabel, "label")}>{c.navigationLabel.text}</p>
         <ul>
           {NAV.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
+            <li><a href={l.href} {...edit(globalCopy.nav[l.key], "label", [], { href: l.href })}>{globalCopy.nav[l.key].text}</a></li>
           ))}
         </ul>
       </nav>
       <nav class="col" aria-label="Legal">
-        <p class="label">Legal</p>
+        <p class="label" {...edit(c.legalLabel, "label")}>{c.legalLabel.text}</p>
         <ul>
           {LEGAL_NAV.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
+            <li><a href={l.href} {...edit(c[l.key], "label", [], { href: l.href })}>{c[l.key].text}</a></li>
           ))}
         </ul>
       </nav>
     </div>
     <div class="bottom">
-      <p>&copy; {year} Digit Software. All rights reserved.</p>
+      <p {...edit(c.copyright, "text")}>&copy; {year} {c.copyright.text}</p>
     </div>
   </div>
 </footer>

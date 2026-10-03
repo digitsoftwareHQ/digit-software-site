@@ -1,8 +1,11 @@
 ---
 import { BUSINESSES } from "../../data/businesses";
+import { home } from "../../content/home";
+import { edit, parts } from "../../content/schema";
 import BusinessEmblem from "../shared/BusinessEmblem.astro";
 import CycleDiagram from "../shared/CycleDiagram.astro";
 
+const c = home.businesses;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
@@ -10,20 +13,13 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   <div class="wrap">
     <div class="grid">
       <div class="copy reveal">
-        <p class="label kicker">Our Businesses</p>
-        <h2 class="h2" id="businesses-title">Businesses built to operate differently.</h2>
-        <p class="lede">
-          Digit owns and manages a portfolio of businesses across e-commerce, media, marketing, web solutions, and software
-          development.
-        </p>
-        <p class="lede">
-          Each one gives us real problems to solve, real results to measure, and a place to put our technology to work. What
-          we learn from operating these businesses goes back into the software we build.
-        </p>
-        <a class="btn btn--ghost cta" href="/businesses">Explore Our Portfolio <Fragment set:html={arrow} /></a>
+        <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
+        <h2 class="h2" id="businesses-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
+        {parts(c.body).map(({ text, part }) => <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
+        <a class="btn btn--ghost cta" href="/businesses" {...edit(c.cta, "cta", [], { href: "/businesses" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
       </div>
       <div class="reveal" style="--d: 120ms">
-        <CycleDiagram center={["What we learn goes back", "into what we build."]} />
+        <CycleDiagram center={c.diagram} />
       </div>
     </div>
 
@@ -33,8 +29,8 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
           <li class="reveal" style={`--d: ${i * 70}ms`}>
             <a class="area" href={`/businesses#${b.id}`} style={`--h: ${b.hue}`}>
               <BusinessEmblem id={b.id} hue={b.hue} size={56} />
-              <h3>{b.name}</h3>
-              <p>{b.summary}</p>
+              <h3 {...edit(c.cards[b.id].title, "heading", [], { href: `/businesses#${b.id}` })}>{c.cards[b.id].title.text}</h3>
+              <p {...edit(c.cards[b.id].body, "text", [], { href: `/businesses#${b.id}` })}>{c.cards[b.id].body.text}</p>
               <span class="go" aria-hidden="true">→</span>
             </a>
           </li>

@@ -1,5 +1,7 @@
 ---
 import { NAV } from "../data/site";
+import { globalCopy } from "../content/global";
+import { edit } from "../content/schema";
 
 interface Props {
   variant?: "home" | "page";
@@ -20,8 +22,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
       <ul>
         {NAV.map((item) => (
           <li>
-            <a href={item.href} class:list={[{ "is-active": isCurrent(item.href) }]} aria-current={isCurrent(item.href) ? "page" : undefined}>
-              {item.label}
+            <a href={item.href} class:list={[{ "is-active": isCurrent(item.href) }]} aria-current={isCurrent(item.href) ? "page" : undefined} {...edit(globalCopy.nav[item.key], "label", [], { href: item.href })}>
+              {globalCopy.nav[item.key].text}
             </a>
           </li>
         ))}
@@ -39,7 +41,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
       <ul>
         {NAV.map((item, i) => (
           <li style={`--i:${i}`}>
-            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
+            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined} {...edit(globalCopy.nav[item.key], "label", [], { href: item.href })}>{globalCopy.nav[item.key].text}</a>
           </li>
         ))}
       </ul>

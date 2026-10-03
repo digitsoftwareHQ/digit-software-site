@@ -1,18 +1,15 @@
 ---
 import { SITE } from "../../data/site";
+import { globalCopy } from "../../content/global";
+import { edit, type Field } from "../../content/schema";
 
 interface Props {
   id?: string;
-  headline?: string;
-  body?: string;
-  secondary?: { href: string; label: string } | null;
+  copy: { headline: Field; body: Field; secondary: Field };
+  /** Destination of the secondary button. */
+  secondary: string;
 }
-const {
-  id = "contact",
-  headline = "Interested in what we're building?",
-  body = "If you're working on similar problems, interested in the technology, or want to learn more about Digit Software, we'd like to hear from you.",
-  secondary = { href: "/platform", label: "Our Platform" },
-} = Astro.props;
+const { id = "contact", copy, secondary } = Astro.props;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 // A quiet echo of the knowledge universe from the top of the page (deterministic).
@@ -46,12 +43,12 @@ pts.forEach((p, i) => {
     {pts.map((p) => <circle cx={p.x} cy={p.y} r={p.r} fill={p.c} />)}
   </svg>
   <div class="wrap inner reveal">
-    <p class="label kicker">Contact</p>
-    <h2 class="h2" id={`${id}-title`}>{headline}</h2>
-    <p class="lede">{body}</p>
+    <p class="label kicker" {...edit(globalCopy.contactEyebrow, "eyebrow")}>{globalCopy.contactEyebrow.text}</p>
+    <h2 class="h2" id={`${id}-title`} {...edit(copy.headline, "heading", ["size", "width", "align", "above", "below"], { align: "center" })}>{copy.headline.text}</h2>
+    <p class="lede" {...edit(copy.body, "text", ["size", "width", "align", "above", "below"], { align: "center" })}>{copy.body.text}</p>
     <div class="ctas">
       <a class="btn btn--primary" href={`mailto:${SITE.email}`}>{SITE.email} <Fragment set:html={arrow} /></a>
-      {secondary && <a class="btn btn--ghost" href={secondary.href}>{secondary.label}</a>}
+      <a class="btn btn--ghost" href={secondary} {...edit(copy.secondary, "cta", [], { href: secondary })}>{copy.secondary.text}</a>
     </div>
   </div>
 </section>
@@ -94,12 +91,13 @@ pts.forEach((p, i) => {
   }
 
   .inner .h2 {
-    max-width: 14em;
+    --measure: 14em;
+    max-width: var(--measure);
   }
 
   .inner .lede {
     margin-top: 24px;
-    max-width: 34em;
+    --measure: 34em;
   }
 
   .ctas {

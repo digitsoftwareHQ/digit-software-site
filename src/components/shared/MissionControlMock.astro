@@ -3,11 +3,13 @@
  * Illustrative Mission Control screen. Fictional company, example content, no live data.
  * variant "agents" speaks about the agents in general; "neo" attributes the brief to Neo.
  */
+import { edit, type Field } from "../../content/schema";
+
 interface Props {
   variant?: "agents" | "neo";
-  caption?: string;
+  caption?: Field;
 }
-const { variant = "agents", caption = "Illustrative interface. Not live company data." } = Astro.props;
+const { variant = "agents", caption } = Astro.props;
 const neo = variant === "neo";
 const views = [
   { id: "company", label: "Open company view", icon: "M3 9l7-6 7 6v8H3z" },
@@ -124,7 +126,7 @@ const views = [
       </div>
     </div>
   </div>
-  {caption && <p class="label mc-caption">{caption}</p>}
+  {caption && <p class="label mc-caption" {...edit(caption, "caption")}>{caption.text}</p>}
 </div>
 
 <script>

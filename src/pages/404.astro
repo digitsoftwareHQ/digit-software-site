@@ -1,15 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { globalCopy } from "../content/global";
+import { edit } from "../content/schema";
+
+const c = globalCopy.notFound;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
 <BaseLayout title="Page not found | Digit Software" description="The page you're looking for does not exist or may have moved." path="/404" noindex>
   <section class="nf wrap">
-    <h1 class="h2">Page not found.</h1>
-    <p class="lede">The page you're looking for does not exist or may have moved.</p>
+    <h1 class="h2" {...edit(c.headline, "heading", ["size"])}>{c.headline.text}</h1>
+    <p class="lede" {...edit(c.body, "text")}>{c.body.text}</p>
     <div class="ctas">
-      <a class="btn btn--primary" href="/">Back to Digit Software <Fragment set:html={arrow} /></a>
-      <a class="btn btn--ghost" href="/platform">Our Platform</a>
+      <a class="btn btn--primary" href="/" {...edit(c.primary, "cta", [], { href: "/" })}>{c.primary.text} <Fragment set:html={arrow} /></a>
+      <a class="btn btn--ghost" href="/platform" {...edit(c.secondary, "cta", [], { href: "/platform" })}>{c.secondary.text}</a>
     </div>
   </section>
 </BaseLayout>

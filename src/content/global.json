@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "company": "Company",
+    "platform": "Platform",
+    "businesses": "Businesses",
+    "technology": "Technology"
+  },
+  "footer": {
+    "description": "Software for businesses that can think, operate, and improve on their own.",
+    "navigationLabel": "Navigation",
+    "legalLabel": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "copyright": "Digit Software. All rights reserved."
+  },
+  "contactEyebrow": "Contact",
+  "cycle": {
+    "technology": "Technology",
+    "businesses": "Businesses",
+    "results": "Results",
+    "learning": "Learning"
+  },
+  "notFound": {
+    "headline": "Page not found.",
+    "body": "The page you're looking for does not exist or may have moved.",
+    "primary": "Back to Digit Software",
+    "secondary": "Our Platform"
+  }
+}

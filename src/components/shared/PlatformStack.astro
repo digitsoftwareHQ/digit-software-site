@@ -1,5 +1,6 @@
 ---
 import type { StackLayer } from "../../data/types";
+import { edit } from "../../content/schema";
 
 interface Props {
   layers: StackLayer[];
@@ -196,13 +197,13 @@ const managers = [
               <div>
                 <p class="layer-name">
                   {layer.href ? (
-                    <a href={layer.href} aria-label={layer.ariaLabel}>{layer.name}</a>
+                    <a href={layer.href} aria-label={layer.ariaLabel} {...edit(layer.name, "label", [], { href: layer.href, aria: layer.ariaLabel })}>{layer.name.text}</a>
                   ) : (
-                    layer.name
+                    layer.name.text
                   )}
-                  {layer.role && <span>{layer.role}</span>}
+                  {layer.role && <span {...edit(layer.role, "text")}>{layer.role.text}</span>}
                 </p>
-                <p class="layer-text">{layer.text}</p>
+                <p class="layer-text" {...edit(layer.body, "text")}>{layer.body.text}</p>
               </div>
             </li>
           ))

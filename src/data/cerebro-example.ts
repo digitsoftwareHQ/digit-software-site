@@ -8,19 +8,18 @@
 export type KindClass = "knowledge" | "evidence" | "experience" | "procedures" | "organization" | "governance";
 
 export interface Kind {
-  name: string;
   cls: KindClass;
-  text: string;
 }
 
-/** The six kinds of knowledge shown in the Platform page's Cerebro section. */
+/** The six kinds of knowledge shown in the Platform page's Cerebro section, in display order. Their names and
+ * descriptions are page copy in content/platform.json ("cerebro.kinds"), keyed by class. */
 export const KINDS: Kind[] = [
-  { name: "Knowledge", cls: "knowledge", text: "Information the business expects to use again." },
-  { name: "Evidence", cls: "evidence", text: "The source material behind a conclusion or decision." },
-  { name: "Decisions", cls: "governance", text: "Important choices and the reasoning or context attached to them." },
-  { name: "Procedures", cls: "procedures", text: "How recurring work should be handled." },
-  { name: "Organization", cls: "organization", text: "Context about businesses, roles, responsibilities, and operating structure." },
-  { name: "Learning", cls: "experience", text: "Lessons produced through results, experiments, failures, and repeated patterns." },
+  { cls: "knowledge" },
+  { cls: "evidence" },
+  { cls: "governance" },
+  { cls: "procedures" },
+  { cls: "organization" },
+  { cls: "experience" },
 ];
 
 export interface Related {

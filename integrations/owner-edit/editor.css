@@ -1,0 +1,277 @@
+/* Owner Editing Mode (development only). OWNER_EDIT_STYLES
+   Everything here is scoped to html.oe-on or .oe-* so it cannot affect the site itself. */
+
+html.oe-on [data-edit] {
+  cursor: text;
+}
+
+html.oe-on [data-edit].oe-hover {
+  outline: 1px dashed rgba(127, 227, 255, 0.75);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+html.oe-on [data-edit].oe-active {
+  outline: 2px solid rgba(127, 227, 255, 0.95);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Everything is visible while editing, including text that normally fades in on scroll. */
+html.oe-on .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.oe-ui {
+  --oe-bg: rgba(8, 14, 28, 0.96);
+  --oe-line: rgba(127, 227, 255, 0.22);
+  --oe-ink: #eef2ff;
+  --oe-dim: #9aa6c4;
+  --oe-acc: #7fe3ff;
+  position: fixed;
+  z-index: 2147483000;
+  color: var(--oe-ink);
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-stretch: 100%;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+}
+
+.oe-ui button {
+  font: inherit;
+  color: var(--oe-ink);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--oe-line);
+  border-radius: 7px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.oe-ui button:hover:not(:disabled) {
+  background: rgba(127, 227, 255, 0.14);
+}
+
+.oe-ui button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.oe-ui button:focus-visible,
+.oe-ui textarea:focus-visible {
+  outline: 2px solid var(--oe-acc);
+  outline-offset: 2px;
+}
+
+.oe-bar {
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 24px);
+  padding: 7px 10px;
+  background: var(--oe-bg);
+  border: 1px solid var(--oe-line);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.oe-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--oe-acc);
+  box-shadow: 0 0 8px var(--oe-acc);
+}
+
+.oe-unsaved {
+  color: #f3b968;
+}
+
+.oe-hint {
+  color: var(--oe-dim);
+}
+
+.oe-panel,
+.oe-review {
+  right: 12px;
+  bottom: 12px;
+  width: min(420px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  padding: 14px;
+  background: var(--oe-bg);
+  border: 1px solid var(--oe-line);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.oe-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.oe-crumbs {
+  font: 11px/1.4 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oe-acc);
+}
+
+.oe-ui .oe-x {
+  padding: 0 7px;
+  line-height: 1.6;
+}
+
+.oe-meta {
+  margin: 0 0 8px;
+  color: var(--oe-dim);
+}
+
+.oe-meta code {
+  color: var(--oe-ink);
+  font: 12px ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.oe-label {
+  display: block;
+  margin: 4px 0 6px;
+  font-weight: 600;
+}
+
+.oe-label span {
+  font-weight: 400;
+  color: var(--oe-dim);
+}
+
+.oe-ui textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  resize: vertical;
+  padding: 8px 10px;
+  color: var(--oe-ink);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--oe-line);
+  border-radius: 8px;
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+.oe-format {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.oe-group {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.oe-glabel {
+  color: var(--oe-dim);
+}
+
+.oe-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.oe-ui .oe-steps button {
+  padding: 3px 9px;
+}
+
+.oe-ui .oe-steps button[aria-pressed="true"] {
+  border-color: var(--oe-acc);
+  background: rgba(127, 227, 255, 0.18);
+}
+
+.oe-status {
+  min-height: 1.45em;
+  margin: 10px 0 0;
+  color: var(--oe-dim);
+}
+
+.oe-status[data-tone="ok"] {
+  color: #4fd8b0;
+}
+
+.oe-status[data-tone="warn"] {
+  color: #f3b968;
+}
+
+.oe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.oe-ui .oe-primary {
+  background: var(--oe-acc);
+  border-color: var(--oe-acc);
+  color: #02040a;
+  font-weight: 600;
+}
+
+.oe-ui .oe-primary:hover:not(:disabled) {
+  background: #b3efff;
+}
+
+.oe-review h3 {
+  margin: 12px 0 4px;
+  font: 600 11px ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oe-acc);
+}
+
+.oe-change {
+  padding: 6px 0;
+  border-top: 1px solid rgba(127, 227, 255, 0.1);
+}
+
+.oe-change p {
+  margin: 2px 0;
+}
+
+.oe-where {
+  color: var(--oe-dim);
+}
+
+.oe-change del {
+  color: #ff9cbf;
+}
+
+.oe-change ins {
+  color: #8ff0cf;
+  text-decoration: none;
+}
+
+.oe-fmt,
+.oe-note {
+  color: var(--oe-dim);
+}
+
+.oe-toast {
+  left: 50%;
+  top: 14px;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  background: var(--oe-bg);
+  border: 1px solid var(--oe-line);
+  border-radius: 9px;
+}
+
+.oe-toast.oe-warn {
+  color: #f3b968;
+}

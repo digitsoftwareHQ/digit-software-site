@@ -1,51 +1,43 @@
 ---
-const reserved = [
-  { t: "Money", d: "Material spending and financial commitments." },
-  { t: "Security", d: "Access, credentials, permissions, and sensitive changes." },
-  { t: "Direction", d: "Strategy and decisions that materially change the business." },
-  { t: "External Actions", d: "Important actions that represent or commit the business." },
-  { t: "Irreversible Actions", d: "Decisions that cannot easily be undone." },
-];
+import { home } from "../../content/home";
+import { edit } from "../../content/schema";
+
+const c = home.autonomy;
 ---
 
 <section class="section governance" id="autonomy" aria-labelledby="governance-title">
   <div class="wrap">
     <div class="authority">
       <div class="auth-copy reveal">
-        <p class="label kicker">Autonomy</p>
-        <h2 class="h2" id="governance-title">Autonomy with limits.</h2>
-        <p class="body big">
-          Digit can handle routine work without waiting for approval at every step. Some decisions still belong with the
-          people responsible for the business.
+        <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
+        <h2 class="h2" id="governance-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
+        <p class="body big" {...edit(c.lead, "text", ["size", "width", "above", "below"])}>
+          {c.lead.text}
         </p>
-        <p class="body">
-          Spending, security, company direction, external commitments, and actions that are difficult to reverse can require
-          a person before anything happens. The software operates within those limits.
+        <p class="body" {...edit(c.body, "text", ["width", "above", "below"])}>
+          {c.body.text}
         </p>
       </div>
 
       <div class="auth-side reveal" style="--d: 120ms">
         <ul class="reserved">
           {
-            reserved.map((r) => (
+            c.reserved.map((r) => (
               <li>
                 <svg viewBox="0 0 16 16" aria-hidden="true">
                   <rect x="3.5" y="7" width="9" height="6.5" rx="1.5" />
                   <path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" />
                 </svg>
                 <div>
-                  <p>{r.t}</p>
-                  <span>{r.d}</span>
+                  <p {...edit(r.title, "heading")}>{r.title.text}</p>
+                  <span {...edit(r.body, "text")}>{r.body.text}</span>
                 </div>
               </li>
             ))
           }
         </ul>
         <ol class="flow" aria-label="Decision flow">
-          <li><b>System</b> prepares</li>
-          <li><b>Person</b> decides</li>
-          <li><b>System</b> acts</li>
-          <li><b>Outcome</b> is recorded</li>
+          {c.flow.map((f) => <li {...edit(f.does, "label")}><b {...edit(f.who, "label")}>{f.who.text}</b> {f.does.text}</li>)}
         </ol>
       </div>
     </div>
@@ -150,7 +142,8 @@ const reserved = [
     color: var(--cyan);
   }
   .big {
-    font-size: clamp(18px, 1.5vw, 20px);
+    --fs: clamp(18px, 1.5vw, 20px);
+    font-size: var(--fs);
     color: var(--ink);
     line-height: 1.55;
   }

@@ -7,91 +7,24 @@ import CerebroExplorer from "../components/shared/CerebroExplorer.astro";
 import ClosingBand from "../components/shared/ClosingBand.astro";
 import { SEO } from "../data/site";
 import { KINDS } from "../data/cerebro-example";
+import { platform as c } from "../content/platform";
+import { edit, parts } from "../content/schema";
 import { CLASSES } from "../scripts/universe";
 import type { StackLayer } from "../data/types";
 
 const layers: StackLayer[] = [
-  {
-    id: "neo",
-    name: "Neo",
-    text: "Coordinates priorities, work, decisions, and what needs attention.",
-    art: "orbit",
-    href: "#neo",
-    ariaLabel: "View Neo",
-  },
-  {
-    id: "mission-control",
-    name: "Mission Control",
-    text: "Shows what is happening across the business and gives people a place to inspect and direct it.",
-    art: "tiles",
-    href: "#mission-control",
-    ariaLabel: "View Mission Control",
-  },
-  {
-    id: "cerebro",
-    name: "Cerebro",
-    text: "Keeps institutional knowledge connected and available across future work.",
-    art: "cluster",
-    href: "#cerebro",
-    ariaLabel: "View Cerebro",
-  },
-  {
-    id: "agents",
-    name: "Specialized Agents",
-    text: "Perform focused work across research, analysis, creation, review, monitoring, and other business functions.",
-    art: "teams",
-    href: "/technology#agents",
-  },
-  {
-    id: "morpheus",
-    name: "Morpheus",
-    text: "Provides the execution environment that lets software carry work through approved systems and capabilities.",
-    art: "rails",
-    href: "/technology#execution",
-    ariaLabel: "View Morpheus",
-  },
+  { id: "neo", ...c.layers.neo, art: "orbit", href: "#neo", ariaLabel: "View Neo" },
+  { id: "mission-control", ...c.layers["mission-control"], art: "tiles", href: "#mission-control", ariaLabel: "View Mission Control" },
+  { id: "cerebro", ...c.layers.cerebro, art: "cluster", href: "#cerebro", ariaLabel: "View Cerebro" },
+  { id: "agents", ...c.layers.agents, art: "teams", href: "/technology#agents" },
+  { id: "morpheus", ...c.layers.morpheus, art: "rails", href: "/technology#execution", ariaLabel: "View Morpheus" },
 ];
 
-const neoItems = [
-  { t: "Priorities", d: "Keep important work connected to what the business is trying to accomplish." },
-  { t: "Coordination", d: "Bring different kinds of work together when an objective crosses systems or specialties." },
-  { t: "Decisions", d: "Separate work that can continue autonomously from decisions that need a person." },
-  { t: "Attention", d: "Surface the issues that actually matter instead of turning every event into an alert." },
-];
-
-const mcItems = [
-  { t: "Company", d: "Understand the state of the organization and its businesses." },
-  { t: "Operations", d: "See what is active, what has finished, and what is blocked." },
-  { t: "Decisions", d: "Review the actions that need human judgment before they continue." },
-  { t: "Financials", d: "Inspect revenue, expenses, profit, budgets, and financial activity where available." },
-  { t: "Learning", d: "See what the business has learned from recent work and experiments." },
-  { t: "System", d: "Understand whether the software and connected services are operating normally." },
-];
-
-const questions = [
-  "Is everything running normally?",
-  "What needs my attention?",
-  "What is happening now?",
-  "What changed?",
-  "What does the system recommend?",
-  "What did the business learn?",
-];
-
-const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
+const colorOf = (cls: string) => CLASSES.find((k) => k.key === cls)!.color;
 ---
 
 <BaseLayout variant="home" title={SEO.platform.title} description={SEO.platform.description} path="/platform">
-  <PageHero
-    tone="platform"
-    kicker="The Digit Platform"
-    title="Software that's intelligent enough to run businesses."
-    body={[
-      "Digit's platform is built for software that does more than answer questions or wait for instructions.",
-      "It can coordinate work, use specialized agents, keep track of what the business knows, act through connected systems, and surface the decisions that still need a person.",
-    ]}
-    primary={{ href: "#overview", label: "See the Platform" }}
-    secondary={{ href: "/technology", label: "Our Technology" }}
-  >
+  <PageHero tone="platform" copy={c.hero} primary="#overview" secondary="/technology">
     <svg slot="backdrop" class="rings" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice">
       <g fill="none" stroke-width="1">
         <ellipse cx="1230" cy="470" rx="420" ry="150" stroke="rgba(110,190,255,0.09)" transform="rotate(-14 1230 470)" />
@@ -110,27 +43,17 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     <div class="wrap">
       <div class="overview-grid">
         <div class="reveal">
-          <p class="label kicker">How It Fits Together</p>
-          <h2 class="h2" id="overview-title">The parts work together.</h2>
+          <p class="label kicker" {...edit(c.overview.eyebrow, "eyebrow")}>{c.overview.eyebrow.text}</p>
+          <h2 class="h2" id="overview-title" {...edit(c.overview.headline, "heading", ["size", "above", "below"])}>{c.overview.headline.text}</h2>
         </div>
-        <div class="paras">
-          <p class="reveal">Running a business requires more than a capable model or a collection of isolated agents.</p>
-          <p class="reveal">
-            Digit combines software for coordination, execution, knowledge, oversight, and specialized work into one operating
-            platform.
-          </p>
-          <p class="reveal">
-            Neo coordinates the operation. Mission Control gives people a view across the business. Cerebro keeps what the
-            organization knows. Specialized agents perform focused work. Morpheus provides the execution environment beneath
-            them.
-          </p>
-          <p class="reveal">Each part has a different job, but they work from the same operation.</p>
+        <div class="paras" {...edit(c.overview.body, "paragraphs", ["width", "above", "below"])}>
+          {c.overview.body.text.map((p) => <p class="reveal">{p}</p>)}
         </div>
       </div>
       <div class="stack-wrap">
         <PlatformStack layers={layers} />
       </div>
-      <p class="label note reveal">Illustrative platform model. Not live operational data.</p>
+      <p class="label note reveal" {...edit(c.overview.note, "caption")}>{c.overview.note.text}</p>
     </div>
   </section>
 
@@ -138,23 +61,12 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     <div class="wrap grid-2">
       <div>
         <div class="reveal">
-          <p class="label kicker">Neo</p>
-          <h2 class="h2" id="neo-title">Neo coordinates the business.</h2>
+          <p class="label kicker" {...edit(c.neo.eyebrow, "eyebrow")}>{c.neo.eyebrow.text}</p>
+          <h2 class="h2" id="neo-title" {...edit(c.neo.headline, "heading", ["size", "above", "below"])}>{c.neo.headline.text}</h2>
         </div>
         <div class="paras">
-          <p class="big reveal">Neo is Digit's operating executive.</p>
-          <p class="reveal">
-            Instead of treating every request as an isolated task, Neo works across the broader operation. Priorities, active
-            work, business context, decisions, problems, and opportunities can stay connected as the company moves forward.
-          </p>
-          <p class="reveal">
-            Neo can coordinate work across different parts of the business, bring the right problems to a person, and keep
-            routine operations moving within the limits the business has set.
-          </p>
-          <p class="reveal">
-            The goal is simple: people should be able to lead the company without personally coordinating every piece of work
-            inside it.
-          </p>
+          <p class="big reveal" {...edit(c.neo.lead, "text", ["size", "above", "below"])}>{c.neo.lead.text}</p>
+          {parts(c.neo.body).map(({ text, part }) => <p class="reveal" {...edit(c.neo.body, "paragraphs", ["above", "below"], { part })}>{text}</p>)}
         </div>
       </div>
 
@@ -169,8 +81,8 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
           <circle cx="260" cy="260" r="170" fill="none" stroke="rgba(110,190,255,0.18)" />
           <circle cx="260" cy="260" r="110" fill="none" stroke="rgba(110,190,255,0.08)" stroke-dasharray="2 6" />
           <circle cx="260" cy="260" r="90" fill="url(#neo-core)" />
-          {neoItems.map((item, i) => {
-            const a = (i / neoItems.length) * Math.PI * 2 - Math.PI / 4;
+          {c.neo.items.map((item, i) => {
+            const a = (i / c.neo.items.length) * Math.PI * 2 - Math.PI / 4;
             const x = 260 + Math.cos(a) * 170;
             const y = 260 + Math.sin(a) * 170;
             const lx = 260 + Math.cos(a) * 196;
@@ -182,14 +94,14 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
                   <animateMotion dur={`${3.4 + i * 0.6}s`} repeatCount="indefinite" path={`M 260 260 L ${x} ${y}`} />
                 </circle>
                 <circle cx={x} cy={y} r="9" />
-                <text x={lx} y={ly} text-anchor={Math.cos(a) > 0 ? "start" : "end"}>
-                  {item.t}
+                <text x={lx} y={ly} text-anchor={Math.cos(a) > 0 ? "start" : "end"} {...edit(item.title, "heading")}>
+                  {item.title.text}
                 </text>
               </g>
             );
           })}
           <circle cx="260" cy="260" r="16" class="neo-core" />
-          <text class="neo-label" x="260" y="304" text-anchor="middle">NEO</text>
+          <text class="neo-label" x="260" y="304" text-anchor="middle" {...edit(c.neo.diagramCore, "label")}>{c.neo.diagramCore.text}</text>
         </svg>
       </figure>
     </div>
@@ -197,10 +109,10 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     <div class="wrap">
       <ul class="items four">
         {
-          neoItems.map((it, i) => (
+          c.neo.items.map((it, i) => (
             <li class="reveal" style={`--d: ${i * 70}ms`}>
-              <h3>{it.t}</h3>
-              <p>{it.d}</p>
+              <h3 {...edit(it.title, "heading")}>{it.title.text}</h3>
+              <p {...edit(it.body, "text")}>{it.body.text}</p>
             </li>
           ))
         }
@@ -212,28 +124,21 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     <div class="wrap">
       <div class="mc-head">
         <div class="reveal">
-          <p class="label kicker">Mission Control</p>
-          <h2 class="h2" id="mc-title">See the business as it operates.</h2>
+          <p class="label kicker" {...edit(c.missionControl.eyebrow, "eyebrow")}>{c.missionControl.eyebrow.text}</p>
+          <h2 class="h2" id="mc-title" {...edit(c.missionControl.headline, "heading", ["size", "above", "below"])}>{c.missionControl.headline.text}</h2>
         </div>
         <div class="paras">
-          <p class="big reveal">Mission Control is the human interface to Digit's autonomous operations.</p>
-          <p class="reveal">
-            It brings the business into one place so people can understand what is happening without digging through agents,
-            logs, tools, and disconnected systems.
-          </p>
-          <p class="reveal">
-            The view can cover operations, businesses, financials, objectives, decisions, learning, company knowledge, and
-            system health. When something needs a person, Mission Control should make the next step clear.
-          </p>
+          <p class="big reveal" {...edit(c.missionControl.lead, "text", ["size", "above", "below"])}>{c.missionControl.lead.text}</p>
+          {parts(c.missionControl.body).map(({ text, part }) => <p class="reveal" {...edit(c.missionControl.body, "paragraphs", ["above", "below"], { part })}>{text}</p>)}
         </div>
       </div>
 
       <ul class="items six">
         {
-          mcItems.map((it, i) => (
+          c.missionControl.items.map((it, i) => (
             <li class="reveal" style={`--d: ${(i % 3) * 70}ms`}>
-              <h3>{it.t}</h3>
-              <p>{it.d}</p>
+              <h3 {...edit(it.title, "heading")}>{it.title.text}</h3>
+              <p {...edit(it.body, "text")}>{it.body.text}</p>
             </li>
           ))
         }
@@ -241,12 +146,12 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     </div>
 
     <div class="wrap mc-mock">
-      <MissionControlMock variant="neo" />
+      <MissionControlMock variant="neo" caption={c.missionControl.caption} />
     </div>
 
     <div class="wrap">
-      <ul class="questions reveal">
-        {questions.map((q) => <li>{q}</li>)}
+      <ul class="questions reveal" {...edit(c.missionControl.questions, "list")}>
+        {c.missionControl.questions.text.map((q) => <li>{q}</li>)}
       </ul>
     </div>
   </section>
@@ -255,20 +160,13 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     <div class="wrap">
       <div class="cerebro-head">
         <div class="reveal">
-          <p class="label kicker">Cerebro</p>
-          <h2 class="h2" id="cerebro-title">What the business knows, in one connected system.</h2>
+          <p class="label kicker" {...edit(c.cerebro.eyebrow, "eyebrow")}>{c.cerebro.eyebrow.text}</p>
+          <h2 class="h2" id="cerebro-title" {...edit(c.cerebro.headline, "heading", ["size", "above", "below"])}>{c.cerebro.headline.text}</h2>
         </div>
         <div class="paras">
-          <p class="reveal">
-            Businesses produce useful knowledge every day. Research, operating experience, decisions, evidence, procedures,
-            results, and lessons often end up scattered across files and software.
-          </p>
-          <p class="big reveal">Cerebro gives Digit a place to keep that knowledge connected.</p>
-          <p class="reveal">
-            A record can retain what was learned, where it came from, how it relates to other knowledge, and where it may be
-            useful again. That gives future work access to more than the current conversation or task.
-          </p>
-          <p class="reveal">Cerebro is built as institutional memory for an operating company.</p>
+          <p class="reveal" {...edit(c.cerebro.intro, "text", ["above", "below"])}>{c.cerebro.intro.text}</p>
+          <p class="big reveal" {...edit(c.cerebro.lead, "text", ["size", "above", "below"])}>{c.cerebro.lead.text}</p>
+          {parts(c.cerebro.body).map(({ text, part }) => <p class="reveal" {...edit(c.cerebro.body, "paragraphs", ["above", "below"], { part })}>{text}</p>)}
         </div>
       </div>
 
@@ -276,29 +174,23 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
         {
           KINDS.map((k, i) => (
             <li class="reveal" style={`--c: ${colorOf(k.cls)}; --d: ${(i % 3) * 70}ms`}>
-              <h3>
+              <h3 {...edit(c.cerebro.kinds[k.cls].title, "heading")}>
                 <i />
-                {k.name}
+                {c.cerebro.kinds[k.cls].title.text}
               </h3>
-              <p>{k.text}</p>
+              <p {...edit(c.cerebro.kinds[k.cls].body, "text")}>{c.cerebro.kinds[k.cls].body.text}</p>
             </li>
           ))
         }
       </ul>
 
       <div class="explorer-wrap">
-        <CerebroExplorer />
+        <CerebroExplorer note={c.cerebro.explorerNote} />
       </div>
     </div>
   </section>
 
-  <ClosingBand
-    headline="The platform is only useful if it can operate in the real world."
-    body={[
-      "The deeper engineering behind Digit covers execution, knowledge, integrations, governance, reliability, and the systems required to carry intelligent work across a business.",
-    ]}
-    cta={{ href: "/technology", label: "Explore the Technology" }}
-  />
+  <ClosingBand copy={c.closing} cta="/technology" />
 </BaseLayout>
 
 <style>
@@ -328,7 +220,8 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
   }
 
   .paras .big {
-    font-size: clamp(20px, 1.8vw, 24px);
+    --fs: clamp(20px, 1.8vw, 24px);
+    font-size: var(--fs);
     line-height: 1.4;
     font-weight: 500;
     font-stretch: 104%;

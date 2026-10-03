@@ -2,7 +2,6 @@ export const SITE = {
   name: "Digit Software",
   url: "https://digit.software",
   email: "info@digit.software",
-  description: "Software for businesses that can think, operate, and improve on their own.",
   ogImage: "/assets/digit-social-v5.png",
   ogImageAlt: "Digit Software: software for businesses that can think, operate, and improve on their own.",
 } as const;
@@ -36,15 +35,16 @@ export const SEO = {
   },
 } as const;
 
-/** Primary navigation. The wordmark is the link home. */
+/** Primary navigation. The wordmark is the link home. Labels live in content/global.json under "nav". */
 export const NAV = [
-  { href: "/company", label: "Company" },
-  { href: "/platform", label: "Platform" },
-  { href: "/businesses", label: "Businesses" },
-  { href: "/technology", label: "Technology" },
+  { href: "/company", key: "company" },
+  { href: "/platform", key: "platform" },
+  { href: "/businesses", key: "businesses" },
+  { href: "/technology", key: "technology" },
 ] as const;
 
+/** Legal links in the footer. Labels live in content/global.json under "footer". */
 export const LEGAL_NAV = [
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
+  { href: "/privacy", key: "privacy" },
+  { href: "/terms", key: "terms" },
 ] as const;

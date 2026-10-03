@@ -4,103 +4,29 @@ import PageHero from "../components/shared/PageHero.astro";
 import ClosingBand from "../components/shared/ClosingBand.astro";
 import ContactCTA from "../components/shared/ContactCTA.astro";
 import { SEO } from "../data/site";
+import { technology as t } from "../content/technology";
+import { edit } from "../content/schema";
 
-const chapters = [
-  { id: "system", label: "The System" },
-  { id: "execution", label: "Execution" },
-  { id: "agents", label: "Specialized Agents" },
-  { id: "coordination", label: "Coordination" },
-  { id: "knowledge", label: "Knowledge" },
-  { id: "governance", label: "Governance" },
-  { id: "integrations", label: "Connections" },
-  { id: "observability", label: "Observability" },
-  { id: "reliability", label: "Reliability" },
-];
-
-const coreAreas = [
-  "Execution",
-  "Specialized Agents",
-  "Operational Coordination",
-  "Knowledge",
-  "Learning",
-  "Governance",
-  "Integrations",
-  "Observability",
-  "Reliability",
-];
-
-const execution = [
-  { t: "Carry Work Forward", d: "Keep multi-step work connected instead of treating every action as a new conversation." },
-  { t: "Use Approved Capabilities", d: "Give software access to the systems and tools required for the work it has been allowed to perform." },
-  { t: "Record What Happened", d: "Maintain enough history to understand what was attempted, what completed, and what failed." },
-  { t: "Recover Safely", d: "Resume work where it is safe to do so and stop when the system cannot determine what happened." },
-];
-
-const knowledge = [
-  { t: "Provenance", d: "Keep useful context about where knowledge came from." },
-  { t: "Relationships", d: "Connect information that becomes more useful when viewed together." },
-  { t: "Reuse", d: "Make prior knowledge available to future work." },
-  { t: "Learning", d: "Allow results and evidence to improve how work is handled over time." },
-];
-
-const governance = [
-  { t: "Routine Work", d: "Continue within the authority already given.", tone: "go" },
-  { t: "Sensitive Work", d: "Require stronger controls or explicit human involvement.", tone: "ask" },
-  { t: "Financial Authority", d: "Keep spending and commitments inside defined limits.", tone: "ask" },
-  { t: "External Authority", d: "Control when software can represent or commit the business.", tone: "ask" },
-  { t: "Human Decisions", d: "Keep consequential choices with the people responsible for them.", tone: "human" },
-];
-
-const connections = [
-  { t: "Tools", d: "Give software the capabilities required for a particular kind of work." },
-  { t: "Services", d: "Connect outside systems without making the platform depend on one vendor." },
-  { t: "Data", d: "Bring relevant information into the work when it is needed." },
-  { t: "Actions", d: "Allow approved work to move from analysis into execution." },
-];
-
-const reliability = [
-  { t: "Detect", d: "Know when execution did not complete as expected." },
-  { t: "Preserve", d: "Keep the state and evidence needed to understand the problem." },
-  { t: "Recover", d: "Continue automatically when the next step is safe and known." },
-  { t: "Escalate", d: "Bring uncertainty to a person when the system cannot resolve it safely." },
-];
-
-// Diagram labels restate phrases from the chapter copy.
-const specialists = ["Research", "Analysis", "Product work", "Quality review", "Creative work", "Operations"];
-const context = ["Objectives", "Current context", "Previous decisions", "Available resources", "What the business has already learned"];
-const states = [
-  { t: "Active", tone: "live" },
-  { t: "Completed", tone: "ok" },
-  { t: "Failed", tone: "bad" },
-  { t: "Changed", tone: "neutral" },
-  { t: "A person may need to step in", tone: "ask" },
-];
+/** Chapter order. Each id is the chapter's anchor and the key for its copy in technology.json. */
+const CHAPTERS = ["system", "execution", "agents", "coordination", "knowledge", "governance", "integrations", "observability", "reliability"] as const;
+/** Visual tone of each governance tier and observability state, in content order. */
+const TONES = ["go", "ask", "ask", "ask", "human"];
+const STATES = ["live", "ok", "bad", "neutral", "ask"];
 ---
 
 <BaseLayout variant="home" title={SEO.technology.title} description={SEO.technology.description} path="/technology">
-  <PageHero
-    tone="technology"
-    kicker="Technology"
-    title="Engineering the systems behind autonomous operations."
-    body={[
-      "For software to operate part of a business, it has to do more than generate an answer.",
-      "It has to carry work across steps, use tools safely, keep context, recover when something breaks, learn from what happened, and stay visible to the people responsible for it.",
-      "We build that infrastructure from the ground up.",
-    ]}
-    primary={{ href: "/platform", label: "Our Platform" }}
-    secondary={{ href: "/company", label: "About Digit" }}
-  />
+  <PageHero tone="technology" copy={t.hero} primary="/platform" secondary="/company" />
 
   <div class="wrap doc">
     <nav class="toc" aria-label="On this page" data-toc>
-      <p class="label">On this page</p>
+      <p class="label" {...edit(t.tocLabel, "label")}>{t.tocLabel.text}</p>
       <ol>
         {
-          chapters.map((c, i) => (
+          CHAPTERS.map((id, i) => (
             <li>
-              <a href={`#${c.id}`} data-toc-link={c.id}>
+              <a href={`#${id}`} data-toc-link={id} {...edit(t.chapters[id].eyebrow, "eyebrow", [], { href: `#${id}` })}>
                 <span class="label">{String(i + 1).padStart(2, "0")}</span>
-                {c.label}
+                {t.chapters[id].eyebrow.text}
               </a>
             </li>
           ))
@@ -110,47 +36,32 @@ const states = [
 
     <div class="chapters">
       <section class="chapter" id="system" aria-labelledby="system-title">
-        <p class="label kicker reveal">The System</p>
-        <h2 class="h2 reveal" id="system-title">Intelligence has to become reliable execution.</h2>
-        <div class="text reveal">
-          <p>A useful business system has to connect reasoning with real work.</p>
-          <p>
-            An objective needs to become a sequence of actions. Different kinds of work may need different specialists. Those
-            specialists need access to the right information and approved capabilities. Results need to be recorded. Failures
-            need a known state. Important decisions need clear boundaries.
-          </p>
-          <p>Digit's technology is built around making that full path work as one system.</p>
+        <p class="label kicker reveal" {...edit(t.chapters.system.eyebrow, "eyebrow")}>{t.chapters.system.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="system-title" {...edit(t.chapters.system.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.system.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.system.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.system.body.text.map((p) => <p>{p}</p>)}
         </div>
         <figure class="schematic core reveal">
-          <figcaption class="label">Core Areas</figcaption>
-          <ul>
-            {coreAreas.map((a) => <li>{a}</li>)}
+          <figcaption class="label" {...edit(t.chapters.system.coreLabel, "caption")}>{t.chapters.system.coreLabel.text}</figcaption>
+          <ul {...edit(t.chapters.system.core, "list")}>
+            {t.chapters.system.core.text.map((a) => <li>{a}</li>)}
           </ul>
         </figure>
       </section>
 
       <section class="chapter" id="execution" aria-labelledby="execution-title">
-        <p class="label kicker reveal">Execution</p>
-        <h2 class="h2 reveal" id="execution-title">Work has to survive more than one prompt.</h2>
-        <div class="text reveal">
-          <p>Business operations often span multiple steps, systems, decisions, and periods of time.</p>
-          <p>
-            Digit's execution infrastructure is designed to carry that work forward while keeping track of what has happened and
-            what still needs to happen.
-          </p>
-          <p>
-            Morpheus is Digit's execution runtime. It provides the environment where software can use approved capabilities,
-            perform work, record outcomes, and recover when execution does not go as planned.
-          </p>
-          <p>The runtime is not the business logic itself. It is the infrastructure that lets the rest of the platform act.</p>
+        <p class="label kicker reveal" {...edit(t.chapters.execution.eyebrow, "eyebrow")}>{t.chapters.execution.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="execution-title" {...edit(t.chapters.execution.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.execution.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.execution.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.execution.body.text.map((p) => <p>{p}</p>)}
         </div>
         <ol class="schematic steps four reveal">
           {
-            execution.map((s, i) => (
+            t.chapters.execution.steps.map((s, i) => (
               <li>
                 <span class="label">{String(i + 1).padStart(2, "0")}</span>
-                <h3>{s.t}</h3>
-                <p>{s.d}</p>
+                <h3 {...edit(s.title, "heading")}>{s.title.text}</h3>
+                <p {...edit(s.body, "text")}>{s.body.text}</p>
               </li>
             ))
           }
@@ -158,75 +69,48 @@ const states = [
       </section>
 
       <section class="chapter" id="agents" aria-labelledby="agents-title">
-        <p class="label kicker reveal">Specialized Agents</p>
-        <h2 class="h2 reveal" id="agents-title">Different work needs different specialists.</h2>
-        <div class="text reveal">
-          <p>A single general-purpose agent does not need to do every job.</p>
-          <p>
-            Digit can use specialized agents for research, analysis, product work, quality review, creative work, operations, and
-            other focused responsibilities.
-          </p>
-          <p>
-            The important part is not the number of agents. It is how the work is assigned, what each specialist is allowed to
-            do, what information it receives, and how its result becomes part of the larger operation.
-          </p>
-          <p>
-            Specialization gives the system a way to use different capabilities without turning the company into a collection of
-            disconnected bots.
-          </p>
+        <p class="label kicker reveal" {...edit(t.chapters.agents.eyebrow, "eyebrow")}>{t.chapters.agents.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="agents-title" {...edit(t.chapters.agents.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.agents.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.agents.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.agents.body.text.map((p) => <p>{p}</p>)}
         </div>
         <figure class="schematic spokes reveal" aria-hidden="true">
-          <div class="ring">
-            {specialists.map((s) => <span class="chip">{s}</span>)}
+          <div class="ring" {...edit(t.chapters.agents.specialists, "list")}>
+            {t.chapters.agents.specialists.text.map((s) => <span class="chip">{s}</span>)}
           </div>
-          <span class="hub">The larger operation</span>
+          <span class="hub" {...edit(t.chapters.agents.hub, "label")}>{t.chapters.agents.hub.text}</span>
         </figure>
       </section>
 
       <section class="chapter" id="coordination" aria-labelledby="coordination-title">
-        <p class="label kicker reveal">Coordination</p>
-        <h2 class="h2 reveal" id="coordination-title">Work has to stay connected to the business around it.</h2>
-        <div class="text reveal">
-          <p>A task can be completed correctly and still be the wrong thing to do.</p>
-          <p>
-            Digit's operating systems are designed to keep work connected to objectives, current context, previous decisions,
-            available resources, and what the business has already learned.
-          </p>
-          <p>That allows different pieces of work to contribute to a larger outcome instead of ending as isolated outputs.</p>
-          <p>
-            The result is software that can operate across longer stretches of work while keeping people able to inspect what is
-            happening.
-          </p>
+        <p class="label kicker reveal" {...edit(t.chapters.coordination.eyebrow, "eyebrow")}>{t.chapters.coordination.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="coordination-title" {...edit(t.chapters.coordination.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.coordination.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.coordination.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.coordination.body.text.map((p) => <p>{p}</p>)}
         </div>
         <figure class="schematic converge reveal" aria-hidden="true">
-          <div class="inputs">
-            {context.map((c) => <span class="chip">{c}</span>)}
+          <div class="inputs" {...edit(t.chapters.coordination.inputs, "list")}>
+            {t.chapters.coordination.inputs.text.map((c) => <span class="chip">{c}</span>)}
           </div>
           <span class="arrow">→</span>
-          <span class="box">Work</span>
+          <span class="box" {...edit(t.chapters.coordination.work, "label")}>{t.chapters.coordination.work.text}</span>
           <span class="arrow">→</span>
-          <span class="box final">A larger outcome</span>
+          <span class="box final" {...edit(t.chapters.coordination.outcome, "label")}>{t.chapters.coordination.outcome.text}</span>
         </figure>
       </section>
 
       <section class="chapter" id="knowledge" aria-labelledby="knowledge-title">
-        <p class="label kicker reveal">Knowledge</p>
-        <h2 class="h2 reveal" id="knowledge-title">The system should remember what mattered.</h2>
-        <div class="text reveal">
-          <p>Business knowledge loses value when it disappears into old conversations, files, or one-off outputs.</p>
-          <p>Digit keeps useful knowledge available beyond the task that created it.</p>
-          <p>
-            Research can support future decisions. An experiment can change how a process works. A failed approach can prevent
-            the same mistake later. A procedure can improve as new evidence appears.
-          </p>
-          <p>Cerebro provides the connected knowledge layer behind that continuity.</p>
+        <p class="label kicker reveal" {...edit(t.chapters.knowledge.eyebrow, "eyebrow")}>{t.chapters.knowledge.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="knowledge-title" {...edit(t.chapters.knowledge.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.knowledge.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.knowledge.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.knowledge.body.text.map((p) => <p>{p}</p>)}
         </div>
         <ul class="schematic cards four reveal">
           {
-            knowledge.map((k) => (
+            t.chapters.knowledge.cards.map((s, i) => (
               <li>
-                <h3>{k.t}</h3>
-                <p>{k.d}</p>
+                <h3 {...edit(s.title, "heading")}>{s.title.text}</h3>
+                <p {...edit(s.body, "text")}>{s.body.text}</p>
               </li>
             ))
           }
@@ -234,26 +118,17 @@ const states = [
       </section>
 
       <section class="chapter" id="governance" aria-labelledby="governance-title">
-        <p class="label kicker reveal">Governance</p>
-        <h2 class="h2 reveal" id="governance-title">Authority is part of the architecture.</h2>
-        <div class="text reveal">
-          <p>Software becoming more capable does not require giving it unlimited authority.</p>
-          <p>Digit separates what the system can technically do from what it is allowed to do inside a business.</p>
-          <p>
-            Routine work can move within defined limits. Sensitive actions can require a person. Financial commitments, security
-            changes, important external actions, and other consequential decisions can be handled differently from ordinary
-            operations.
-          </p>
-          <p>
-            Those boundaries travel with the work rather than depending on an agent to decide whether it should ask permission.
-          </p>
+        <p class="label kicker reveal" {...edit(t.chapters.governance.eyebrow, "eyebrow")}>{t.chapters.governance.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="governance-title" {...edit(t.chapters.governance.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.governance.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.governance.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.governance.body.text.map((p) => <p>{p}</p>)}
         </div>
         <ul class="schematic tiers reveal">
           {
-            governance.map((g) => (
-              <li class={g.tone}>
-                <h3>{g.t}</h3>
-                <p>{g.d}</p>
+            t.chapters.governance.tiers.map((s, i) => (
+              <li class={TONES[i]}>
+                <h3 {...edit(s.title, "heading")}>{s.title.text}</h3>
+                <p {...edit(s.body, "text")}>{s.body.text}</p>
               </li>
             ))
           }
@@ -261,29 +136,17 @@ const states = [
       </section>
 
       <section class="chapter" id="integrations" aria-labelledby="integrations-title">
-        <p class="label kicker reveal">Connections</p>
-        <h2 class="h2 reveal" id="integrations-title">Business software has to work with the systems around it.</h2>
-        <div class="text reveal">
-          <p>Useful autonomous software cannot operate in isolation.</p>
-          <p>
-            Businesses already depend on communication tools, financial systems, marketplaces, databases, cloud services,
-            productivity software, internal applications, and other infrastructure.
-          </p>
-          <p>
-            Digit is designed so capabilities can be connected to the operating system without making every integration part of
-            the core platform.
-          </p>
-          <p>
-            A connection gives the software a way to interact with another system. The authority to use that connection is
-            handled separately.
-          </p>
+        <p class="label kicker reveal" {...edit(t.chapters.integrations.eyebrow, "eyebrow")}>{t.chapters.integrations.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="integrations-title" {...edit(t.chapters.integrations.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.integrations.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.integrations.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.integrations.body.text.map((p) => <p>{p}</p>)}
         </div>
         <ul class="schematic cards four reveal">
           {
-            connections.map((k) => (
+            t.chapters.integrations.cards.map((s, i) => (
               <li>
-                <h3>{k.t}</h3>
-                <p>{k.d}</p>
+                <h3 {...edit(s.title, "heading")}>{s.title.text}</h3>
+                <p {...edit(s.body, "text")}>{s.body.text}</p>
               </li>
             ))
           }
@@ -291,26 +154,17 @@ const states = [
       </section>
 
       <section class="chapter" id="observability" aria-labelledby="observability-title">
-        <p class="label kicker reveal">Observability</p>
-        <h2 class="h2 reveal" id="observability-title">If the software acts, people should be able to see what happened.</h2>
-        <div class="text reveal">
-          <p>Autonomous operation requires visibility.</p>
-          <p>
-            The system needs to know what work is active, what completed, what failed, what changed, and where a person may need
-            to step in.
-          </p>
-          <p>
-            That information also gives Mission Control a reliable picture of the business instead of forcing people to
-            reconstruct events from raw logs.
-          </p>
-          <p>Good observability is not more noise. It is enough information to understand the state of the operation.</p>
+        <p class="label kicker reveal" {...edit(t.chapters.observability.eyebrow, "eyebrow")}>{t.chapters.observability.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="observability-title" {...edit(t.chapters.observability.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.observability.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.observability.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.observability.body.text.map((p) => <p>{p}</p>)}
         </div>
         <figure class="schematic states reveal" aria-hidden="true">
           {
-            states.map((s) => (
-              <span class:list={["state", s.tone]}>
+            t.chapters.observability.states.map((s, i) => (
+              <span class:list={["state", STATES[i]]} {...edit(s.label, "label")}>
                 <i />
-                {s.t}
+                {s.label.text}
               </span>
             ))
           }
@@ -318,27 +172,18 @@ const states = [
       </section>
 
       <section class="chapter" id="reliability" aria-labelledby="reliability-title">
-        <p class="label kicker reveal">Reliability</p>
-        <h2 class="h2 reveal" id="reliability-title">Reliable software has to fail clearly.</h2>
-        <div class="text reveal">
-          <p>Failures are unavoidable. Hidden failures are the bigger problem.</p>
-          <p>
-            When something goes wrong, Digit's infrastructure is designed to preserve enough state to understand what happened and
-            determine what can safely happen next.
-          </p>
-          <p>Some work can be retried. Some can resume from a known point. Some should stop until a person resolves the uncertainty.</p>
-          <p>
-            The system should not silently lose work, invent success, or repeat consequential actions simply because the previous
-            attempt is unclear.
-          </p>
+        <p class="label kicker reveal" {...edit(t.chapters.reliability.eyebrow, "eyebrow")}>{t.chapters.reliability.eyebrow.text}</p>
+        <h2 class="h2 reveal" id="reliability-title" {...edit(t.chapters.reliability.headline, "heading", ["size", "width", "above", "below"])}>{t.chapters.reliability.headline.text}</h2>
+        <div class="text reveal" {...edit(t.chapters.reliability.body, "paragraphs", ["width", "above", "below"])}>
+          {t.chapters.reliability.body.text.map((p) => <p>{p}</p>)}
         </div>
         <ol class="schematic steps four reveal">
           {
-            reliability.map((s, i) => (
+            t.chapters.reliability.steps.map((s, i) => (
               <li>
                 <span class="label">{String(i + 1).padStart(2, "0")}</span>
-                <h3>{s.t}</h3>
-                <p>{s.d}</p>
+                <h3 {...edit(s.title, "heading")}>{s.title.text}</h3>
+                <p {...edit(s.body, "text")}>{s.body.text}</p>
               </li>
             ))
           }
@@ -347,20 +192,9 @@ const states = [
     </div>
   </div>
 
-  <ClosingBand
-    headline="The goal is not more automation. It is software that can take responsibility for more of the operation."
-    body={[
-      "Execution, knowledge, governance, integrations, learning, and reliability all matter because business work does not happen in isolation.",
-      "Digit is building those systems as one operating foundation.",
-    ]}
-    cta={{ href: "/platform", label: "Explore the Platform" }}
-  />
+  <ClosingBand copy={t.closing} cta="/platform" />
 
-  <ContactCTA
-    headline="Working on the same problems?"
-    body="If you're building, researching, or operating systems in this space, we'd like to hear from you."
-    secondary={{ href: "/businesses", label: "Our Businesses" }}
-  />
+  <ContactCTA copy={t.contact} secondary="/businesses" />
 </BaseLayout>
 
 <script>
@@ -450,12 +284,14 @@ const states = [
   }
 
   .chapter .h2 {
-    max-width: 18em;
+    --measure: 18em;
+    max-width: var(--measure);
   }
 
   .text {
+    --measure: 44em;
     margin-top: 24px;
-    max-width: 44em;
+    max-width: var(--measure);
   }
 
   .text p {

@@ -1,0 +1,22 @@
+{
+  "size": [
+    "smaller",
+    "larger"
+  ],
+  "width": [
+    "narrower",
+    "wider"
+  ],
+  "above": [
+    "tighter",
+    "looser"
+  ],
+  "below": [
+    "tighter",
+    "looser"
+  ],
+  "align": [
+    "left",
+    "center"
+  ]
+}

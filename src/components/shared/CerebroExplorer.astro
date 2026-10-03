@@ -1,6 +1,13 @@
 ---
 import { RECORDS } from "../../data/cerebro-example";
 import { CLASSES } from "../../scripts/universe";
+import { edit, type Field } from "../../content/schema";
+
+interface Props {
+  /** Caption above the record list. */
+  note: Field;
+}
+const { note } = Astro.props;
 
 const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
 ---
@@ -19,7 +26,7 @@ const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
     <aside class="inspector" aria-label="Connected knowledge" data-inspector>
       <div class="map-view" data-map-view>
         <p class="label panel-label">Connected knowledge</p>
-        <p class="support">Illustrative records showing how different kinds of company knowledge can relate to one another.</p>
+        <p class="support" {...edit(note, "caption")}>{note.text}</p>
         <label class="search">
           <span class="sr-only">Search records</span>
           <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5L14 14" /></svg>

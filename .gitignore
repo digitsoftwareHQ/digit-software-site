@@ -3,3 +3,5 @@ dist/
 .astro/
 .DS_Store
 *.log
+# Owner Editing Mode writes through temporary files; a crash could leave one behind.
+src/content/.*.tmp

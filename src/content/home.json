@@ -1,0 +1,243 @@
+{
+  "hero": {
+    "title": "Software for businesses that can think, operate,",
+    "titleAccent": "and improve on their own.",
+    "lede": "We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real business operations.",
+    "support": "Digit uses that technology to build and operate businesses of its own, creating systems that learn from experience and become more capable over time.",
+    "primary": "Our Platform",
+    "secondary": "About Us"
+  },
+  "company": {
+    "eyebrow": "About Digit",
+    "headline": "Building the technology behind a new kind of business.",
+    "lead": "Digit Software develops technology that helps businesses take on more of their own operation.",
+    "body": [
+      "We use that technology across businesses we own in e-commerce, media, marketing, web solutions, and software development. Running those businesses gives us a practical way to test what we build, learn from real operations, and find out where the technology needs to get better.",
+      "Over time, the same technology can support businesses outside Digit through software products, infrastructure, and systems built for their operations."
+    ],
+    "cta": "Learn More"
+  },
+  "businesses": {
+    "eyebrow": "Our Businesses",
+    "headline": "Businesses built to operate differently.",
+    "body": [
+      "Digit owns and manages a portfolio of businesses across e-commerce, media, marketing, web solutions, and software development.",
+      "Each one gives us real problems to solve, real results to measure, and a place to put our technology to work. What we learn from operating these businesses goes back into the software we build."
+    ],
+    "cta": "Explore Our Portfolio",
+    "diagram": [
+      "What we learn goes back",
+      "into what we build."
+    ],
+    "cards": {
+      "e-commerce": {
+        "title": "E-Commerce",
+        "body": "Digital commerce businesses combining product development, research, intelligent operations, and technology-driven distribution."
+      },
+      "media": {
+        "title": "Media",
+        "body": "Digital media businesses combining scalable content systems, technology-enabled production, and modern distribution."
+      },
+      "marketing": {
+        "title": "Marketing",
+        "body": "Technology-driven marketing focused on customer acquisition, digital growth, automation, experimentation, and measurable performance."
+      },
+      "web-solutions": {
+        "title": "Web Solutions",
+        "body": "Web development and digital infrastructure spanning websites, platforms, domains, hosting, integrations, and connected business systems."
+      },
+      "software-development": {
+        "title": "Software Development",
+        "body": "Software engineering spanning SaaS, intelligent applications, automation, operational platforms, and autonomous infrastructure."
+      }
+    }
+  },
+  "platform": {
+    "eyebrow": "Our Platform",
+    "headline": "Software that's intelligent enough to run businesses.",
+    "body": [
+      "Most business software gives people tools to do their jobs. Ours is built to take on more of the work itself.",
+      "The platform brings together specialized agents, software for coordinating their work, shared intelligence built from what the business learns, and the infrastructure needed to turn decisions into actions."
+    ],
+    "cta": "Explore the Platform",
+    "layers": {
+      "mission-control": {
+        "name": "Mission Control",
+        "role": "See the whole operation",
+        "body": "See what is happening across the business, what needs attention, how work is progressing, and where a decision is needed."
+      },
+      "agents": {
+        "name": "Agents",
+        "role": "Specialized software at work",
+        "body": "Agents research, analyze, create, review, monitor, and carry out work across different parts of the business."
+      },
+      "cerebro": {
+        "name": "Cerebro",
+        "role": "The brain behind the business",
+        "body": "Knowledge, evidence, experience, procedures, and decisions stay connected and available to the systems that need them."
+      },
+      "execution": {
+        "name": "Execution",
+        "role": "Turn decisions into action",
+        "body": "The execution layer coordinates agents, connects them to the systems they need, and keeps track of what happens along the way."
+      }
+    }
+  },
+  "technology": {
+    "eyebrow": "Technology",
+    "headline": "The infrastructure behind intelligent businesses.",
+    "body": [
+      "An agent can complete a task. Running part of a business is a much larger engineering problem.",
+      "Work has to be coordinated across different systems and capabilities. Context has to carry from one task to the next. Software needs controlled access to outside tools and services. Failures have to be handled. Decisions and actions need to be visible. What the business learns needs to remain useful after the work is done."
+    ],
+    "closing": "We build that infrastructure from the ground up.",
+    "cta": "Explore Our Technology",
+    "items": [
+      {
+        "title": "Execution",
+        "body": "Turn objectives into work and carry that work through."
+      },
+      {
+        "title": "Specialized Agents",
+        "body": "Use different capabilities for different kinds of work."
+      },
+      {
+        "title": "Knowledge",
+        "body": "Keep useful context and experience beyond a single task."
+      },
+      {
+        "title": "Learning",
+        "body": "Use results from past work to improve future work."
+      },
+      {
+        "title": "Governance",
+        "body": "Control what software is allowed to do."
+      },
+      {
+        "title": "Integrations",
+        "body": "Connect work to the systems businesses already use."
+      },
+      {
+        "title": "Observability",
+        "body": "See what happened, when it happened, and why."
+      },
+      {
+        "title": "Resilience",
+        "body": "Recover from problems without losing the state of the work."
+      }
+    ]
+  },
+  "autonomy": {
+    "eyebrow": "Autonomy",
+    "headline": "Autonomy with limits.",
+    "lead": "Digit can handle routine work without waiting for approval at every step. Some decisions still belong with the people responsible for the business.",
+    "body": "Spending, security, company direction, external commitments, and actions that are difficult to reverse can require a person before anything happens. The software operates within those limits.",
+    "reserved": [
+      {
+        "title": "Money",
+        "body": "Material spending and financial commitments."
+      },
+      {
+        "title": "Security",
+        "body": "Access, credentials, permissions, and sensitive changes."
+      },
+      {
+        "title": "Direction",
+        "body": "Strategy and decisions that materially change the business."
+      },
+      {
+        "title": "External Actions",
+        "body": "Important actions that represent or commit the business."
+      },
+      {
+        "title": "Irreversible Actions",
+        "body": "Decisions that cannot easily be undone."
+      }
+    ],
+    "flow": [
+      {
+        "who": "System",
+        "does": "prepares"
+      },
+      {
+        "who": "Person",
+        "does": "decides"
+      },
+      {
+        "who": "System",
+        "does": "acts"
+      },
+      {
+        "who": "Outcome",
+        "does": "is recorded"
+      }
+    ]
+  },
+  "improvement": {
+    "eyebrow": "Continuous Improvement",
+    "headline": "Software that learns from its operations.",
+    "lede": "Digit learns from results, failures, experiments, and new evidence produced through its work. What proves useful can become part of how future work is planned, performed, and evaluated.",
+    "typicalLabel": "Typical Automation",
+    "typical": [
+      "Instruction",
+      "Execution",
+      "Done"
+    ],
+    "digitLabel": "Digit",
+    "again": "Operate again",
+    "steps": [
+      {
+        "title": "Operate",
+        "body": "Work gets done toward a business objective."
+      },
+      {
+        "title": "Observe",
+        "body": "The system keeps a record of what happened."
+      },
+      {
+        "title": "Measure",
+        "body": "Results are compared with what the business was trying to achieve."
+      },
+      {
+        "title": "Learn",
+        "body": "Useful results and patterns become knowledge the business can use again."
+      },
+      {
+        "title": "Adapt",
+        "body": "What the business learns can change how similar work is handled."
+      },
+      {
+        "title": "Improve",
+        "body": "The next operation starts with what the business learned from the last one."
+      }
+    ],
+    "againLine": "Then it does it again.",
+    "ledger": [
+      {
+        "term": "Success",
+        "body": "Something worth repeating."
+      },
+      {
+        "term": "Failure",
+        "body": "Something worth understanding."
+      },
+      {
+        "term": "Experiment",
+        "body": "A way to test an idea."
+      },
+      {
+        "term": "Evidence",
+        "body": "Something the business can learn from."
+      },
+      {
+        "term": "Knowledge",
+        "body": "Something the business can use."
+      }
+    ]
+  },
+  "contact": {
+    "headline": "Interested in what we're building?",
+    "body": "If you're working on similar problems, interested in the technology, or want to learn more about Digit Software, we'd like to hear from you.",
+    "secondary": "Explore Our Portfolio"
+  }
+}

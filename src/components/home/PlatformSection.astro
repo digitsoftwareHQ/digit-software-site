@@ -1,45 +1,17 @@
 ---
 import PlatformStack from "../shared/PlatformStack.astro";
 import type { StackLayer } from "../../data/types";
+import { home } from "../../content/home";
+import { edit, parts } from "../../content/schema";
 
+const c = home.platform;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 const layers: StackLayer[] = [
-  {
-    id: "mission-control",
-    name: "Mission Control",
-    role: "See the whole operation",
-    text: "See what is happening across the business, what needs attention, how work is progressing, and where a decision is needed.",
-    art: "tiles",
-    href: "/platform#mission-control",
-    ariaLabel: "View Mission Control",
-  },
-  {
-    id: "agents",
-    name: "Agents",
-    role: "Specialized software at work",
-    text: "Agents research, analyze, create, review, monitor, and carry out work across different parts of the business.",
-    art: "teams",
-    href: "/technology#agents",
-  },
-  {
-    id: "cerebro",
-    name: "Cerebro",
-    role: "The brain behind the business",
-    text: "Knowledge, evidence, experience, procedures, and decisions stay connected and available to the systems that need them.",
-    art: "cluster",
-    href: "/platform#cerebro",
-    ariaLabel: "View Cerebro",
-  },
-  {
-    id: "execution",
-    name: "Execution",
-    role: "Turn decisions into action",
-    text: "The execution layer coordinates agents, connects them to the systems they need, and keeps track of what happens along the way.",
-    art: "rails",
-    href: "/technology#execution",
-    ariaLabel: "View execution layer",
-  },
+  { id: "mission-control", ...c.layers["mission-control"], art: "tiles", href: "/platform#mission-control", ariaLabel: "View Mission Control" },
+  { id: "agents", ...c.layers.agents, art: "teams", href: "/technology#agents" },
+  { id: "cerebro", ...c.layers.cerebro, art: "cluster", href: "/platform#cerebro", ariaLabel: "View Cerebro" },
+  { id: "execution", ...c.layers.execution, art: "rails", href: "/technology#execution", ariaLabel: "View execution layer" },
 ];
 ---
 
@@ -47,17 +19,11 @@ const layers: StackLayer[] = [
   <div class="wrap">
     <div class="head">
       <div class="section-head reveal">
-        <p class="label kicker">Our Platform</p>
-        <h2 class="h2" id="platform-title">Software that's intelligent enough to run businesses.</h2>
-        <p class="lede">
-          Most business software gives people tools to do their jobs. Ours is built to take on more of the work itself.
-        </p>
-        <p class="lede">
-          The platform brings together specialized agents, software for coordinating their work, shared intelligence built
-          from what the business learns, and the infrastructure needed to turn decisions into actions.
-        </p>
+        <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
+        <h2 class="h2" id="platform-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
+        {parts(c.body).map(({ text, part }) => <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
       </div>
-      <a class="btn btn--ghost cta reveal" href="/platform">Explore the Platform <Fragment set:html={arrow} /></a>
+      <a class="btn btn--ghost cta reveal" href="/platform" {...edit(c.cta, "cta", [], { href: "/platform" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
     </div>
 
     <div class="stack-wrap">

@@ -1,0 +1,259 @@
+{
+  "hero": {
+    "eyebrow": "Technology",
+    "title": "Engineering the systems behind autonomous operations.",
+    "body": [
+      "For software to operate part of a business, it has to do more than generate an answer.",
+      "It has to carry work across steps, use tools safely, keep context, recover when something breaks, learn from what happened, and stay visible to the people responsible for it.",
+      "We build that infrastructure from the ground up."
+    ],
+    "primary": "Our Platform",
+    "secondary": "About Digit"
+  },
+  "tocLabel": "On this page",
+  "chapters": {
+    "system": {
+      "eyebrow": "The System",
+      "headline": "Intelligence has to become reliable execution.",
+      "body": [
+        "A useful business system has to connect reasoning with real work.",
+        "An objective needs to become a sequence of actions. Different kinds of work may need different specialists. Those specialists need access to the right information and approved capabilities. Results need to be recorded. Failures need a known state. Important decisions need clear boundaries.",
+        "Digit's technology is built around making that full path work as one system."
+      ],
+      "coreLabel": "Core Areas",
+      "core": [
+        "Execution",
+        "Specialized Agents",
+        "Operational Coordination",
+        "Knowledge",
+        "Learning",
+        "Governance",
+        "Integrations",
+        "Observability",
+        "Reliability"
+      ]
+    },
+    "execution": {
+      "eyebrow": "Execution",
+      "headline": "Work has to survive more than one prompt.",
+      "body": [
+        "Business operations often span multiple steps, systems, decisions, and periods of time.",
+        "Digit's execution infrastructure is designed to carry that work forward while keeping track of what has happened and what still needs to happen.",
+        "Morpheus is Digit's execution runtime. It provides the environment where software can use approved capabilities, perform work, record outcomes, and recover when execution does not go as planned.",
+        "The runtime is not the business logic itself. It is the infrastructure that lets the rest of the platform act."
+      ],
+      "steps": [
+        {
+          "title": "Carry Work Forward",
+          "body": "Keep multi-step work connected instead of treating every action as a new conversation."
+        },
+        {
+          "title": "Use Approved Capabilities",
+          "body": "Give software access to the systems and tools required for the work it has been allowed to perform."
+        },
+        {
+          "title": "Record What Happened",
+          "body": "Maintain enough history to understand what was attempted, what completed, and what failed."
+        },
+        {
+          "title": "Recover Safely",
+          "body": "Resume work where it is safe to do so and stop when the system cannot determine what happened."
+        }
+      ]
+    },
+    "agents": {
+      "eyebrow": "Specialized Agents",
+      "headline": "Different work needs different specialists.",
+      "body": [
+        "A single general-purpose agent does not need to do every job.",
+        "Digit can use specialized agents for research, analysis, product work, quality review, creative work, operations, and other focused responsibilities.",
+        "The important part is not the number of agents. It is how the work is assigned, what each specialist is allowed to do, what information it receives, and how its result becomes part of the larger operation.",
+        "Specialization gives the system a way to use different capabilities without turning the company into a collection of disconnected bots."
+      ],
+      "specialists": [
+        "Research",
+        "Analysis",
+        "Product work",
+        "Quality review",
+        "Creative work",
+        "Operations"
+      ],
+      "hub": "The larger operation"
+    },
+    "coordination": {
+      "eyebrow": "Coordination",
+      "headline": "Work has to stay connected to the business around it.",
+      "body": [
+        "A task can be completed correctly and still be the wrong thing to do.",
+        "Digit's operating systems are designed to keep work connected to objectives, current context, previous decisions, available resources, and what the business has already learned.",
+        "That allows different pieces of work to contribute to a larger outcome instead of ending as isolated outputs.",
+        "The result is software that can operate across longer stretches of work while keeping people able to inspect what is happening."
+      ],
+      "inputs": [
+        "Objectives",
+        "Current context",
+        "Previous decisions",
+        "Available resources",
+        "What the business has already learned"
+      ],
+      "work": "Work",
+      "outcome": "A larger outcome"
+    },
+    "knowledge": {
+      "eyebrow": "Knowledge",
+      "headline": "The system should remember what mattered.",
+      "body": [
+        "Business knowledge loses value when it disappears into old conversations, files, or one-off outputs.",
+        "Digit keeps useful knowledge available beyond the task that created it.",
+        "Research can support future decisions. An experiment can change how a process works. A failed approach can prevent the same mistake later. A procedure can improve as new evidence appears.",
+        "Cerebro provides the connected knowledge layer behind that continuity."
+      ],
+      "cards": [
+        {
+          "title": "Provenance",
+          "body": "Keep useful context about where knowledge came from."
+        },
+        {
+          "title": "Relationships",
+          "body": "Connect information that becomes more useful when viewed together."
+        },
+        {
+          "title": "Reuse",
+          "body": "Make prior knowledge available to future work."
+        },
+        {
+          "title": "Learning",
+          "body": "Allow results and evidence to improve how work is handled over time."
+        }
+      ]
+    },
+    "governance": {
+      "eyebrow": "Governance",
+      "headline": "Authority is part of the architecture.",
+      "body": [
+        "Software becoming more capable does not require giving it unlimited authority.",
+        "Digit separates what the system can technically do from what it is allowed to do inside a business.",
+        "Routine work can move within defined limits. Sensitive actions can require a person. Financial commitments, security changes, important external actions, and other consequential decisions can be handled differently from ordinary operations.",
+        "Those boundaries travel with the work rather than depending on an agent to decide whether it should ask permission."
+      ],
+      "tiers": [
+        {
+          "title": "Routine Work",
+          "body": "Continue within the authority already given."
+        },
+        {
+          "title": "Sensitive Work",
+          "body": "Require stronger controls or explicit human involvement."
+        },
+        {
+          "title": "Financial Authority",
+          "body": "Keep spending and commitments inside defined limits."
+        },
+        {
+          "title": "External Authority",
+          "body": "Control when software can represent or commit the business."
+        },
+        {
+          "title": "Human Decisions",
+          "body": "Keep consequential choices with the people responsible for them."
+        }
+      ]
+    },
+    "integrations": {
+      "eyebrow": "Connections",
+      "headline": "Business software has to work with the systems around it.",
+      "body": [
+        "Useful autonomous software cannot operate in isolation.",
+        "Businesses already depend on communication tools, financial systems, marketplaces, databases, cloud services, productivity software, internal applications, and other infrastructure.",
+        "Digit is designed so capabilities can be connected to the operating system without making every integration part of the core platform.",
+        "A connection gives the software a way to interact with another system. The authority to use that connection is handled separately."
+      ],
+      "cards": [
+        {
+          "title": "Tools",
+          "body": "Give software the capabilities required for a particular kind of work."
+        },
+        {
+          "title": "Services",
+          "body": "Connect outside systems without making the platform depend on one vendor."
+        },
+        {
+          "title": "Data",
+          "body": "Bring relevant information into the work when it is needed."
+        },
+        {
+          "title": "Actions",
+          "body": "Allow approved work to move from analysis into execution."
+        }
+      ]
+    },
+    "observability": {
+      "eyebrow": "Observability",
+      "headline": "If the software acts, people should be able to see what happened.",
+      "body": [
+        "Autonomous operation requires visibility.",
+        "The system needs to know what work is active, what completed, what failed, what changed, and where a person may need to step in.",
+        "That information also gives Mission Control a reliable picture of the business instead of forcing people to reconstruct events from raw logs.",
+        "Good observability is not more noise. It is enough information to understand the state of the operation."
+      ],
+      "states": [
+        {
+          "label": "Active"
+        },
+        {
+          "label": "Completed"
+        },
+        {
+          "label": "Failed"
+        },
+        {
+          "label": "Changed"
+        },
+        {
+          "label": "A person may need to step in"
+        }
+      ]
+    },
+    "reliability": {
+      "eyebrow": "Reliability",
+      "headline": "Reliable software has to fail clearly.",
+      "body": [
+        "Failures are unavoidable. Hidden failures are the bigger problem.",
+        "When something goes wrong, Digit's infrastructure is designed to preserve enough state to understand what happened and determine what can safely happen next.",
+        "Some work can be retried. Some can resume from a known point. Some should stop until a person resolves the uncertainty.",
+        "The system should not silently lose work, invent success, or repeat consequential actions simply because the previous attempt is unclear."
+      ],
+      "steps": [
+        {
+          "title": "Detect",
+          "body": "Know when execution did not complete as expected."
+        },
+        {
+          "title": "Preserve",
+          "body": "Keep the state and evidence needed to understand the problem."
+        },
+        {
+          "title": "Recover",
+          "body": "Continue automatically when the next step is safe and known."
+        },
+        {
+          "title": "Escalate",
+          "body": "Bring uncertainty to a person when the system cannot resolve it safely."
+        }
+      ]
+    }
+  },
+  "closing": {
+    "headline": "The goal is not more automation. It is software that can take responsibility for more of the operation.",
+    "body": [
+      "Execution, knowledge, governance, integrations, learning, and reliability all matter because business work does not happen in isolation.",
+      "Digit is building those systems as one operating foundation."
+    ],
+    "cta": "Explore the Platform"
+  },
+  "contact": {
+    "headline": "Working on the same problems?",
+    "body": "If you're building, researching, or operating systems in this space, we'd like to hear from you.",
+    "secondary": "Our Businesses"
+  }
+}

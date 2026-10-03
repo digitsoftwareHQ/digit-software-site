@@ -7,93 +7,69 @@ import ClosingBand from "../components/shared/ClosingBand.astro";
 import ContactCTA from "../components/shared/ContactCTA.astro";
 import { BUSINESSES } from "../data/businesses";
 import { SEO } from "../data/site";
+import { businesses as c } from "../content/businesses";
+import { edit, parts } from "../content/schema";
 ---
 
 <BaseLayout variant="home" title={SEO.businesses.title} description={SEO.businesses.description} path="/businesses">
-  <PageHero
-    tone="businesses"
-    kicker="Our Businesses"
-    title="Businesses built to operate differently."
-    body={[
-      "Digit owns and manages a portfolio of businesses across e-commerce, media, marketing, web solutions, and software development.",
-      "The businesses are different. The operating idea behind them is the same: use software to take on more of the work, learn from what happens, and improve how the business operates over time.",
-    ]}
-    primary={{ href: "#portfolio", label: "Explore the Portfolio" }}
-    secondary={{ href: "/platform", label: "Our Platform" }}
-  />
+  <PageHero tone="businesses" copy={c.hero} primary="#portfolio" secondary="/platform" />
 
   <section class="section portfolio" id="portfolio" aria-labelledby="portfolio-title">
     <div class="wrap grid">
       <div>
         <div class="reveal">
-          <p class="label kicker">The Portfolio</p>
-          <h2 class="h2" id="portfolio-title">Operating businesses changes how we build software.</h2>
+          <p class="label kicker" {...edit(c.portfolio.eyebrow, "eyebrow")}>{c.portfolio.eyebrow.text}</p>
+          <h2 class="h2" id="portfolio-title" {...edit(c.portfolio.headline, "heading", ["size", "above", "below"])}>{c.portfolio.headline.text}</h2>
         </div>
         <div class="paras">
-          <p class="big reveal">A business gives the technology real work to do.</p>
-          <p class="reveal">
-            Markets move. Customers behave in unexpected ways. Processes break. New opportunities appear. Some ideas work and
-            others do not.
-          </p>
-          <p class="reveal">
-            Operating our own businesses gives Digit a direct way to learn from those conditions. The software has to deal with
-            the same uncertainty, repetition, coordination, and decision-making that exists inside any real operation.
-          </p>
-          <p class="reveal">What we learn in the portfolio can shape what we build next.</p>
+          <p class="big reveal" {...edit(c.portfolio.lead, "text", ["size", "above", "below"])}>{c.portfolio.lead.text}</p>
+          {parts(c.portfolio.body).map(({ text, part }) => <p class="reveal" {...edit(c.portfolio.body, "paragraphs", ["above", "below"], { part })}>{text}</p>)}
         </div>
       </div>
       <div class="cycle-wrap reveal" style="--d: 120ms">
         <CycleDiagram />
-        <p class="cycle-note">
-          The portfolio gives the technology somewhere real to work. The results feed back into the software.
+        <p class="cycle-note" {...edit(c.portfolio.diagramNote, "caption")}>
+          {c.portfolio.diagramNote.text}
         </p>
       </div>
     </div>
   </section>
 
   {
-    BUSINESSES.map((b, i) => (
-      <section class:list={["section", "area", { flip: i % 2 === 1 }]} id={b.id} aria-labelledby={`${b.id}-title`} style={`--h: ${b.hue}`}>
-        <div class="wrap area-grid">
-          <div class="area-copy">
-            <p class="label kicker reveal">{b.eyebrow}</p>
-            <h2 class="h2 reveal" id={`${b.id}-title`}>{b.headline}</h2>
-            <div class="paras">
-              {b.body.map((p) => (
-                <p class="reveal">{p}</p>
-              ))}
-            </div>
-            <div class="work reveal">
-              <p class="label">Areas of Work</p>
-              <ul>
-                {b.areas.map((w) => (
-                  <li>{w}</li>
+    BUSINESSES.map((b, i) => {
+      const a = c.areas[b.id];
+      return (
+        <section class:list={["section", "area", { flip: i % 2 === 1 }]} id={b.id} aria-labelledby={`${b.id}-title`} style={`--h: ${b.hue}`}>
+          <div class="wrap area-grid">
+            <div class="area-copy">
+              <p class="label kicker reveal" {...edit(a.eyebrow, "eyebrow")}>{a.eyebrow.text}</p>
+              <h2 class="h2 reveal" id={`${b.id}-title`} {...edit(a.headline, "heading", ["size", "width", "above", "below"])}>{a.headline.text}</h2>
+              <div class="paras" {...edit(a.body, "paragraphs", ["above", "below"])}>
+                {a.body.text.map((p) => (
+                  <p class="reveal">{p}</p>
                 ))}
-              </ul>
+              </div>
+              <div class="work reveal">
+                <p class="label" {...edit(c.workLabel, "label")}>{c.workLabel.text}</p>
+                <ul {...edit(a.work, "list")}>
+                  {a.work.text.map((w) => (
+                    <li>{w}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div class="tile reveal" style="--d: 120ms" aria-hidden="true">
+              <BusinessEmblem id={b.id} hue={b.hue} size={220} />
             </div>
           </div>
-          <div class="tile reveal" style="--d: 120ms" aria-hidden="true">
-            <BusinessEmblem id={b.id} hue={b.hue} size={220} />
-          </div>
-        </div>
-      </section>
-    ))
+        </section>
+      );
+    })
   }
 
-  <ClosingBand
-    headline="The businesses give the technology something real to prove."
-    body={[
-      "The portfolio is where ideas about autonomous operations meet deadlines, customers, costs, competition, and measurable results.",
-      "Those lessons go back into the systems Digit builds.",
-    ]}
-    cta={{ href: "/technology", label: "Explore the Technology" }}
-  />
+  <ClosingBand copy={c.closing} cta="/technology" />
 
-  <ContactCTA
-    headline="Interested in Digit's businesses?"
-    body="For portfolio, partnership, or company inquiries, get in touch."
-    secondary={{ href: "/company", label: "About Digit" }}
-  />
+  <ContactCTA copy={c.contact} secondary="/company" />
 </BaseLayout>
 
 <style>
@@ -121,7 +97,8 @@ import { SEO } from "../data/site";
   }
 
   .paras .big {
-    font-size: clamp(20px, 1.8vw, 24px);
+    --fs: clamp(20px, 1.8vw, 24px);
+    font-size: var(--fs);
     line-height: 1.4;
     font-weight: 500;
     font-stretch: 104%;
@@ -170,7 +147,8 @@ import { SEO } from "../data/site";
   }
 
   .area .h2 {
-    max-width: 16em;
+    --measure: 16em;
+    max-width: var(--measure);
   }
 
   .area .paras p {
