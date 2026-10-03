@@ -56,6 +56,8 @@
   --wrap: 1240px;
   --gutter: clamp(20px, 4.2vw, 56px);
   --header-h: 68px;
+  /* Where in-page link targets land: below the fixed header with a little breathing room. */
+  --anchor-top: calc(var(--header-h) + clamp(20px, 2.2vw, 32px));
   --section-y: clamp(88px, 11vw, 156px);
 
   /* Motion */
@@ -76,7 +78,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--header-h) + 12px);
+  scroll-padding-top: var(--anchor-top);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -334,6 +336,11 @@ p {
 .section {
   position: relative;
   padding-block: var(--section-y);
+}
+
+/* Anchored sections line up their content, not their top padding, under the header. */
+.section[id] {
+  scroll-margin-top: calc(-1 * var(--section-y));
 }
 
 .section-head {
