@@ -96,11 +96,13 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
       quiet: () => quiet,
       nebula: 1,
       focusLabels: [...FOCUS_LABELS],
-      tip: mode === "phone" ? null : tip,
+      // Phones get the same focus label (placed above or below the point) and light up a little more often,
+      // since there is no pointer to explore with.
+      tip,
       pointerTarget: hero,
       hoverFocus: mode === "desk",
       births: true,
-      focusEvery: 5600,
+      focusEvery: mode === "phone" ? 4800 : 5600,
     });
 
     let ticking = false;

@@ -621,8 +621,13 @@ p {
 }
 
 @media (max-width: 600px) {
-  .u-label.is-near:not(:hover) > span {
-    opacity: 0;
+  .u-tip {
+    max-width: min(240px, calc(100vw - 32px));
+    padding: 7px 11px 8px;
+  }
+
+  .u-tip-title {
+    font-size: 13px;
   }
 
   .u-label > span {

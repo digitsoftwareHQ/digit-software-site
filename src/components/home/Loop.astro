@@ -164,6 +164,7 @@ memory.forEach((p, i) => {
   const root = document.querySelector<HTMLElement>("[data-loop]");
   if (root) {
     const steps = [...root.querySelectorAll<HTMLElement>("[data-step-i]")];
+    const ring = root.querySelector<HTMLElement>(".visual");
     const narrow = window.matchMedia("(max-width: 900px)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const setStep = (i: number) => {
@@ -178,21 +179,56 @@ memory.forEach((p, i) => {
       root.classList.add("is-complete");
       complete();
     } else {
+      // Wide screens: the ring is sticky and follows the step being read.
+      // Narrow screens: the ring sits above the steps, so it plays through the loop once when it comes into view,
+      // and each step is marked as it passes the middle of the screen.
+      let played = false;
+      let timer = 0;
+      const play = () => {
+        if (played) return;
+        played = true;
+        let i = 0;
+        root.dataset.step = "0";
+        timer = window.setInterval(() => {
+          i += 1;
+          root.dataset.step = String(i);
+          if (i >= 6) window.clearInterval(timer);
+        }, 900);
+      };
       const io = new IntersectionObserver(
         (entries) => {
-          if (narrow.matches) return;
           for (const e of entries) {
-            if (e.isIntersecting) setStep(Number((e.target as HTMLElement).dataset.stepI));
+            if (!e.isIntersecting) continue;
+            const i = Number((e.target as HTMLElement).dataset.stepI);
+            if (narrow.matches) steps.forEach((s) => s.classList.toggle("is-read", s === e.target));
+            else setStep(i);
           }
         },
         { rootMargin: "-45% 0px -45% 0px" },
       );
       steps.forEach((s) => io.observe(s));
-      // On narrow screens the ring is not sticky, so it is shown complete above the steps.
+      if (ring) {
+        const ringIO = new IntersectionObserver(
+          ([e]) => {
+            if (narrow.matches && e.isIntersecting) play();
+          },
+          { threshold: 0.5 },
+        );
+        ringIO.observe(ring);
+      }
       const onNarrow = () => {
         root.classList.toggle("is-narrow", narrow.matches);
-        if (narrow.matches) complete();
-        else setStep(0);
+        steps.forEach((s) => s.classList.remove("is-read"));
+        if (narrow.matches) {
+          steps.forEach((s) => s.classList.remove("is-on"));
+          if (played) {
+            window.clearInterval(timer);
+            root.dataset.step = "6";
+          } else root.dataset.step = "0";
+        } else {
+          window.clearInterval(timer);
+          setStep(0);
+        }
       };
       onNarrow();
       narrow.addEventListener("change", onNarrow);
@@ -530,6 +566,24 @@ memory.forEach((p, i) => {
     .step .body {
       font-size: 16.5px;
       margin-top: 8px;
+    }
+
+    /* The step being read is marked the way the ring marks it: a lit rule and a longer bar. */
+    .is-narrow .step {
+      transition: border-color 600ms var(--ease);
+    }
+
+    .is-narrow .step .bar {
+      transition: width 600ms var(--ease-out), box-shadow 600ms var(--ease);
+    }
+
+    .is-narrow .step.is-read {
+      border-top-color: rgba(39, 196, 255, 0.45);
+    }
+
+    .is-narrow .step.is-read .bar {
+      width: 72px;
+      box-shadow: 0 0 10px rgba(39, 196, 255, 0.55);
     }
 
     .row,

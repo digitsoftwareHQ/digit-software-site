@@ -286,6 +286,9 @@ export class Universe {
   private paused = false;
   private visible = true;
   private reduce: boolean;
+  /** No fine pointer (phones, tablets): drift instead of pointer parallax, tap instead of hover. */
+  private coarse: boolean;
+  private drift = false;
   private yaw: number;
   private pitch: number;
   private spinGain = 1;
@@ -360,6 +363,7 @@ export class Universe {
     this.yaw = this.o.yaw;
     this.pitch = this.o.pitch;
     this.reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.coarse = !window.matchMedia("(pointer: fine)").matches;
     if (this.reduce || !this.o.intro) this.intro = 1;
 
     if (this.o.births && !this.reduce) {
@@ -477,6 +481,37 @@ export class Universe {
         target.removeEventListener("pointerleave", onLeave);
         target.removeEventListener("click", onClick);
       });
+    } else if (target && !this.reduce) {
+      // Touch screens have no pointer to follow: the universe drifts on its own (see step), and a tap lights up
+      // the nearest knowledge point, or opens it where the view has records.
+      this.drift = true;
+      const onTap = (e: MouseEvent) => {
+        if ((e.target as Element).closest("a, button, input, h1, p, [data-no-pick]")) return;
+        const r = this.canvas.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        let best: number | null = null;
+        let bestD = 44;
+        for (let i = 0; i < this.n; i++) {
+          if (this.nodes[i].tier === 2) continue;
+          const d = Math.hypot(this.px[i] - x, this.py[i] - y);
+          if (d < bestD) {
+            bestD = d;
+            best = i;
+          }
+        }
+        if (best === null) return;
+        if (this.o.onFocus) {
+          this.select(best);
+          return;
+        }
+        this.setFocus(best, true);
+        this.flash[best] = 1;
+        this.nextFocusAt = this.time + this.o.focusEvery / 1000;
+        this.kick();
+      };
+      target.addEventListener("click", onTap);
+      this.disposers.push(() => target.removeEventListener("click", onTap));
     }
   }
 
@@ -521,7 +556,9 @@ export class Universe {
     // Large canvases render at up to 1.5x: the soft, glowing subject loses nothing visible and the pixel work
     // drops by almost half on retina displays.
     const area = r.width * r.height;
-    const dpr = Math.min(window.devicePixelRatio || 1, area > 1_600_000 ? 1.25 : area > 700_000 ? 1.5 : 2);
+    // Touch screens cap at 1.5x as well, so the glow stays affordable on phones and the adaptive-quality fallback
+    // (which drops glow) is not triggered by pixel density alone.
+    const dpr = Math.min(window.devicePixelRatio || 1, area > 1_600_000 ? 1.25 : area > 700_000 || this.coarse ? 1.5 : 2);
     this.W = Math.max(1, r.width);
     this.H = Math.max(1, r.height);
     this.dpr = dpr;
@@ -615,6 +652,11 @@ export class Universe {
       }
     }
 
+    if (this.drift && !this.paused) {
+      // In place of pointer parallax on touch screens: a slow sway that keeps the same depth and life.
+      this.pYawT = Math.sin(t * 0.23) * 0.14;
+      this.pPitchT = Math.sin(t * 0.17 + 1.3) * 0.06;
+    }
     const ease = Math.min(1, dt * 2.4);
     this.pYaw += (this.pYawT - this.pYaw) * ease;
     this.pPitch += (this.pPitchT - this.pPitch) * ease;
@@ -1027,6 +1069,25 @@ export class Universe {
     const x = this.px[i], y = this.py[i];
     const tw = tip.offsetWidth || 240;
     const r = TIER_R[this.nodes[i].tier] * 3 + 22;
+    if (this.W < 600) {
+      // Narrow screens: centre the label over or under the point, inside the field, below the fixed header and
+      // entirely above the text, so it never sits beside a line being read. If nothing fits, the point lights up
+      // without its label.
+      const th = tip.offsetHeight || 56;
+      const tx = Math.min(Math.max(x - tw / 2, 8), this.W - tw - 8);
+      const quiet = this.o.quiet?.() ?? [];
+      const textTop = quiet.length ? Math.min(...quiet.map((q) => q.t)) : this.H;
+      const fits = (ty: number) => ty >= 76 && ty + th <= Math.min(this.H - 8, textTop - 6);
+      const ty = [y + r * 0.6, y - r * 0.6 - th].find(fits);
+      if (ty === undefined) {
+        tip.style.opacity = "0";
+        return;
+      }
+      tip.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0)`;
+      tip.style.opacity = String(Math.min(1, f * 1.3) * this.alpha);
+      tip.dataset.side = ty > y ? "below" : "above";
+      return;
+    }
     const right = x + r + tw < this.W - 12;
     const tx = right ? x + r : x - r - tw;
     const ty = y - 20;
@@ -1040,6 +1101,8 @@ export class Universe {
     const kBase = (this.o.radius(this.W, this.H) * D) / WORLD_R / D;
     // Shown labels (focus first, then its relationships) are placed so they never overlap each other.
     const placed: QuietRect[] = [];
+    // Small screens show the two closest relationships of the focused record; larger screens show them all.
+    const nearSet = fid === null ? [] : this.adj[fid].filter((j) => this.labels[j]).slice(0, window.innerWidth < 600 ? 2 : Infinity);
     const order = this.labels
       .map((el, i) => ({ el, i }))
       .filter((o) => o.el)
@@ -1048,7 +1111,7 @@ export class Universe {
       const lab = el!;
       const depth = clamp01((this.pk[i] / kBase - 0.62) / 0.75);
       const isF = i === fid;
-      const near = fid !== null && this.adj[fid].includes(i);
+      const near = nearSet.includes(i);
       const op = isF ? 1 : near ? 0.9 : 0.32 + 0.5 * depth;
       const x = this.px[i], y = this.py[i];
       lab.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
