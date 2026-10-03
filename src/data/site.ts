@@ -35,12 +35,17 @@ export const SEO = {
   },
 } as const;
 
-/** Primary navigation. The wordmark is the link home. Labels live in content/global.json under "nav". */
+/**
+ * Primary navigation, used by the header (desktop and mobile) and the footer. The wordmark is the link home.
+ * Labels live in content/global.json under "nav". Contact Us leads to the contact section on the home page;
+ * there is no separate contact page.
+ */
 export const NAV = [
   { href: "/company", key: "company" },
-  { href: "/platform", key: "platform" },
   { href: "/businesses", key: "businesses" },
+  { href: "/platform", key: "platform" },
   { href: "/technology", key: "technology" },
+  { href: "/#contact", key: "contact" },
 ] as const;
 
 /** Legal links in the footer. Labels live in content/global.json under "footer". */

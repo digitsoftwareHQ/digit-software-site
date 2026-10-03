@@ -1,14 +1,20 @@
 {
   "hero": {
     "eyebrow": "Technology",
-    "title": "Engineering the systems behind autonomous operations.",
-    "body": [
-      "For software to operate part of a business, it has to do more than generate an answer.",
-      "It has to carry work across steps, use tools safely, keep context, recover when something breaks, learn from what happened, and stay visible to the people responsible for it.",
-      "We build that infrastructure from the ground up."
-    ],
-    "primary": "Our Platform",
-    "secondary": "About Digit"
+    "title": {
+      "text": "The infrastructure behind autonomous operations.",
+      "size": "smaller",
+      "below": "looser"
+    },
+    "body": {
+      "text": [
+        "Software that operates a business has to do more than respond to requests.",
+        "It needs persistent context, controlled access to tools, reliable recovery, clear visibility, and the ability to learn from what happens.",
+        "We build the systems that make those operations possible."
+      ],
+      "above": "tighter"
+    },
+    "primary": "Our Technology"
   },
   "tocLabel": "On this page",
   "chapters": {

@@ -1,9 +1,10 @@
 {
   "nav": {
-    "company": "Company",
+    "company": "About",
     "platform": "Platform",
     "businesses": "Businesses",
-    "technology": "Technology"
+    "technology": "Technology",
+    "contact": "Contact Us"
   },
   "footer": {
     "description": "Software for businesses that can think, operate, and improve on their own.",

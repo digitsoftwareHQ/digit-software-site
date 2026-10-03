@@ -3,10 +3,10 @@
 import { edit, type Field } from "../../content/schema";
 
 interface Props {
-  copy: { eyebrow: Field; title: Field; body: Field<string[]>; primary: Field; secondary: Field };
-  /** Destinations of the two buttons. */
+  copy: { eyebrow: Field; title: Field; body: Field<string[]>; primary: Field; secondary?: Field };
+  /** Destination of the main button, and of the optional second button. */
   primary: string;
-  secondary: string;
+  secondary?: string;
   tone?: "company" | "platform" | "businesses" | "technology";
 }
 const { copy, primary, secondary, tone = "company" } = Astro.props;
@@ -25,9 +25,13 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
       <a class="btn btn--primary" href={primary} {...edit(copy.primary, "cta", [], { href: primary })}>
         {copy.primary.text} <Fragment set:html={arrow} />
       </a>
-      <a class="btn btn--ghost" href={secondary} {...edit(copy.secondary, "cta", [], { href: secondary })}>
-        {copy.secondary.text}
-      </a>
+      {
+        secondary && copy.secondary && (
+          <a class="btn btn--ghost" href={secondary} {...edit(copy.secondary, "cta", [], { href: secondary })}>
+            {copy.secondary.text}
+          </a>
+        )
+      }
     </div>
     <slot />
   </div>

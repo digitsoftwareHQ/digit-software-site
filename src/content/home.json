@@ -1,16 +1,29 @@
 {
   "hero": {
-    "title": "Software for businesses that can think, operate,",
+    "title": {
+      "text": "Software for businesses that can think, operate,",
+      "size": "smaller",
+      "below": "looser"
+    },
     "titleAccent": "and improve on their own.",
-    "lede": "We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real business operations.",
-    "support": "Digit uses that technology to build and operate businesses of its own, creating systems that learn from experience and become more capable over time.",
+    "lede": "We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real world business operations.",
+    "support": {
+      "text": "Digit uses that technology to build and operate businesses of its own, creating systems that learn, and become more capable over time.",
+      "above": "looser"
+    },
     "primary": "Our Platform",
     "secondary": "About Us"
   },
   "company": {
     "eyebrow": "About Digit",
-    "headline": "Building the technology behind a new kind of business.",
-    "lead": "Digit Software develops technology that helps businesses take on more of their own operation.",
+    "headline": {
+      "text": "Building the technology behind a new kind of business.",
+      "above": "tighter"
+    },
+    "lead": {
+      "text": "Digit develops software designed to help businesses become smarter, more efficient, and increasignly more autonomous.",
+      "size": "smaller"
+    },
     "body": [
       "We use that technology across businesses we own in e-commerce, media, marketing, web solutions, and software development. Running those businesses gives us a practical way to test what we build, learn from real operations, and find out where the technology needs to get better.",
       "Over time, the same technology can support businesses outside Digit through software products, infrastructure, and systems built for their operations."
@@ -20,10 +33,13 @@
   "businesses": {
     "eyebrow": "Our Businesses",
     "headline": "Businesses built to operate differently.",
-    "body": [
-      "Digit owns and manages a portfolio of businesses across e-commerce, media, marketing, web solutions, and software development.",
-      "Each one gives us real problems to solve, real results to measure, and a place to put our technology to work. What we learn from operating these businesses goes back into the software we build."
-    ],
+    "body": {
+      "text": [
+        "Digit owns and manages a portfolio of businesses across media, e-commerce, marketing, web solutions, and software development.",
+        "Each one gives us real problems to solve, real results to measure, and a place to put our technology to work. What we learn from operating these businesses goes back into the software we build."
+      ],
+      "below": "tighter"
+    },
     "cta": "Explore Our Portfolio",
     "diagram": [
       "What we learn goes back",
@@ -55,10 +71,14 @@
   "platform": {
     "eyebrow": "Our Platform",
     "headline": "Software that's intelligent enough to run businesses.",
-    "body": [
-      "Most business software gives people tools to do their jobs. Ours is built to take on more of the work itself.",
-      "The platform brings together specialized agents, software for coordinating their work, shared intelligence built from what the business learns, and the infrastructure needed to turn decisions into actions."
-    ],
+    "body": {
+      "text": [
+        "Most business software gives people the tools they need to do their jobs. Ours is built to do the job on its own.",
+        "Our platform brings together specialized agents, software for coordinating their work, shared intelligence that grows over time, and the infrastructure needed to turn decisions into actions."
+      ],
+      "width": "narrower",
+      "above": "looser"
+    },
     "cta": "Explore the Platform",
     "layers": {
       "mission-control": {
@@ -86,10 +106,13 @@
   "technology": {
     "eyebrow": "Technology",
     "headline": "The infrastructure behind intelligent businesses.",
-    "body": [
-      "An agent can complete a task. Running part of a business is a much larger engineering problem.",
-      "Work has to be coordinated across different systems and capabilities. Context has to carry from one task to the next. Software needs controlled access to outside tools and services. Failures have to be handled. Decisions and actions need to be visible. What the business learns needs to remain useful after the work is done."
-    ],
+    "body": {
+      "text": [
+        "Business operations span systems, decisions, people, and time. The software behind them has to keep that work connected.",
+        "That requires persistent context, controlled access to tools and services, reliable recovery when something fails, and visibility into the decisions the system makes. The useful knowledge created along the way should remain available for future operations."
+      ],
+      "width": "narrower"
+    },
     "closing": "We build that infrastructure from the ground up.",
     "cta": "Explore Our Technology",
     "items": [
@@ -131,7 +154,10 @@
     "eyebrow": "Autonomy",
     "headline": "Autonomy with limits.",
     "lead": "Digit can handle routine work without waiting for approval at every step. Some decisions still belong with the people responsible for the business.",
-    "body": "Spending, security, company direction, external commitments, and actions that are difficult to reverse can require a person before anything happens. The software operates within those limits.",
+    "body": {
+      "text": "Spending, security, company direction, external commitments, and actions that are difficult to reverse can require a person before anything happens. The software operates within those limits.",
+      "above": "looser"
+    },
     "reserved": [
       {
         "title": "Money",
@@ -176,7 +202,11 @@
   "improvement": {
     "eyebrow": "Continuous Improvement",
     "headline": "Software that learns from its operations.",
-    "lede": "Digit learns from results, failures, experiments, and new evidence produced through its work. What proves useful can become part of how future work is planned, performed, and evaluated.",
+    "lede": {
+      "text": "Digit learns from results, failures, experiments, and new evidence produced through its work. What proves useful can become part of how future work is planned, performed, and evaluated.",
+      "width": "narrower",
+      "above": "looser"
+    },
     "typicalLabel": "Typical Automation",
     "typical": [
       "Instruction",
@@ -192,26 +222,26 @@
       },
       {
         "title": "Observe",
-        "body": "The system keeps a record of what happened."
+        "body": "Each action, result, and exception becomes part of the operating record."
       },
       {
         "title": "Measure",
-        "body": "Results are compared with what the business was trying to achieve."
+        "body": "Results are compared with the objective, expected outcome, and relevant signals."
       },
       {
         "title": "Learn",
-        "body": "Useful results and patterns become knowledge the business can use again."
+        "body": "Useful patterns, failures, and evidence become knowledge the business can reuse."
       },
       {
         "title": "Adapt",
-        "body": "What the business learns can change how similar work is handled."
+        "body": "That knowledge changes how similar work is planned, routed, and handled next time."
       },
       {
         "title": "Improve",
-        "body": "The next operation starts with what the business learned from the last one."
+        "body": "The next operation starts with better context, better decisions, and a stronger system."
       }
     ],
-    "againLine": "Then it does it again.",
+    "againLine": "Then it repeats the cycle with a better starting point.",
     "ledger": [
       {
         "term": "Success",
@@ -236,8 +266,14 @@
     ]
   },
   "contact": {
-    "headline": "Interested in what we're building?",
-    "body": "If you're working on similar problems, interested in the technology, or want to learn more about Digit Software, we'd like to hear from you.",
+    "headline": {
+      "text": "Get in touch.",
+      "above": "tighter"
+    },
+    "body": {
+      "text": "For partnerships, technology, business opportunities, media, or general inquiries, reach us directly.",
+      "above": "looser"
+    },
     "secondary": "Explore Our Portfolio"
   }
 }

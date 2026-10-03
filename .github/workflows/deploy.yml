@@ -1,6 +1,6 @@
-# Builds the Astro site and publishes dist/ to GitHub Pages.
-# Takes effect only after the repository's Pages source is set to "GitHub Actions"
-# (Settings -> Pages -> Build and deployment). See README.md, "Deploying".
+# Builds, tests and checks the Astro site, then publishes dist/ to GitHub Pages.
+# The repository's Pages source must be "GitHub Actions" (Settings -> Pages -> Build and deployment).
+# See README.md, "Deploying".
 name: Deploy to GitHub Pages
 
 on:

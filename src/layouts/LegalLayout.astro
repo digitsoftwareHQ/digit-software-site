@@ -61,8 +61,39 @@ const { title, description, path, updated } = Astro.props;
     font-size: 16.5px;
   }
 
-  .prose :global(p + p) {
+  .prose :global(p + p),
+  .prose :global(ul + p) {
     margin-top: 12px;
+  }
+
+  .prose :global(ul) {
+    margin: 12px 0 0;
+    padding-left: 1.25em;
+    color: var(--ink-2);
+    font-size: 16.5px;
+  }
+
+  .prose :global(li) {
+    padding-left: 0.25em;
+  }
+
+  .prose :global(li + li) {
+    margin-top: 8px;
+  }
+
+  .prose :global(li::marker) {
+    color: var(--cyan);
+  }
+
+  .prose :global(strong) {
+    color: var(--ink);
+    font-weight: 560;
+  }
+
+  .prose :global(.contact-block) {
+    margin-top: 12px;
+    color: var(--ink);
+    line-height: 1.7;
   }
 
   .prose :global(a) {

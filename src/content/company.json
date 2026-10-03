@@ -1,67 +1,87 @@
 {
   "hero": {
     "eyebrow": "Company",
-    "title": "Building the technology behind a new kind of business.",
-    "body": [
-      "Digit Software is a software company building technology for autonomous business operations.",
-      "We develop that technology and use it across businesses of our own, giving us a direct way to learn how intelligent software performs when it is responsible for real work."
-    ],
+    "title": {
+      "text": "Building the technology behind a new kind of business.",
+      "size": "smaller",
+      "width": "narrower"
+    },
+    "body": {
+      "text": [
+        "We develop technology for autonomous business operations, and implement it in businesses of our own.",
+        "Operating those businesses gives us a direct way to test what we build, learn from real results, and improve the systems behind them."
+      ],
+      "above": "looser"
+    },
     "primary": "Our Platform",
     "secondary": "Our Businesses"
   },
   "about": {
     "eyebrow": "About Digit",
-    "headline": "A software company that operates businesses, too.",
-    "lead": "Digit builds software that can take on more of the work involved in running a business.",
-    "body": [
-      "That includes coordinating work, carrying out tasks through specialized agents, keeping institutional knowledge available, learning from results, and giving people a clear way to supervise what the software is doing.",
-      "We use the same technology across businesses in our own portfolio. The problems those businesses encounter become engineering problems we can solve. The results show us what works, what does not, and what the software needs next.",
-      "That relationship between software and operations is central to Digit."
-    ]
+    "headline": "A software company shaped by the businesses it runs.",
+    "lead": "Digit builds systems designed to handle more of the day-to-day business operations.",
+    "body": {
+      "text": [
+        "That includes coordinating work, using specialized agents, preserving knowledge, learning from results, and keeping operations visible.",
+        "We use the same technology across businesses in our own portfolio. Our businesses give us a direct environment to test the software, learn from results, and improve the system.",
+        "Every operating result becomes input for better software."
+      ],
+      "above": "looser"
+    }
   },
   "model": {
-    "eyebrow": "How We Work",
-    "headline": "Build the technology. Run businesses with it. Learn from the results.",
+    "eyebrow": "From Software to Operations",
+    "headline": {
+      "text": "Build the system. Operate with it. Learn what works.",
+      "size": "smaller"
+    },
     "body": [
       "Digit develops the systems behind increasingly autonomous operations and puts them to work inside its own portfolio.",
-      "Operating businesses gives the technology real constraints. Work has deadlines. Decisions have consequences. Systems fail. Markets change. Results can be measured.",
-      "Those conditions shape what we build far more than a controlled demonstration ever could.",
-      "Over time, the same software and infrastructure can support organizations outside Digit through products, platforms, and systems built for their operations."
+      "Operating those businesses gives the technology real constraints, real consequences, changing conditions, and results we can actually measure.",
+      "The technology evolves around what the businesses actually need, and shapes what we build, improve, and prioritize next.",
+      "Over time, the same technology can support other businesses with unique software, infrastructure, and systems built for their operations."
     ]
   },
   "vision": {
-    "eyebrow": "Vision",
+    "eyebrow": "Our Vision",
     "headline": "A business should get better at running itself.",
-    "intro": "Automation can make individual tasks faster. Digit is interested in the larger problem.",
-    "questions": "How does a business carry work forward without waiting for a person to assign every next step? How does it keep what it learns? How does it adapt when results change? How does it become more capable without losing human control?",
+    "intro": {
+      "text": "We're interested in software that automatees entire operations, not just tasks.",
+      "below": "looser"
+    },
+    "questions": "How does a business move from completing isolated tasks to continuously operating, learning, and improving within defined limits?",
     "body": [
-      "We are building software around those questions.",
-      "The long-term goal is technology that can take responsibility for more of a company's operation while the people behind the business remain responsible for its direction."
+      "That is the exact problem we want to solve.",
+      "The long-term goal is technology that can take on more operational responsibility while people remain in control of strategy and authority."
     ]
   },
   "beliefs": {
-    "eyebrow": "How We Think",
+    "eyebrow": "Operating Principles",
     "items": [
       {
-        "title": "Real operations matter.",
+        "title": "Building for real operations.",
         "body": "Software built to run businesses should be shaped by real business problems, not only demonstrations."
       },
       {
-        "title": "Learning should survive the task.",
-        "body": "Useful knowledge should remain available after the work that produced it is finished."
+        "title": "Intelligence should compound.",
+        "body": "Results, patterns, and lessons should become part of how the business operates."
       },
       {
         "title": "Autonomy needs boundaries.",
-        "body": "Software can take on more responsibility without taking every decision away from people."
+        "body": "Software can take on more responsibility without diminishing its owners' authority."
       },
       {
-        "title": "Better software should lead to better operations.",
-        "body": "The point is not to make agents look busy. The point is to help the business perform better."
+        "title": "Better systems produce better results.",
+        "body": "Our technology creates better decisions, better execution, and better results."
       }
     ]
   },
   "contact": {
-    "headline": "Want to know more about Digit?",
+    "headline": {
+      "text": "Want to learn more?",
+      "above": "tighter",
+      "below": "looser"
+    },
     "body": "For company inquiries, partnerships, technology discussions, or general questions, get in touch.",
     "secondary": "Explore the Technology"
   }

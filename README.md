@@ -79,16 +79,14 @@ where that is the real intent, then run `npm test`, `npm run build`, `npm run ch
 
 ## Deploying
 
-The previous site was plain HTML served by GitHub Pages straight from the root of `main`. This version must be
-built, so publishing changes:
+GitHub Pages publishes this site from GitHub Actions (**Settings -> Pages -> Build and deployment -> Source:
+GitHub Actions**). Every push to `main` runs `.github/workflows/deploy.yml`: `npm ci`, `npm test`, `npm run build`,
+`npm run check`, then publishes `dist/`. If any step fails, nothing is published and the previous deployment stays
+live. Keep the Pages source on GitHub Actions: the repository root has no `index.html`, so switching back to
+"Deploy from a branch" would break the live site.
 
-1. In the GitHub repository, set **Settings -> Pages -> Build and deployment -> Source** to **GitHub Actions**.
-2. Merge to `main`. `.github/workflows/deploy.yml` builds, checks and publishes `dist/`.
-
-Do step 1 before (or together with) the merge. If `main` is merged while Pages still serves the branch root,
-the live site breaks, because the root no longer contains an `index.html`.
-
-The custom domain stays `digit.software` (`public/CNAME`, plus the domain set in the Pages settings).
+The custom domain is `digit.software` (`public/CNAME`, plus the domain set in the Pages settings), with HTTPS
+enforced.
 
 ## Regenerating the social card
 

@@ -1,28 +1,38 @@
 {
   "hero": {
-    "eyebrow": "The Digit Platform",
-    "title": "Software that's intelligent enough to run businesses.",
-    "body": [
-      "Digit's platform is built for software that does more than answer questions or wait for instructions.",
-      "It can coordinate work, use specialized agents, keep track of what the business knows, act through connected systems, and surface the decisions that still need a person."
-    ],
+    "eyebrow": "Our Platform",
+    "title": {
+      "text": "Software for autonomous business operations.",
+      "size": "smaller",
+      "width": "narrower",
+      "below": "looser"
+    },
+    "body": {
+      "text": [
+        "Digit's platform is built for software that does more than answer questions or wait for instructions.",
+        "It combines specialized agents, shared knowledge, execution systems, and human oversight into one operating layer."
+      ],
+      "below": "looser"
+    },
     "primary": "See the Platform",
     "secondary": "Our Technology"
   },
   "overview": {
-    "eyebrow": "How It Fits Together",
-    "headline": "The parts work together.",
+    "eyebrow": "Built to Work Together",
+    "headline": {
+      "text": "A connected system for running the business.",
+      "size": "smaller"
+    },
     "body": [
       "Running a business requires more than a capable model or a collection of isolated agents.",
       "Digit combines software for coordination, execution, knowledge, oversight, and specialized work into one operating platform.",
-      "Neo coordinates the operation. Mission Control gives people a view across the business. Cerebro keeps what the organization knows. Specialized agents perform focused work. Morpheus provides the execution environment beneath them.",
       "Each part has a different job, but they work from the same operation."
     ],
     "note": "Illustrative platform model. Not live operational data."
   },
   "layers": {
     "neo": {
-      "name": "Neo",
+      "name": "Executive Layer",
       "body": "Coordinates priorities, work, decisions, and what needs attention."
     },
     "mission-control": {
@@ -34,50 +44,56 @@
       "body": "Keeps institutional knowledge connected and available across future work."
     },
     "agents": {
-      "name": "Specialized Agents",
+      "name": "Agents",
       "body": "Perform focused work across research, analysis, creation, review, monitoring, and other business functions."
     },
     "morpheus": {
-      "name": "Morpheus",
+      "name": "Operations Layer",
       "body": "Provides the execution environment that lets software carry work through approved systems and capabilities."
     }
   },
   "neo": {
-    "eyebrow": "Neo",
-    "headline": "Neo coordinates the business.",
-    "lead": "Neo is Digit's operating executive.",
+    "eyebrow": "Executive Layer",
+    "headline": {
+      "text": "Neo is Digit's Executive Agent",
+      "size": "smaller"
+    },
+    "lead": "He manages the business.",
     "body": [
-      "Instead of treating every request as an isolated task, Neo works across the broader operation. Priorities, active work, business context, decisions, problems, and opportunities can stay connected as the company moves forward.",
-      "Neo can coordinate work across different parts of the business, bring the right problems to a person, and keep routine operations moving within the limits the business has set.",
+      "Neo keeps priorities, active work, decisions, problems, and opportunities connected as the business moves forward.",
+      "Neo can coordinate work across different parts of the business, bring the right problems to a person, and keep routine operations moving within his limits.",
       "The goal is simple: people should be able to lead the company without personally coordinating every piece of work inside it."
     ],
     "diagramCore": "NEO",
     "items": [
       {
         "title": "Priorities",
-        "body": "Keep important work connected to what the business is trying to accomplish."
+        "body": "Keep active work connected to business goals and priorities."
       },
       {
         "title": "Coordination",
-        "body": "Bring different kinds of work together when an objective crosses systems or specialties."
+        "body": "Connect work across systems, teams, and specialized capabilities."
       },
       {
         "title": "Decisions",
-        "body": "Separate work that can continue autonomously from decisions that need a person."
+        "body": "Keep routine work moving while escalating decisions that require human judgment."
       },
       {
         "title": "Attention",
-        "body": "Surface the issues that actually matter instead of turning every event into an alert."
+        "body": "Bring forward important problems, decisions, and exceptions without unnecessary noise."
       }
     ]
   },
   "missionControl": {
     "eyebrow": "Mission Control",
-    "headline": "See the business as it operates.",
-    "lead": "Mission Control is the human interface to Digit's autonomous operations.",
+    "headline": {
+      "text": "A clear view of the entire operation.",
+      "size": "smaller"
+    },
+    "lead": "Mission Control is the human interface for Digit's autonomous operations.",
     "body": [
       "It brings the business into one place so people can understand what is happening without digging through agents, logs, tools, and disconnected systems.",
-      "The view can cover operations, businesses, financials, objectives, decisions, learning, company knowledge, and system health. When something needs a person, Mission Control should make the next step clear."
+      "Operations, businesses, financials, objectives, decisions, learning, company knowledge, and system health in one view. This gives owners visibility into the parts of their business that matter most"
     ],
     "items": [
       {
@@ -117,12 +133,15 @@
   },
   "cerebro": {
     "eyebrow": "Cerebro",
-    "headline": "What the business knows, in one connected system.",
-    "intro": "Businesses produce useful knowledge every day. Research, operating experience, decisions, evidence, procedures, results, and lessons often end up scattered across files and software.",
-    "lead": "Cerebro gives Digit a place to keep that knowledge connected.",
+    "headline": {
+      "text": "The knowledge behind the business.",
+      "size": "smaller"
+    },
+    "intro": "Businesses generate useful knowledge every day through research, decisions, results, procedures, and operating experience.",
+    "lead": "Cerebro turns scattered knowledge into connected business memory.",
     "body": [
       "A record can retain what was learned, where it came from, how it relates to other knowledge, and where it may be useful again. That gives future work access to more than the current conversation or task.",
-      "Cerebro is built as institutional memory for an operating company."
+      "Cerebro is the institutional memory behind the business."
     ],
     "kinds": {
       "knowledge": {

@@ -1,7 +1,10 @@
 {
   "hero": {
     "eyebrow": "Our Businesses",
-    "title": "Businesses built to operate differently.",
+    "title": {
+      "text": "Businesses built to operate differently.",
+      "size": "smaller"
+    },
     "body": [
       "Digit owns and manages a portfolio of businesses across e-commerce, media, marketing, web solutions, and software development.",
       "The businesses are different. The operating idea behind them is the same: use software to take on more of the work, learn from what happens, and improve how the business operates over time."
@@ -10,13 +13,16 @@
     "secondary": "Our Platform"
   },
   "portfolio": {
-    "eyebrow": "The Portfolio",
-    "headline": "Operating businesses changes how we build software.",
+    "eyebrow": "Our Portfolio",
+    "headline": {
+      "text": "Operating businesses changes how we build software.",
+      "below": "looser"
+    },
     "lead": "A business gives the technology real work to do.",
     "body": [
       "Markets move. Customers behave in unexpected ways. Processes break. New opportunities appear. Some ideas work and others do not.",
-      "Operating our own businesses gives Digit a direct way to learn from those conditions. The software has to deal with the same uncertainty, repetition, coordination, and decision-making that exists inside any real operation.",
-      "What we learn in the portfolio can shape what we build next."
+      "Operating our own businesses gives us a direct way to learn from those conditions. The software has to deal with the same uncertainty, repetition, coordination, and decision-making that exist anywhere.",
+      "What we learn helps to shape what we build next."
     ],
     "diagramNote": "The portfolio gives the technology somewhere real to work. The results feed back into the software."
   },
@@ -24,7 +30,10 @@
   "areas": {
     "e-commerce": {
       "eyebrow": "E-Commerce",
-      "headline": "Digital commerce built around better operations.",
+      "headline": {
+        "text": "Digital commerce built around efficiency and profitability.",
+        "size": "smaller"
+      },
       "body": [
         "Our e-commerce work covers the systems behind discovering, developing, merchandising, distributing, and improving products.",
         "That can include market and industry research, customer behavior, product development, pricing, merchandising, distribution, testing, performance measurement, and the operational work around keeping a commerce business moving.",
@@ -44,12 +53,15 @@
     },
     "media": {
       "eyebrow": "Media",
-      "headline": "Media businesses built for repeatable production and learning.",
+      "headline": {
+        "text": "Media businesses built for scalable production and learning.",
+        "size": "smaller"
+      },
       "body": [
-        "Digit's media businesses can span multiple media properties and formats without tying the company to a particular platform.",
+        "Digit operates media businesses across different formats, audiences, and distribution channels.",
         "The work can include research, content development, production, publishing, distribution, audience intelligence, performance analysis, and the systems needed to keep a content operation moving.",
-        "Each property can develop its own audience, format, voice, and business model while sharing technology for the work underneath.",
-        "What performs well becomes evidence. What fails can still produce useful information for the next decision."
+        "Each property can develop its own audience, format, voice, and business model while while using shared technology and operational infrastructure.",
+        "Results become evidence for what to produce, distribute, test, and improve next."
       ],
       "work": [
         "Research",
@@ -129,8 +141,12 @@
     "cta": "Explore the Technology"
   },
   "contact": {
-    "headline": "Interested in Digit's businesses?",
-    "body": "For portfolio, partnership, or company inquiries, get in touch.",
+    "headline": {
+      "text": "Any Questions?",
+      "above": "tighter",
+      "below": "looser"
+    },
+    "body": "For more information, partnership, or company inquiries, get in touch.",
     "secondary": "About Digit"
   }
 }
