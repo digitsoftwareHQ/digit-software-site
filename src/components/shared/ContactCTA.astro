@@ -3,9 +3,16 @@ import { SITE } from "../../data/site";
 
 interface Props {
   id?: string;
+  headline?: string;
+  body?: string;
   secondary?: { href: string; label: string } | null;
 }
-const { id = "contact", secondary = { href: "/platform", label: "Explore the platform" } } = Astro.props;
+const {
+  id = "contact",
+  headline = "Interested in what we're building?",
+  body = "If you're working on similar problems, interested in the technology, or want to learn more about Digit Software, we'd like to hear from you.",
+  secondary = { href: "/platform", label: "Our Platform" },
+} = Astro.props;
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 // A quiet echo of the knowledge universe from the top of the page (deterministic).
@@ -40,11 +47,8 @@ pts.forEach((p, i) => {
   </svg>
   <div class="wrap inner reveal">
     <p class="label kicker">Contact</p>
-    <h2 class="h2" id={`${id}-title`}>Interested in what we're building?</h2>
-    <p class="lede">
-      If you're thinking about how companies will run, working on similar problems, or simply curious about Digit, we'd
-      like to hear from you.
-    </p>
+    <h2 class="h2" id={`${id}-title`}>{headline}</h2>
+    <p class="lede">{body}</p>
     <div class="ctas">
       <a class="btn btn--primary" href={`mailto:${SITE.email}`}>{SITE.email} <Fragment set:html={arrow} /></a>
       {secondary && <a class="btn btn--ghost" href={secondary.href}>{secondary.label}</a>}

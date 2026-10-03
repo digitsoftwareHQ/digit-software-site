@@ -1,5 +1,5 @@
 ---
-import { NAV, SITE } from "../data/site";
+import { NAV } from "../data/site";
 
 interface Props {
   variant?: "home" | "page";
@@ -11,7 +11,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
 
 <header class="site-header" data-variant={variant} data-header>
   <div class="wrap bar">
-    <a class="brand" href="/" aria-label="Digit Software, home" aria-current={path === "/" ? "page" : undefined}>
+    <a class="brand" href="/" aria-label="Go to homepage" aria-current={path === "/" ? "page" : undefined}>
       <img src="/assets/digit-mark.svg" alt="" width="28" height="28" />
       <span class="brand-word">Digit <span>Software</span></span>
     </a>
@@ -29,7 +29,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     </nav>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
-      <span class="sr-only" data-menu-label>Open menu</span>
+      <span class="sr-only" data-menu-label>Open navigation</span>
       <span class="bars" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
@@ -37,15 +37,13 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
   <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
     <nav aria-label="Mobile">
       <ul>
-        <li style="--i:0"><a href="/" aria-current={path === "/" ? "page" : undefined}>Home</a></li>
         {NAV.map((item, i) => (
-          <li style={`--i:${i + 1}`}>
+          <li style={`--i:${i}`}>
             <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
           </li>
         ))}
       </ul>
     </nav>
-    <a class="label mobile-foot" href={`mailto:${SITE.email}`}>{SITE.email}</a>
   </div>
 </header>
 

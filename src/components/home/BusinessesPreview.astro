@@ -10,17 +10,20 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   <div class="wrap">
     <div class="grid">
       <div class="copy reveal">
-        <p class="label kicker">Businesses</p>
-        <h2 class="h2" id="businesses-title">Where the platform goes to work.</h2>
+        <p class="label kicker">Our Businesses</p>
+        <h2 class="h2" id="businesses-title">Businesses built to operate differently.</h2>
         <p class="lede">
-          We own and operate a portfolio of businesses built to run with increasing autonomy. Each one runs on the Digit
-          platform, and what it learns from real operations flows back into the technology and into every business
-          alongside it.
+          Digit owns and manages a portfolio of businesses across e-commerce, media, marketing, web solutions, and software
+          development.
         </p>
-        <a class="btn btn--ghost cta" href="/businesses">See the portfolio <Fragment set:html={arrow} /></a>
+        <p class="lede">
+          Each one gives us real problems to solve, real results to measure, and a place to put our technology to work. What
+          we learn from operating these businesses goes back into the software we build.
+        </p>
+        <a class="btn btn--ghost cta" href="/businesses">Explore Our Portfolio <Fragment set:html={arrow} /></a>
       </div>
       <div class="reveal" style="--d: 120ms">
-        <CycleDiagram />
+        <CycleDiagram center={["What we learn goes back", "into what we build."]} />
       </div>
     </div>
 
@@ -31,7 +34,7 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
             <a class="area" href={`/businesses#${b.id}`} style={`--h: ${b.hue}`}>
               <BusinessEmblem id={b.id} hue={b.hue} size={56} />
               <h3>{b.name}</h3>
-              <p>{b.line}</p>
+              <p>{b.summary}</p>
               <span class="go" aria-hidden="true">→</span>
             </a>
           </li>
@@ -55,6 +58,10 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
 
   .copy .lede {
     margin-top: 28px;
+  }
+
+  .copy .lede + .lede {
+    margin-top: 1em;
   }
 
   .cta {

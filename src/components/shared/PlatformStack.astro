@@ -195,7 +195,12 @@ const managers = [
               <span class="n label">0{i + 1}</span>
               <div>
                 <p class="layer-name">
-                  {layer.name} <span>{layer.role}</span>
+                  {layer.href ? (
+                    <a href={layer.href} aria-label={layer.ariaLabel}>{layer.name}</a>
+                  ) : (
+                    layer.name
+                  )}
+                  {layer.role && <span>{layer.role}</span>}
                 </p>
                 <p class="layer-text">{layer.text}</p>
               </div>
@@ -227,6 +232,11 @@ const managers = [
         set(it.dataset.layerItem!);
       });
       it.addEventListener("pointerleave", () => (hovering = false));
+      it.addEventListener("focusin", () => {
+        hovering = true;
+        set(it.dataset.layerItem!);
+      });
+      it.addEventListener("focusout", () => (hovering = false));
     });
     set(items[0].dataset.layerItem!);
     if (!reduce) {
@@ -483,6 +493,22 @@ const managers = [
     letter-spacing: -0.015em;
     line-height: 1.25;
     color: var(--ink);
+  }
+
+  .layer-name a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .layer-name a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .layer-name a:hover,
+  .layer.is-on .layer-name a {
+    color: var(--cyan-hi);
   }
 
   .layer-name span {

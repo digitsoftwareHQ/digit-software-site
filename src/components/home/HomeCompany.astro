@@ -1,0 +1,72 @@
+---
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<section class="section company" id="company" aria-labelledby="company-title">
+  <div class="wrap grid">
+    <div class="lead reveal">
+      <p class="label kicker">About Digit</p>
+      <h2 class="h2" id="company-title">Building the technology behind a new kind of business.</h2>
+    </div>
+    <div class="essay">
+      <p class="first reveal">Digit Software develops technology that helps businesses take on more of their own operation.</p>
+      <p class="reveal">
+        We use that technology across businesses we own in e-commerce, media, marketing, web solutions, and software
+        development. Running those businesses gives us a practical way to test what we build, learn from real operations,
+        and find out where the technology needs to get better.
+      </p>
+      <p class="reveal">
+        Over time, the same technology can support businesses outside Digit through software products, infrastructure, and
+        systems built for their operations.
+      </p>
+      <a class="btn btn--ghost cta reveal" href="/company">Learn More <Fragment set:html={arrow} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .company {
+    background:
+      radial-gradient(700px 500px at 85% 40%, rgba(139, 123, 255, 0.07), transparent 70%),
+      var(--bg-0);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .essay p {
+    font-size: clamp(18px, 1.6vw, 21px);
+    line-height: 1.6;
+    color: var(--ink-2);
+    text-wrap: pretty;
+    max-width: 32em;
+  }
+
+  .essay p + p {
+    margin-top: 1em;
+  }
+
+  .essay .first {
+    font-size: clamp(24px, 2.3vw, 32px);
+    line-height: 1.32;
+    font-weight: 500;
+    font-stretch: 106%;
+    letter-spacing: -0.016em;
+    color: var(--ink);
+    max-width: 22em;
+  }
+
+  .cta {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -22,10 +22,10 @@ export interface KnowledgeClass {
 export const CLASSES: KnowledgeClass[] = [
   { key: "knowledge", name: "Knowledge", color: "#36c6ff" },
   { key: "evidence", name: "Evidence", color: "#4fd8b0" },
-  { key: "experience", name: "Experience", color: "#f3b968" },
-  { key: "procedures", name: "Procedure", color: "#d6e2ff" },
+  { key: "experience", name: "Learning", color: "#f3b968" },
+  { key: "procedures", name: "Procedures", color: "#d6e2ff" },
   { key: "organization", name: "Organization", color: "#8f86ff" },
-  { key: "governance", name: "Governance", color: "#ff7aa8" },
+  { key: "governance", name: "Decisions", color: "#ff7aa8" },
 ];
 
 const CLASS_INDEX = new Map(CLASSES.map((c, i) => [c.key, i]));
@@ -62,6 +62,8 @@ export interface QuietRect {
 export interface FocusLabel {
   cls: string;
   title: string;
+  /** Shown above the title; defaults to the class name. */
+  kind?: string;
 }
 
 export interface UniverseOptions {
@@ -281,6 +283,7 @@ export class Universe {
   private last = 0;
   private time = 0;
   private running = false;
+  private paused = false;
   private visible = true;
   private reduce: boolean;
   private yaw: number;
@@ -394,12 +397,28 @@ export class Universe {
     if (!this.running) this.frame(performance.now());
   }
 
+  /** Stop or resume ambient movement (rotation, pulses, automatic focus). Interaction still works. */
+  setPaused(p: boolean) {
+    this.paused = p;
+    if (p) this.pulses.length = 0;
+    this.kick();
+  }
+
+  /** Make sure a frame is coming: restarts the loop if it was idle. */
+  private kick() {
+    if (this.reduce) {
+      this.renderStill();
+      return;
+    }
+    this.updateRunning();
+  }
+
   /** Focus a node explicitly (constellation inspector); null resumes the automatic cycle. */
   pin(index: number | null) {
     this.pinnedId = index;
     if (index !== null) this.setFocus(index, true);
     else this.nextFocusAt = this.time + 1.2;
-    if (this.reduce) this.renderStill();
+    this.kick();
   }
 
   destroy() {
@@ -437,11 +456,13 @@ export class Universe {
         this.pYawT = nx * 0.32;
         this.pPitchT = ny * 0.16;
         if (this.o.hoverFocus) this.hoverPick(e.clientX - r.left, e.clientY - r.top, e.target as Element);
+        if (this.paused) this.kick();
       };
       const onLeave = () => {
         this.pYawT = 0;
         this.pPitchT = 0;
         if (this.hoverId !== null) this.hoverId = null;
+        if (this.paused) this.kick();
       };
       const onClick = (e: MouseEvent) => {
         if (this.hoverId === null || !this.o.onFocus) return;
@@ -479,9 +500,11 @@ export class Universe {
       el.addEventListener("pointerenter", () => {
         this.hoverId = i;
         this.setFocus(i);
+        this.kick();
       });
       el.addEventListener("pointerleave", () => {
         if (this.hoverId === i) this.hoverId = null;
+        this.kick();
       });
       layer.appendChild(el);
       return el;
@@ -545,7 +568,21 @@ export class Universe {
   private loop(now: number) {
     if (!this.running) return;
     this.frame(now);
+    if (this.paused && this.settled()) {
+      // Nothing is moving: hold the still frame until the next interaction.
+      this.running = false;
+      return;
+    }
     this.raf = requestAnimationFrame((t) => this.loop(t));
+  }
+
+  private settled() {
+    const target = this.hoverId ?? this.pinnedId ?? this.focusId;
+    for (let i = 0; i < this.n; i++) {
+      const goal = i === target ? 1 : 0;
+      if (Math.abs(this.focus[i] - goal) > 0.003 || this.flash[i] > 0.003) return false;
+    }
+    return Math.abs(this.pYaw - this.pYawT) < 0.001 && Math.abs(this.pPitch - this.pPitchT) < 0.001;
   }
 
   private frame(now: number) {
@@ -570,10 +607,12 @@ export class Universe {
     const engaged = this.focusId !== null && this.focus[this.focusId] > 0.3;
     const gainT = this.pinnedId !== null || this.hoverId !== null ? 0 : engaged ? 0.3 : 1;
     this.spinGain += (gainT - this.spinGain) * Math.min(1, dt * 2.2);
-    if (this.o.sway > 0) {
-      this.yaw = this.o.yaw + Math.sin(t * this.o.spin) * this.o.sway;
-    } else {
-      this.yaw += this.o.spin * dt * this.spinGain;
+    if (!this.paused) {
+      if (this.o.sway > 0) {
+        this.yaw = this.o.yaw + Math.sin(t * this.o.spin) * this.o.sway;
+      } else {
+        this.yaw += this.o.spin * dt * this.spinGain;
+      }
     }
 
     const ease = Math.min(1, dt * 2.4);
@@ -581,7 +620,7 @@ export class Universe {
     this.pPitch += (this.pPitchT - this.pPitch) * ease;
 
     // Focus cycle.
-    if (this.pinnedId === null && this.hoverId === null && this.o.focusEvery > 0 && t >= this.nextFocusAt && this.intro > 0.7) {
+    if (!this.paused && this.pinnedId === null && this.hoverId === null && this.o.focusEvery > 0 && t >= this.nextFocusAt && this.intro > 0.7) {
       const next = this.pickFocus();
       if (next !== null) this.setFocus(next);
       this.nextFocusAt = t + this.o.focusEvery / 1000;
@@ -610,7 +649,7 @@ export class Universe {
     }
 
     // Pulses travel along relationships; some propagate onward.
-    if (this.o.pulses) {
+    if (this.o.pulses && !this.paused) {
       for (let p = this.pulses.length - 1; p >= 0; p--) {
         const pu = this.pulses[p];
         pu.t += dt / pu.dur;
@@ -635,7 +674,7 @@ export class Universe {
   }
 
   private spawn(from: number, to: number, hops: number) {
-    if (this.pulses.length > 18) return;
+    if (this.pulses.length > 18 || this.paused) return;
     const dx = this.nodes[from].x - this.nodes[to].x;
     const dy = this.nodes[from].y - this.nodes[to].y;
     const dz = this.nodes[from].z - this.nodes[to].z;
@@ -660,17 +699,20 @@ export class Universe {
     const nd = this.nodes[i];
     const cls = CLASSES[nd.c];
     let title = nd.title;
+    let kindName = cls.name;
     if (!title) {
       const pool = this.o.focusLabels.filter((l) => l.cls === cls.key);
       if (pool.length) {
         const k = this.labelCursor.get(nd.c) ?? 0;
-        title = pool[k % pool.length].title;
+        const label = pool[k % pool.length];
+        title = label.title;
+        kindName = label.kind ?? cls.name;
         this.labelCursor.set(nd.c, k + 1);
       }
     }
     const kind = tip.querySelector<HTMLElement>("[data-kind]");
     const ttl = tip.querySelector<HTMLElement>("[data-title]");
-    if (kind) kind.textContent = cls.name;
+    if (kind) kind.textContent = kindName;
     if (ttl) ttl.textContent = title ?? "";
     tip.style.setProperty("--c", cls.color);
   }

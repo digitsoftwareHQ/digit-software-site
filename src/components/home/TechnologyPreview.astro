@@ -2,14 +2,14 @@
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 const items = [
-  { t: "Agentic execution", d: "Work runs as bounded assignments with a role, a scope and a record.", href: "/technology#execution" },
-  { t: "Organizational structure", d: "Managers and specialist agents with persistent roles.", href: "/technology#agents" },
-  { t: "Knowledge", d: "Connected records with their evidence and provenance.", href: "/technology#knowledge" },
-  { t: "Learning", d: "Lessons that change procedures, defaults and priorities.", href: "/technology#knowledge" },
-  { t: "Governance", d: "Authority checked before anything consequential happens.", href: "/technology#governance" },
-  { t: "Integrations", d: "Deliberate, scoped connections to the tools a business runs on.", href: "/technology#integrations" },
-  { t: "Observability", d: "Every action traceable to an actor, a time and a cause.", href: "/technology#reliability" },
-  { t: "Resilience", d: "Checkpointed state, failure handling and tested recovery.", href: "/technology#reliability" },
+  { t: "Execution", d: "Turn objectives into work and carry that work through.", href: "/technology#execution" },
+  { t: "Specialized Agents", d: "Use different capabilities for different kinds of work.", href: "/technology#agents" },
+  { t: "Knowledge", d: "Keep useful context and experience beyond a single task.", href: "/technology#knowledge" },
+  { t: "Learning", d: "Use results from past work to improve future work.", href: "/technology#knowledge" },
+  { t: "Governance", d: "Control what software is allowed to do.", href: "/technology#governance" },
+  { t: "Integrations", d: "Connect work to the systems businesses already use.", href: "/technology#integrations" },
+  { t: "Observability", d: "See what happened, when it happened, and why.", href: "/technology#observability" },
+  { t: "Resilience", d: "Recover from problems without losing the state of the work.", href: "/technology#reliability" },
 ];
 ---
 
@@ -18,13 +18,16 @@ const items = [
     <div class="head">
       <div class="section-head reveal">
         <p class="label kicker">Technology</p>
-        <h2 class="h2" id="tech-title">What's underneath.</h2>
+        <h2 class="h2" id="tech-title">The infrastructure behind intelligent businesses.</h2>
+        <p class="lede">An agent can complete a task. Running part of a business is a much larger engineering problem.</p>
         <p class="lede">
-          Most of the hard problems in an autonomous company are problems of structure: who may do what, how work is
-          tracked, what gets remembered, and how the company recovers when something goes wrong.
+          Work has to be coordinated across different systems and capabilities. Context has to carry from one task to the
+          next. Software needs controlled access to outside tools and services. Failures have to be handled. Decisions and
+          actions need to be visible. What the business learns needs to remain useful after the work is done.
         </p>
+        <p class="closing">We build that infrastructure from the ground up.</p>
       </div>
-      <a class="btn btn--ghost cta reveal" href="/technology">Explore the technology <Fragment set:html={arrow} /></a>
+      <a class="btn btn--ghost cta reveal" href="/technology">Explore Our Technology <Fragment set:html={arrow} /></a>
     </div>
 
     <ol class="spec">
@@ -63,6 +66,19 @@ const items = [
 
   .cta {
     flex: none;
+  }
+
+  .section-head .lede + .lede {
+    margin-top: 1em;
+  }
+
+  .closing {
+    margin-top: 24px;
+    font-size: clamp(19px, 1.7vw, 23px);
+    font-weight: 540;
+    font-stretch: 106%;
+    letter-spacing: -0.01em;
+    color: var(--ink);
   }
 
   .spec {

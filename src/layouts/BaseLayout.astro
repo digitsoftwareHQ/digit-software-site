@@ -5,9 +5,10 @@ import monaLatin from "@fontsource-variable/mona-sans/files/mona-sans-latin-wdth
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE } from "../data/site";
+import { SEO, SITE } from "../data/site";
 
 interface Props {
+  /** Full page title as it appears in search results. */
   title?: string;
   description?: string;
   path?: string;
@@ -17,14 +18,14 @@ interface Props {
 }
 
 const {
-  title,
-  description = SITE.description,
+  title = SEO.home.title,
+  description = SEO.home.description,
   path = "/",
   noindex = false,
   variant = "page",
 } = Astro.props;
 
-const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${SITE.tagline}`;
+const fullTitle = title;
 const canonical = new URL(path, SITE.url).toString();
 const ogImage = new URL(SITE.ogImage, SITE.url).toString();
 
@@ -36,7 +37,7 @@ const organization = {
   url: `${SITE.url}/`,
   logo: `${SITE.url}/assets/icon-192.png`,
   email: SITE.email,
-  description: SITE.description,
+  description: SEO.home.description,
 };
 ---
 
@@ -62,7 +63,7 @@ const organization = {
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:title" content={title ?? SITE.ogTitle} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
@@ -71,7 +72,7 @@ const organization = {
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content={SITE.ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title ?? SITE.ogTitle} />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={SITE.ogImageAlt} />

@@ -2,12 +2,38 @@ export const SITE = {
   name: "Digit Software",
   url: "https://digit.software",
   email: "info@digit.software",
-  tagline: "Software for companies that run themselves",
-  ogTitle: "Software for companies that run themselves, and get better at it.",
-  description:
-    "Digit Software builds software that helps businesses think, operate and improve on their own, with people in control of the decisions that matter.",
-  ogImage: "/assets/digit-social-v4.png",
-  ogImageAlt: "Digit Software: software for companies that run themselves, and get better at it.",
+  description: "Software for businesses that can think, operate, and improve on their own.",
+  ogImage: "/assets/digit-social-v5.png",
+  ogImageAlt: "Digit Software: software for businesses that can think, operate, and improve on their own.",
+} as const;
+
+/** Page titles and meta descriptions. */
+export const SEO = {
+  home: {
+    title: "Digit Software | Software for Autonomous Business Operations",
+    description:
+      "Digit Software engineers intelligent software, autonomous systems, and the infrastructure behind businesses that can operate and improve with increasing independence.",
+  },
+  company: {
+    title: "Company | Digit Software",
+    description:
+      "Learn how Digit Software builds technology for autonomous business operations and uses it across a portfolio of businesses it owns and manages.",
+  },
+  platform: {
+    title: "Platform | Digit Software",
+    description:
+      "Explore the software Digit is building to coordinate business operations, specialized agents, execution, institutional knowledge, and human oversight.",
+  },
+  businesses: {
+    title: "Businesses | Digit Software",
+    description:
+      "Explore Digit Software's portfolio across e-commerce, media, marketing, web solutions, and software development.",
+  },
+  technology: {
+    title: "Technology | Digit Software",
+    description:
+      "Explore the execution, knowledge, governance, integrations, and reliability systems behind Digit's autonomous business software.",
+  },
 } as const;
 
 /** Primary navigation. The wordmark is the link home. */
@@ -18,58 +44,7 @@ export const NAV = [
   { href: "/technology", label: "Technology" },
 ] as const;
 
-export const FOOTER_NAV = [
-  {
-    title: "Platform",
-    href: "/platform",
-    links: [
-      { href: "/platform#overview", label: "Overview" },
-      { href: "/platform#neo", label: "Neo" },
-      { href: "/platform#mission-control", label: "Mission Control" },
-      { href: "/platform#cerebro", label: "Cerebro" },
-    ],
-  },
-  {
-    title: "Company",
-    href: "/company",
-    links: [
-      { href: "/company#about", label: "About" },
-      { href: "/company#vision", label: "Vision" },
-      { href: "/company#journal", label: "Journal" },
-      { href: "/company#contact", label: "Contact" },
-    ],
-  },
-  {
-    title: "Businesses",
-    href: "/businesses",
-    links: [
-      { href: "/businesses#portfolio", label: "Portfolio" },
-      { href: "/businesses#e-commerce", label: "E-Commerce" },
-      { href: "/businesses#media", label: "Media" },
-      { href: "/businesses#marketing", label: "Marketing" },
-      { href: "/businesses#web-solutions", label: "Web Solutions" },
-      { href: "/businesses#software-development", label: "Software Development" },
-    ],
-  },
-  {
-    title: "Technology",
-    href: "/technology",
-    links: [
-      { href: "/technology#architecture", label: "Architecture" },
-      { href: "/technology#execution", label: "Execution" },
-      { href: "/technology#agents", label: "Agents" },
-      { href: "/technology#knowledge", label: "Knowledge & learning" },
-      { href: "/technology#governance", label: "Governance" },
-      { href: "/technology#integrations", label: "Integrations" },
-      { href: "/technology#reliability", label: "Reliability" },
-    ],
-  },
-  {
-    title: "Legal",
-    href: "/privacy",
-    links: [
-      { href: "/privacy", label: "Privacy" },
-      { href: "/terms", label: "Terms" },
-    ],
-  },
+export const LEGAL_NAV = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
 ] as const;

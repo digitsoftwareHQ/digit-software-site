@@ -1,75 +1,96 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/shared/PageHero.astro";
+import PlatformStack from "../components/shared/PlatformStack.astro";
 import MissionControlMock from "../components/shared/MissionControlMock.astro";
 import CerebroExplorer from "../components/shared/CerebroExplorer.astro";
-import ContactCTA from "../components/shared/ContactCTA.astro";
+import ClosingBand from "../components/shared/ClosingBand.astro";
+import { SEO } from "../data/site";
+import { KINDS } from "../data/cerebro-example";
+import { CLASSES } from "../scripts/universe";
+import type { StackLayer } from "../data/types";
 
-const products = [
+const layers: StackLayer[] = [
   {
     id: "neo",
     name: "Neo",
-    role: "The operating executive",
-    text: "Runs the operation: priorities, assignments, decisions within its authority, and escalation to the owner.",
+    text: "Coordinates priorities, work, decisions, and what needs attention.",
+    art: "orbit",
+    href: "#neo",
+    ariaLabel: "View Neo",
   },
   {
     id: "mission-control",
     name: "Mission Control",
-    role: "The owner's command center",
-    text: "How the owner understands, directs, inspects and governs everything the company is doing.",
+    text: "Shows what is happening across the business and gives people a place to inspect and direct it.",
+    art: "tiles",
+    href: "#mission-control",
+    ariaLabel: "View Mission Control",
   },
   {
     id: "cerebro",
     name: "Cerebro",
-    role: "Institutional intelligence",
-    text: "Everything the company knows and has learned, connected, with its evidence, shaping every next decision.",
+    text: "Keeps institutional knowledge connected and available across future work.",
+    art: "cluster",
+    href: "#cerebro",
+    ariaLabel: "View Cerebro",
+  },
+  {
+    id: "agents",
+    name: "Specialized Agents",
+    text: "Perform focused work across research, analysis, creation, review, monitoring, and other business functions.",
+    art: "teams",
+    href: "/technology#agents",
+  },
+  {
+    id: "morpheus",
+    name: "Morpheus",
+    text: "Provides the execution environment that lets software carry work through approved systems and capabilities.",
+    art: "rails",
+    href: "/technology#execution",
+    ariaLabel: "View execution layer",
   },
 ];
 
-const neoDoes = [
-  { t: "Priorities", d: "Keeps the company's priorities straight across every business." },
-  { t: "Assignments", d: "Turns direction into work for the right managers and agents." },
-  { t: "Decisions", d: "Decides what it can, within the authority it has been given." },
-  { t: "Problems and opportunities", d: "Notices both early and acts on them or raises them." },
-  { t: "Escalation", d: "Brings the owner what needs a person, with the evidence to decide." },
-  { t: "Briefings", d: "Reports what changed, what is at risk and what comes next." },
+const neoItems = [
+  { t: "Priorities", d: "Keep important work connected to what the business is trying to accomplish." },
+  { t: "Coordination", d: "Bring different kinds of work together when an objective crosses systems or specialties." },
+  { t: "Decisions", d: "Separate work that can continue autonomously from decisions that need a person." },
+  { t: "Attention", d: "Surface the issues that actually matter instead of turning every event into an alert." },
 ];
 
-const verbs = [
-  { t: "Understand", d: "The health of the company, every business and every piece of work, at a glance or in depth." },
-  { t: "Direct", d: "Set objectives and priorities. Neo and the agents turn them into work." },
-  { t: "Inspect", d: "Open anything: the work, the reasoning behind it, its evidence and its history." },
-  { t: "Govern", d: "Approve or decline what is waiting, and decide how much autonomy each kind of work receives." },
+const mcItems = [
+  { t: "Company", d: "Understand the state of the organization and its businesses." },
+  { t: "Operations", d: "See what is active, what has finished, and what is blocked." },
+  { t: "Decisions", d: "Review the actions that need human judgment before they continue." },
+  { t: "Financials", d: "Inspect revenue, expenses, profit, budgets, and financial activity where available." },
+  { t: "Learning", d: "See what the business has learned from recent work and experiments." },
+  { t: "System", d: "Understand whether the software and connected services are operating normally." },
 ];
 
-const principles = [
-  { t: "Evidence attached", d: "A lesson links to the results, records and experiments behind it." },
-  { t: "Provenance kept", d: "Every record shows where it came from, who stands behind it and how durable it is." },
-  { t: "Superseded, never erased", d: "When understanding changes, the earlier version stays on the record, marked as replaced." },
-  { t: "Shared across the company", d: "What one business learns is available to every manager and agent that can use it." },
-  { t: "Learning changes behavior", d: "Lessons are linked to the procedures and decisions they changed." },
+const questions = [
+  "Is everything running normally?",
+  "What needs my attention?",
+  "What is happening now?",
+  "What changed?",
+  "What does the system recommend?",
+  "What did the business learn?",
 ];
 
-const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
+const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
 ---
 
-<BaseLayout
-  variant="home"
-  title="Platform"
-  description="Neo, Mission Control and Cerebro: an operating platform for autonomous companies, with people in control of the decisions that matter."
-  path="/platform"
->
+<BaseLayout variant="home" title={SEO.platform.title} description={SEO.platform.description} path="/platform">
   <PageHero
     tone="platform"
-    kicker="Platform"
-    title="An operating platform <span>for autonomous companies.</span>"
-    lede="Neo runs the operation, Mission Control keeps the owner in command, and Cerebro gives the company intelligence that compounds. Underneath them, agents do the work within the limits the owner sets."
-    index={[
-      { href: "#overview", label: "Overview" },
-      { href: "#neo", label: "Neo" },
-      { href: "#mission-control", label: "Mission Control" },
-      { href: "#cerebro", label: "Cerebro" },
+    kicker="The Digit Platform"
+    title="Software that's intelligent enough to run businesses."
+    body={[
+      "Digit's platform is built for software that does more than answer questions or wait for instructions.",
+      "It can coordinate work, use specialized agents, keep track of what the business knows, act through connected systems, and surface the decisions that still need a person.",
     ]}
+    primary={{ href: "#overview", label: "See the Platform" }}
+    secondary={{ href: "/technology", label: "Our Technology" }}
   >
     <svg slot="backdrop" class="rings" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice">
       <g fill="none" stroke-width="1">
@@ -87,114 +108,29 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
 
   <section class="section overview" id="overview" aria-labelledby="overview-title">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label kicker">Overview</p>
-        <h2 class="h2" id="overview-title">Three products, one system.</h2>
-        <p class="lede">
-          Each product has its own job. Together they let a company operate continuously, keep a complete picture of
-          itself, and learn from everything it does, while its owner keeps hold of every decision that matters.
-        </p>
+      <div class="overview-grid">
+        <div class="reveal">
+          <p class="label kicker">How It Fits Together</p>
+          <h2 class="h2" id="overview-title">The parts work together.</h2>
+        </div>
+        <div class="paras">
+          <p class="reveal">Running a business requires more than a capable model or a collection of isolated agents.</p>
+          <p class="reveal">
+            Digit combines software for coordination, execution, knowledge, oversight, and specialized work into one operating
+            platform.
+          </p>
+          <p class="reveal">
+            Neo coordinates the operation. Mission Control gives people a view across the business. Cerebro keeps what the
+            organization knows. Specialized agents perform focused work. Morpheus provides the execution environment beneath
+            them.
+          </p>
+          <p class="reveal">Each part has a different job, but they work from the same operation.</p>
+        </div>
       </div>
-
-      <ul class="products">
-        {
-          products.map((p, i) => (
-            <li class="reveal" style={`--d: ${i * 90}ms`}>
-              <a class="product" href={`#${p.id}`}>
-                <svg class="glyph" viewBox="0 0 120 80" aria-hidden="true">
-                  {p.id === "neo" && (
-                    <g>
-                      <ellipse class="g-line" cx="60" cy="40" rx="44" ry="22" />
-                      <ellipse class="g-faint" cx="60" cy="40" rx="26" ry="13" />
-                      <circle class="g-core" cx="60" cy="40" r="5" />
-                      <circle class="g-dot" cx="104" cy="40" r="3" />
-                      <circle class="g-dot v" cx="27" cy="54" r="2.6" />
-                      <circle class="g-dot w" cx="74" cy="19" r="2.4" />
-                    </g>
-                  )}
-                  {p.id === "mission-control" && (
-                    <g>
-                      <rect class="g-line" x="14" y="12" width="92" height="58" rx="6" />
-                      <rect class="g-fill" x="22" y="22" width="34" height="20" rx="3" />
-                      <rect class="g-faint" x="62" y="22" width="36" height="20" rx="3" />
-                      <rect class="g-faint" x="22" y="48" width="76" height="14" rx="3" />
-                      <path class="g-line" d="M26 58 C 38 52, 46 60, 58 54 S 80 50, 94 55" />
-                    </g>
-                  )}
-                  {p.id === "cerebro" && (
-                    <g>
-                      <path class="g-faint" d="M30 50 L48 30 L66 44 L84 24 L96 48 L66 44 M48 30 L52 60 L30 50 M52 60 L80 62 L96 48" />
-                      <circle class="g-dot" cx="48" cy="30" r="3.2" />
-                      <circle class="g-dot g" cx="30" cy="50" r="2.6" />
-                      <circle class="g-dot a" cx="66" cy="44" r="2.8" />
-                      <circle class="g-dot w" cx="84" cy="24" r="2.6" />
-                      <circle class="g-dot v" cx="96" cy="48" r="2.6" />
-                      <circle class="g-dot p" cx="52" cy="60" r="2.2" />
-                      <circle class="g-dot" cx="80" cy="62" r="2.2" />
-                    </g>
-                  )}
-                </svg>
-                <h3>{p.name}</h3>
-                <p class="role">{p.role}</p>
-                <p class="text">{p.text}</p>
-                <span class="go" aria-hidden="true">→</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-
-      <figure class="system reveal" aria-label="How the parts work together">
-        <svg viewBox="0 0 1000 270" role="img" aria-labelledby="system-desc">
-          <desc id="system-desc">
-            The owner works through Mission Control. Neo coordinates the agents, which operate the businesses. Cerebro learns
-            from all of it and informs every level.
-          </desc>
-          <defs>
-            <linearGradient id="sys-line" gradientUnits="userSpaceOnUse" x1="100" y1="0" x2="900" y2="0">
-              <stop offset="0" stop-color="rgba(127,227,255,0.25)" />
-              <stop offset="0.5" stop-color="rgba(127,227,255,0.75)" />
-              <stop offset="1" stop-color="rgba(127,227,255,0.25)" />
-            </linearGradient>
-          </defs>
-          <line class="spine" x1="100" y1="80" x2="900" y2="80" />
-          <path class="loop faint" d="M 300 92 C 320 190, 520 222, 580 222" />
-          <path class="loop" d="M 500 92 C 505 170, 560 214, 584 218" />
-          <path class="loop" d="M 700 92 C 695 170, 640 214, 616 218" />
-          <path class="loop" d="M 900 92 C 880 190, 680 222, 620 222" />
-          {[
-            { x: 100, t: "Owner", s: "Decides what matters" },
-            { x: 300, t: "Mission Control", s: "Sees and steers" },
-            { x: 500, t: "Neo", s: "Runs the operation" },
-            { x: 700, t: "Agents", s: "Do the work" },
-            { x: 900, t: "Businesses", s: "Where it happens" },
-          ].map((n) => (
-            <g class="node">
-              <circle cx={n.x} cy="80" r="8" />
-              <text class="t" x={n.x} y="50" text-anchor="middle">{n.t}</text>
-              <text class="s" x={n.x} y="112" text-anchor="middle">{n.s}</text>
-            </g>
-          ))}
-          <g class="cerebro-node">
-            <circle class="halo" cx="600" cy="222" r="26" />
-            <circle cx="600" cy="222" r="12" />
-            <text class="t" x="600" y="266" text-anchor="middle">Cerebro</text>
-          </g>
-          <text class="s" x="760" y="250">Learns from all of it,</text>
-          <text class="s" x="760" y="268">informs every level</text>
-          <circle class="runner" r="4">
-            <animateMotion dur="7s" repeatCount="indefinite" path="M 100 80 L 900 80" />
-          </circle>
-        </svg>
-        <ol class="system-list">
-          <li><b>Owner</b><span>Decides what matters</span></li>
-          <li><b>Mission Control</b><span>Sees and steers</span></li>
-          <li><b>Neo</b><span>Runs the operation</span></li>
-          <li><b>Agents</b><span>Do the work</span></li>
-          <li><b>Businesses</b><span>Where it happens</span></li>
-          <li class="cer"><b>Cerebro</b><span>Learns from all of it, informs every level</span></li>
-        </ol>
-      </figure>
+      <div class="stack-wrap">
+        <PlatformStack layers={layers} />
+      </div>
+      <p class="label note reveal">Illustrative platform model. Not live operational data.</p>
     </div>
   </section>
 
@@ -203,27 +139,23 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
       <div>
         <div class="reveal">
           <p class="label kicker">Neo</p>
-          <h2 class="h2" id="neo-title">Neo <span class="sub">The operating executive.</span></h2>
+          <h2 class="h2" id="neo-title">Neo coordinates the business.</h2>
         </div>
-        <p class="body big reveal">
-          Neo sits at the center of the organization, between the owner and everyone doing the work. It keeps priorities
-          straight across every business, turns direction into assignments for the right managers, follows the work
-          through, and decides what it can within the authority it has been given.
-        </p>
-        <p class="body reveal">
-          When something needs a person, Neo brings it to the owner with the context and evidence to decide quickly. Like
-          any executive, it has responsibilities, a team, defined authority and an obligation to report.
-        </p>
-        <ul class="does reveal">
-          {
-            neoDoes.map((d) => (
-              <li>
-                <p>{d.t}</p>
-                <span>{d.d}</span>
-              </li>
-            ))
-          }
-        </ul>
+        <div class="paras">
+          <p class="big reveal">Neo is Digit's operating executive.</p>
+          <p class="reveal">
+            Instead of treating every request as an isolated task, Neo works across the broader operation. Priorities, active
+            work, business context, decisions, problems, and opportunities can stay connected as the company moves forward.
+          </p>
+          <p class="reveal">
+            Neo can coordinate work across different parts of the business, bring the right problems to a person, and keep
+            routine operations moving within the limits the business has set.
+          </p>
+          <p class="reveal">
+            The goal is simple: people should be able to lead the company without personally coordinating every piece of work
+            inside it.
+          </p>
+        </div>
       </div>
 
       <figure class="orbit reveal" style="--d: 120ms" aria-hidden="true">
@@ -237,21 +169,21 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
           <circle cx="260" cy="260" r="170" fill="none" stroke="rgba(110,190,255,0.18)" />
           <circle cx="260" cy="260" r="110" fill="none" stroke="rgba(110,190,255,0.08)" stroke-dasharray="2 6" />
           <circle cx="260" cy="260" r="90" fill="url(#neo-core)" />
-          {ring.map((name, i) => {
-            const a = (i / ring.length) * Math.PI * 2 - Math.PI / 2;
+          {neoItems.map((item, i) => {
+            const a = (i / neoItems.length) * Math.PI * 2 - Math.PI / 4;
             const x = 260 + Math.cos(a) * 170;
             const y = 260 + Math.sin(a) * 170;
-            const lx = 260 + Math.cos(a) * 214;
-            const ly = 260 + Math.sin(a) * 214 + 5;
+            const lx = 260 + Math.cos(a) * 196;
+            const ly = 260 + Math.sin(a) * 196 + (Math.sin(a) > 0 ? 22 : -12);
             return (
-              <g class="mgr">
+              <g class="node">
                 <line x1="260" y1="260" x2={x} y2={y} />
-                <circle class="pulse" r="3" style={`--dur: ${3.2 + i * 0.5}s`}>
-                  <animateMotion dur={`${3.2 + i * 0.5}s`} repeatCount="indefinite" path={`M 260 260 L ${x} ${y}`} />
+                <circle class="pulse" r="3">
+                  <animateMotion dur={`${3.4 + i * 0.6}s`} repeatCount="indefinite" path={`M 260 260 L ${x} ${y}`} />
                 </circle>
                 <circle cx={x} cy={y} r="9" />
-                <text x={lx} y={ly} text-anchor={Math.abs(Math.cos(a)) < 0.3 ? "middle" : Math.cos(a) > 0 ? "start" : "end"}>
-                  {name}
+                <text x={lx} y={ly} text-anchor={Math.cos(a) > 0 ? "start" : "end"}>
+                  {item.t}
                 </text>
               </g>
             );
@@ -259,34 +191,49 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
           <circle cx="260" cy="260" r="16" class="neo-core" />
           <text class="neo-label" x="260" y="304" text-anchor="middle">NEO</text>
         </svg>
-        <div class="route">
-          <div><span class="dot ok"></span><p><b>Within its authority</b>Neo decides, acts and records why.</p></div>
-          <div><span class="dot warn"></span><p><b>Beyond it</b>Neo prepares the decision and brings it to the owner.</p></div>
-        </div>
       </figure>
+    </div>
+
+    <div class="wrap">
+      <ul class="items four">
+        {
+          neoItems.map((it, i) => (
+            <li class="reveal" style={`--d: ${i * 70}ms`}>
+              <h3>{it.t}</h3>
+              <p>{it.d}</p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
   <section class="section mc" id="mission-control" aria-labelledby="mc-title">
     <div class="wrap">
-      <div class="reveal">
-        <p class="label kicker">Mission Control</p>
-        <h2 class="h2" id="mc-title">Mission Control <span class="sub">The executive interface to an autonomous company.</span></h2>
+      <div class="mc-head">
+        <div class="reveal">
+          <p class="label kicker">Mission Control</p>
+          <h2 class="h2" id="mc-title">See the business as it operates.</h2>
+        </div>
+        <div class="paras">
+          <p class="big reveal">Mission Control is the human interface to Digit's autonomous operations.</p>
+          <p class="reveal">
+            It brings the business into one place so people can understand what is happening without digging through agents,
+            logs, tools, and disconnected systems.
+          </p>
+          <p class="reveal">
+            The view can cover operations, businesses, financials, objectives, decisions, learning, company knowledge, and
+            system health. When something needs a person, Mission Control should make the next step clear.
+          </p>
+        </div>
       </div>
-      <blockquote class="question reveal">
-        <p>What is my company doing, how is it performing, what has it learned, and where does it need me?</p>
-      </blockquote>
-      <p class="lede mc-lede reveal">
-        Mission Control answers that question at any depth. It is how the owner of an increasingly autonomous company stays
-        informed, sets direction and keeps authority over everything that matters.
-      </p>
 
-      <ul class="verbs">
+      <ul class="items six">
         {
-          verbs.map((v, i) => (
-            <li class="reveal" style={`--d: ${i * 70}ms`}>
-              <h3>{v.t}</h3>
-              <p>{v.d}</p>
+          mcItems.map((it, i) => (
+            <li class="reveal" style={`--d: ${(i % 3) * 70}ms`}>
+              <h3>{it.t}</h3>
+              <p>{it.d}</p>
             </li>
           ))
         }
@@ -297,70 +244,61 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
       <MissionControlMock variant="neo" />
     </div>
 
-    <div class="wrap grid-2 decision-row">
-      <div class="reveal">
-        <h3 class="h3">Every decision arrives with its reasons.</h3>
-        <p class="body">
-          When Neo brings something to the owner, it comes as a complete request: what is proposed, why, the evidence
-          behind it, and what happens if it is approved. The owner can approve, decline, or ask for more, and every outcome
-          is recorded.
-        </p>
-      </div>
-      <div class="decision glass reveal" style="--d: 120ms" aria-label="Illustrative approval request" role="img">
-        <div aria-hidden="true">
-          <p class="d-eyebrow"><span class="dot warn"></span>Waiting for you</p>
-          <p class="d-title">Approve a price change</p>
-          <p class="d-from">Proposed by Neo for the commerce manager</p>
-          <div class="d-sec">
-            <p class="d-label">Why</p>
-            <p>The change sits above the range agents can set on their own. Demand and supplier costs both support it.</p>
-          </div>
-          <div class="d-sec">
-            <p class="d-label">Evidence</p>
-            <ul>
-              <li><i style="--c: #4fd8b0"></i>Pricing review, last quarter</li>
-              <li><i style="--c: #4fd8b0"></i>Supplier cost change, this month</li>
-              <li><i style="--c: #36c6ff"></i>Lesson: buyers compare total cost</li>
-            </ul>
-          </div>
-          <div class="d-actions">
-            <span class="a primary">Approve</span>
-            <span class="a">Decline</span>
-            <span class="a">Ask Neo</span>
-          </div>
-        </div>
-      </div>
+    <div class="wrap">
+      <ul class="questions reveal">
+        {questions.map((q) => <li>{q}</li>)}
+      </ul>
     </div>
   </section>
 
   <section class="section cerebro" id="cerebro" aria-labelledby="cerebro-title">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label kicker">Cerebro</p>
-        <h2 class="h2" id="cerebro-title">Cerebro <span class="sub">Institutional intelligence.</span></h2>
-        <p class="lede">
-          Cerebro gives the company a persistent understanding of itself: what it knows, what it has learned, what happened
-          and why, and how all of it relates. Records carry their evidence and their origin, so every decision can lean on
-          real experience and every outcome adds to what the company understands.
-        </p>
+      <div class="cerebro-head">
+        <div class="reveal">
+          <p class="label kicker">Cerebro</p>
+          <h2 class="h2" id="cerebro-title">What the business knows, in one connected system.</h2>
+        </div>
+        <div class="paras">
+          <p class="reveal">
+            Businesses produce useful knowledge every day. Research, operating experience, decisions, evidence, procedures,
+            results, and lessons often end up scattered across files and software.
+          </p>
+          <p class="big reveal">Cerebro gives Digit a place to keep that knowledge connected.</p>
+          <p class="reveal">
+            A record can retain what was learned, where it came from, how it relates to other knowledge, and where it may be
+            useful again. That gives future work access to more than the current conversation or task.
+          </p>
+          <p class="reveal">Cerebro is built as institutional memory for an operating company.</p>
+        </div>
       </div>
-      <div class="explorer-wrap">
-        <CerebroExplorer />
-      </div>
-      <ul class="principles">
+
+      <ul class="kinds">
         {
-          principles.map((p, i) => (
-            <li class="reveal" style={`--d: ${i * 70}ms`}>
-              <h3>{p.t}</h3>
-              <p>{p.d}</p>
+          KINDS.map((k, i) => (
+            <li class="reveal" style={`--c: ${colorOf(k.cls)}; --d: ${(i % 3) * 70}ms`}>
+              <h3>
+                <i />
+                {k.name}
+              </h3>
+              <p>{k.text}</p>
             </li>
           ))
         }
       </ul>
+
+      <div class="explorer-wrap">
+        <CerebroExplorer />
+      </div>
     </div>
   </section>
 
-  <ContactCTA secondary={{ href: "/technology", label: "Explore the technology" }} />
+  <ClosingBand
+    headline="The platform is only useful if it can operate in the real world."
+    body={[
+      "The deeper engineering behind Digit covers execution, knowledge, integrations, governance, reliability, and the systems required to carry intelligent work across a business.",
+    ]}
+    cta={{ href: "/technology", label: "Explore the Technology" }}
+  />
 </BaseLayout>
 
 <style>
@@ -377,246 +315,45 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
     }
   }
 
-  .sub {
-    display: block;
-    color: var(--ink-3);
+  .paras p {
+    font-size: clamp(17px, 1.4vw, 19px);
+    line-height: 1.62;
+    color: var(--ink-2);
+    text-wrap: pretty;
+    max-width: 36em;
   }
 
-  .big {
-    margin-top: 28px;
-    font-size: clamp(18px, 1.5vw, 20px);
+  .paras p + p {
+    margin-top: 1em;
+  }
+
+  .paras .big {
+    font-size: clamp(20px, 1.8vw, 24px);
+    line-height: 1.4;
+    font-weight: 500;
+    font-stretch: 104%;
+    letter-spacing: -0.01em;
     color: var(--ink);
-    line-height: 1.55;
-  }
-
-  .big + .body {
-    margin-top: 16px;
   }
 
   /* ---- overview ---- */
 
-  .products {
-    list-style: none;
-    margin: clamp(48px, 6vw, 80px) 0 0;
-    padding: 0;
+  .overview-grid,
+  .mc-head,
+  .cerebro-head {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
   }
 
-  .product {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 28px 28px 30px;
-    border-radius: 22px;
-    border: 1px solid var(--glass-edge);
-    background: linear-gradient(170deg, rgba(14, 30, 60, 0.6), rgba(5, 11, 24, 0.6));
-    text-decoration: none;
-    transition: border-color 300ms var(--ease), transform 300ms var(--ease);
+  .stack-wrap {
+    margin-top: clamp(56px, 7vw, 96px);
   }
 
-  .product:hover {
-    border-color: rgba(127, 227, 255, 0.45);
-    transform: translateY(-3px);
-  }
-
-  .glyph {
-    width: 120px;
-    height: 80px;
-  }
-
-  .g-line,
-  .g-faint {
-    fill: none;
-    stroke: rgba(127, 227, 255, 0.7);
-    stroke-width: 1.3;
-    vector-effect: non-scaling-stroke;
-  }
-
-  .g-faint {
-    stroke: rgba(110, 190, 255, 0.3);
-  }
-
-  .g-fill {
-    fill: rgba(39, 196, 255, 0.22);
-    stroke: rgba(127, 227, 255, 0.8);
-    stroke-width: 1.2;
-  }
-
-  .g-core {
-    fill: #eafaff;
-    filter: drop-shadow(0 0 6px rgba(127, 227, 255, 0.9));
-  }
-
-  .g-dot {
-    fill: #36c6ff;
-    filter: drop-shadow(0 0 4px currentColor);
-  }
-
-  .g-dot.v {
-    fill: #8f86ff;
-  }
-
-  .g-dot.w {
-    fill: #d6e2ff;
-  }
-
-  .g-dot.g {
-    fill: #4fd8b0;
-  }
-
-  .g-dot.a {
-    fill: #f3b968;
-  }
-
-  .g-dot.p {
-    fill: #ff7aa8;
-  }
-
-  .product h3 {
-    margin: 22px 0 0;
-    font-size: 26px;
-    font-weight: 580;
-    font-stretch: 110%;
-    letter-spacing: -0.02em;
-  }
-
-  .role {
-    margin-top: 4px;
-    font-size: 14px;
-    color: var(--ink-3);
-  }
-
-  .text {
-    margin-top: 14px;
-    color: var(--ink-2);
-    font-size: 15.5px;
-  }
-
-  .product .go {
-    margin-top: auto;
-    padding-top: 20px;
-    color: var(--ink-3);
-    transition: color 300ms var(--ease), transform 300ms var(--ease);
-  }
-
-  .product:hover .go {
-    color: var(--cyan-hi);
-    transform: translateX(4px);
-  }
-
-  .system {
-    margin: clamp(56px, 7vw, 96px) 0 0;
-    padding: clamp(20px, 3vw, 36px);
-    border-radius: 22px;
-    border: 1px solid var(--line);
-    background:
-      linear-gradient(rgba(60, 170, 255, 0.025) 1px, transparent 1px) 0 0 / 44px 44px,
-      linear-gradient(90deg, rgba(60, 170, 255, 0.025) 1px, transparent 1px) 0 0 / 44px 44px,
-      rgba(3, 8, 18, 0.6);
-  }
-
-  .system svg {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .spine {
-    stroke: url(#sys-line);
-    stroke-width: 1.4;
-  }
-
-  .loop {
-    fill: none;
-    stroke: rgba(110, 190, 255, 0.35);
-    stroke-width: 1;
-    stroke-dasharray: 3 5;
-  }
-
-  .loop.faint {
-    stroke: rgba(110, 190, 255, 0.18);
-  }
-
-  .node circle {
-    fill: var(--bg-2);
-    stroke: var(--cyan);
-    stroke-width: 1.5;
-  }
-
-  .system .t {
-    font-family: var(--font-sans);
-    font-size: 17px;
-    font-weight: 580;
-    fill: var(--ink);
-  }
-
-  .system .s {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    fill: var(--ink-3);
-  }
-
-  .cerebro-node circle {
-    fill: #36c6ff;
-    filter: drop-shadow(0 0 8px rgba(39, 196, 255, 0.9));
-  }
-
-  .cerebro-node .halo {
-    fill: rgba(39, 196, 255, 0.12);
-    filter: none;
-  }
-
-  .runner {
-    fill: #eafaff;
-    filter: drop-shadow(0 0 6px rgba(127, 227, 255, 0.9));
-  }
-
-  .system-list {
-    display: none;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 22px;
-  }
-
-  .system-list li {
-    position: relative;
-    display: grid;
-    gap: 2px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--line-2);
-    background: rgba(10, 22, 44, 0.8);
-  }
-
-  .system-list li:not(:last-child)::after {
-    content: "↓";
-    position: absolute;
-    left: 50%;
-    bottom: -11px;
-    transform: translate(-50%, 50%);
-    color: var(--cyan);
-  }
-
-  .system-list li:nth-last-child(2)::after {
-    content: "↻";
-  }
-
-  .system-list b {
-    font-weight: 580;
-  }
-
-  .system-list span {
-    font-size: 14px;
-    color: var(--ink-3);
-  }
-
-  .system-list .cer {
-    border-color: rgba(39, 196, 255, 0.6);
-    box-shadow: 0 0 24px -10px rgba(39, 196, 255, 0.8);
+  .note {
+    margin-top: 28px;
+    font-size: 11px;
   }
 
   /* ---- neo ---- */
@@ -624,8 +361,12 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
   .neo {
     border-top: 1px solid var(--line);
     background:
-      radial-gradient(800px 600px at 75% 45%, rgba(23, 92, 200, 0.16), transparent 70%),
+      radial-gradient(800px 600px at 75% 35%, rgba(23, 92, 200, 0.16), transparent 70%),
       var(--bg-0);
+  }
+
+  .neo .paras {
+    margin-top: 28px;
   }
 
   .grid-2 {
@@ -633,32 +374,6 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: clamp(40px, 6vw, 96px);
     align-items: center;
-  }
-
-  .does {
-    list-style: none;
-    margin: 36px 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 28px;
-  }
-
-  .does li {
-    padding: 14px 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .does p {
-    font-weight: 580;
-  }
-
-  .does span {
-    display: block;
-    margin-top: 3px;
-    font-size: 14.5px;
-    line-height: 1.5;
-    color: var(--ink-2);
   }
 
   .orbit {
@@ -672,26 +387,26 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
     overflow: visible;
   }
 
-  .mgr line {
+  .node line {
     stroke: rgba(110, 190, 255, 0.28);
     stroke-width: 1;
   }
 
-  .mgr circle:not(.pulse) {
+  .node circle:not(.pulse) {
     fill: var(--bg-2);
     stroke: #8f86ff;
     stroke-width: 1.5;
   }
 
-  .mgr .pulse {
+  .node .pulse {
     fill: #7fe3ff;
     filter: drop-shadow(0 0 5px rgba(127, 227, 255, 0.9));
   }
 
-  .mgr text {
+  .node text {
     font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 520;
+    font-size: 16px;
+    font-weight: 540;
     fill: var(--ink-2);
   }
 
@@ -707,97 +422,29 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
     fill: var(--cyan-hi);
   }
 
-  .route {
-    margin-top: 12px;
-    display: grid;
-    gap: 10px;
-    max-width: 520px;
-    margin-inline: auto;
-  }
-
-  .route > div {
-    display: grid;
-    grid-template-columns: 10px minmax(0, 1fr);
-    gap: 12px;
-    align-items: baseline;
-    padding: 14px 16px;
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    background: rgba(8, 16, 32, 0.6);
-  }
-
-  .route p {
-    font-size: 14.5px;
-    color: var(--ink-2);
-  }
-
-  .route b {
-    display: block;
-    color: var(--ink);
-    font-weight: 580;
-  }
-
-  .dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  .dot.ok {
-    background: #3ddc97;
-  }
-
-  .dot.warn {
-    background: #ffb547;
-    box-shadow: 0 0 8px rgba(255, 181, 71, 0.6);
-  }
-
-  /* ---- mission control ---- */
-
-  .mc {
-    border-top: 1px solid var(--line);
-    background:
-      radial-gradient(1000px 600px at 50% 55%, rgba(23, 92, 200, 0.14), transparent 70%),
-      var(--bg-0);
-  }
-
-  .question {
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding-left: 28px;
-    border-left: 1px solid var(--cyan);
-    max-width: 960px;
-  }
-
-  .question p {
-    font-size: clamp(26px, 3vw, 42px);
-    line-height: 1.2;
-    font-weight: 520;
-    font-stretch: 108%;
-    letter-spacing: -0.022em;
-    text-wrap: balance;
-  }
-
-  .mc-lede {
-    margin-top: 28px;
-  }
-
-  .verbs {
+  .items {
     list-style: none;
-    margin: clamp(48px, 6vw, 72px) 0 0;
+    margin: clamp(48px, 6vw, 80px) 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(20px, 3vw, 36px);
   }
 
-  .verbs li {
+  .items.four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .items.six {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .items li {
     padding-top: 18px;
     border-top: 1px solid var(--line-2);
   }
 
-  .verbs h3,
-  .principles h3 {
+  .items h3,
+  .kinds h3 {
     margin: 0;
     font-size: 20px;
     font-weight: 580;
@@ -805,113 +452,54 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
     letter-spacing: -0.012em;
   }
 
-  .verbs p,
-  .principles p {
+  .items p,
+  .kinds p {
     margin-top: 8px;
     font-size: 15.5px;
     color: var(--ink-2);
+  }
+
+  /* ---- mission control ---- */
+
+  .mc {
+    border-top: 1px solid var(--line);
+    background:
+      radial-gradient(1000px 600px at 50% 60%, rgba(23, 92, 200, 0.14), transparent 70%),
+      var(--bg-0);
   }
 
   .mc-mock {
     margin-top: clamp(56px, 7vw, 96px);
   }
 
-  .decision-row {
-    margin-top: clamp(64px, 8vw, 112px);
-  }
-
-  .decision-row .body {
-    margin-top: 16px;
-    max-width: 30em;
-  }
-
-  .decision {
-    padding: 26px 26px 24px;
-    font-size: 14px;
-  }
-
-  .d-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-  }
-
-  .d-title {
-    margin-top: 12px;
-    font-size: 22px;
-    font-weight: 580;
-    font-stretch: 108%;
-    letter-spacing: -0.015em;
-  }
-
-  .d-from {
-    margin-top: 2px;
-    color: var(--ink-3);
-  }
-
-  .d-sec {
-    margin-top: 18px;
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
-    color: var(--ink-2);
-  }
-
-  .d-label {
-    margin-bottom: 6px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-
-  .d-sec ul {
+  .questions {
     list-style: none;
-    margin: 0;
+    margin: clamp(40px, 5vw, 64px) 0 0;
     padding: 0;
     display: grid;
-    gap: 6px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 28px;
   }
 
-  .d-sec li {
-    display: flex;
-    align-items: center;
-    gap: 9px;
+  .questions li {
+    padding: 16px 0 16px 26px;
+    position: relative;
+    border-top: 1px solid var(--line);
+    font-size: 17px;
+    font-weight: 500;
     color: var(--ink);
   }
 
-  .d-sec i {
-    width: 7px;
-    height: 7px;
+  .questions li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 25px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: var(--c);
-    box-shadow: 0 0 8px var(--c);
-  }
-
-  .d-actions {
-    margin-top: 22px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .a {
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: 1px solid var(--line-2);
-    font-weight: 560;
-    color: var(--ink-2);
-  }
-
-  .a.primary {
-    background: var(--ink);
-    color: #030712;
-    border-color: transparent;
+    border: 1px solid var(--cyan);
+    box-shadow: 0 0 8px rgba(39, 196, 255, 0.6);
   }
 
   /* ---- cerebro ---- */
@@ -919,65 +507,75 @@ const ring = ["Operations", "Commerce", "Media", "Marketing", "Research"];
   .cerebro {
     border-top: 1px solid var(--line);
     background:
-      radial-gradient(900px 600px at 40% 55%, rgba(30, 80, 190, 0.16), transparent 70%),
+      radial-gradient(900px 600px at 40% 70%, rgba(30, 80, 190, 0.16), transparent 70%),
       radial-gradient(500px 400px at 85% 30%, rgba(139, 123, 255, 0.07), transparent 70%),
       var(--bg-0);
+  }
+
+  .kinds {
+    list-style: none;
+    margin: clamp(48px, 6vw, 80px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px clamp(20px, 3vw, 36px);
+  }
+
+  .kinds li {
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  }
+
+  .kinds h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .kinds i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 10px var(--c);
   }
 
   .explorer-wrap {
     margin-top: clamp(48px, 6vw, 80px);
   }
 
-  .principles {
-    list-style: none;
-    margin: clamp(64px, 8vw, 112px) 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: clamp(20px, 2.6vw, 36px);
-  }
-
-  .principles li {
-    padding-top: 18px;
-    border-top: 1px solid var(--line-2);
-  }
-
   @media (max-width: 1080px) {
-    .principles {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .items.four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .verbs {
+    .items.six,
+    .kinds,
+    .questions {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 960px) {
-    .products,
+  @media (max-width: 900px) {
+    .overview-grid,
+    .mc-head,
+    .cerebro-head,
     .grid-2 {
       grid-template-columns: 1fr;
     }
   }
 
-  @media (max-width: 640px) {
-    .does,
-    .verbs,
-    .principles {
+  @media (max-width: 600px) {
+    .items.four,
+    .items.six,
+    .kinds,
+    .questions {
       grid-template-columns: 1fr;
-    }
-
-    .system svg {
-      display: none;
-    }
-
-    .system-list {
-      display: grid;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .runner,
-    .mgr .pulse {
+    .node .pulse {
       display: none;
     }
   }

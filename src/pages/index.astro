@@ -1,26 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/home/Hero.astro";
-import PlatformSection from "../components/home/PlatformSection.astro";
-import AgentsMissionControl from "../components/home/AgentsMissionControl.astro";
-import CerebroHome from "../components/home/CerebroHome.astro";
-import Loop from "../components/home/Loop.astro";
-import Governance from "../components/home/Governance.astro";
+import HomeCompany from "../components/home/HomeCompany.astro";
 import BusinessesPreview from "../components/home/BusinessesPreview.astro";
+import PlatformSection from "../components/home/PlatformSection.astro";
 import TechnologyPreview from "../components/home/TechnologyPreview.astro";
-import Vision from "../components/home/Vision.astro";
+import Governance from "../components/home/Governance.astro";
+import Loop from "../components/home/Loop.astro";
 import ContactCTA from "../components/shared/ContactCTA.astro";
+import { SEO } from "../data/site";
 ---
 
-<BaseLayout variant="home" path="/">
+<BaseLayout variant="home" path="/" title={SEO.home.title} description={SEO.home.description}>
   <Hero />
-  <PlatformSection />
-  <AgentsMissionControl />
-  <CerebroHome />
-  <Loop />
-  <Governance />
+  <HomeCompany />
   <BusinessesPreview />
+  <PlatformSection />
   <TechnologyPreview />
-  <Vision />
-  <ContactCTA />
+  <Governance />
+  <Loop />
+  <ContactCTA secondary={{ href: "/businesses", label: "Explore Our Portfolio" }} />
 </BaseLayout>

@@ -1,202 +1,109 @@
 /**
- * A fictional organization's knowledge, used to explain Cerebro on the public site.
- * Every record is invented for illustration and describes no real result.
+ * Illustrative Cerebro content for the public site. Records are generic examples of the kinds of
+ * company knowledge Cerebro connects. They describe no real record and no real result.
+ *
+ * `cls` is the colour family used by the knowledge-universe renderer (scripts/universe.ts).
  */
+
+export type KindClass = "knowledge" | "evidence" | "experience" | "procedures" | "organization" | "governance";
+
+export interface Kind {
+  name: string;
+  cls: KindClass;
+  text: string;
+}
+
+/** The six kinds of knowledge shown in the Platform page's Cerebro section. */
+export const KINDS: Kind[] = [
+  { name: "Knowledge", cls: "knowledge", text: "Information the business expects to use again." },
+  { name: "Evidence", cls: "evidence", text: "The source material behind a conclusion or decision." },
+  { name: "Decisions", cls: "governance", text: "Important choices and the reasoning or context attached to them." },
+  { name: "Procedures", cls: "procedures", text: "How recurring work should be handled." },
+  { name: "Organization", cls: "organization", text: "Context about businesses, roles, responsibilities, and operating structure." },
+  { name: "Learning", cls: "experience", text: "Lessons produced through results, experiments, failures, and repeated patterns." },
+];
+
+export interface Related {
+  label: string;
+  /** id of the example record this relates to, when there is one */
+  ref?: string;
+}
 
 export interface ExampleRecord {
   id: string;
-  cls: "knowledge" | "evidence" | "experience" | "procedures" | "organization" | "governance";
-  title: string;
-  overview: string;
-  status: string;
-  source: string;
-  confidence?: string;
-}
-
-export interface ExampleRelation {
-  from: string;
-  to: string;
   type: string;
+  cls: KindClass;
+  title: string;
+  summary: string;
+  related: Related[];
 }
 
 export const RECORDS: ExampleRecord[] = [
   {
-    id: "k-briefing",
+    id: "r01",
+    type: "Research",
     cls: "knowledge",
-    title: "Weekly briefings get acted on; daily ones don't",
-    overview:
-      "Across two briefing formats, the owner acted on far more of the weekly items. Daily briefings were mostly skimmed.",
-    status: "Current",
-    source: "Operations review",
-    confidence: "High",
+    title: "Customer demand analysis",
+    summary: "Research used to understand what customers are looking for and where demand is changing.",
+    related: [{ label: "Evidence", ref: "r02" }, { label: "Product Strategy" }, { label: "Market Signals", ref: "r02" }],
   },
   {
-    id: "e-formats",
+    id: "r02",
+    type: "Evidence",
     cls: "evidence",
-    title: "Response to two briefing formats, eight weeks",
-    overview: "Which briefing items led to a decision, side by side for the two formats, recorded as observed.",
-    status: "Complete",
-    source: "Experiment record",
+    title: "Market signal",
+    summary: "A piece of evidence that supports or challenges an existing assumption.",
+    related: [{ label: "Research", ref: "r01" }, { label: "Experiment", ref: "r05" }, { label: "Decision", ref: "r03" }],
   },
   {
-    id: "x-ignored",
+    id: "r03",
+    type: "Decision",
+    cls: "governance",
+    title: "Product direction",
+    summary: "A recorded business decision with the evidence and context that informed it.",
+    related: [{ label: "Evidence", ref: "r02" }, { label: "Strategy" }, { label: "Product Knowledge" }],
+  },
+  {
+    id: "r04",
+    type: "Procedure",
+    cls: "procedures",
+    title: "Quality review",
+    summary: "A repeatable process used to review work before it moves forward.",
+    related: [{ label: "Product Knowledge" }, { label: "Standards" }, { label: "Learning", ref: "r08" }],
+  },
+  {
+    id: "r05",
+    type: "Learning",
     cls: "experience",
-    title: "A daily report went unread for a month",
-    overview: "A detailed daily report was produced on time every day and rarely opened. Nothing was wrong with it except its timing.",
-    status: "Closed",
-    source: "Operations log",
+    title: "Experiment result",
+    summary: "A result that changes what the business knows about a product, process, or market.",
+    related: [{ label: "Experiment" }, { label: "Evidence", ref: "r02" }, { label: "Procedure", ref: "r04" }],
   },
   {
-    id: "p-briefing",
-    cls: "procedures",
-    title: "Owner briefing, weekly format v3",
-    overview: "How the weekly briefing is assembled: decisions first, then exceptions, then everything else. Version 3 replaced the daily report.",
-    status: "Active",
-    source: "Operations manager",
+    id: "r06",
+    type: "Organization",
+    cls: "organization",
+    title: "Business objective",
+    summary: "Context about what a business is trying to accomplish and why it matters.",
+    related: [{ label: "Strategy" }, { label: "Work" }, { label: "Decision", ref: "r03" }],
   },
   {
-    id: "p-briefing-v2",
-    cls: "procedures",
-    title: "Owner briefing, daily format v2",
-    overview: "The earlier daily format. Kept on the record, marked as superseded by version 3.",
-    status: "Superseded",
-    source: "Operations manager",
-  },
-  {
-    id: "k-season",
+    id: "r07",
+    type: "Knowledge",
     cls: "knowledge",
-    title: "Supplier lead times stretch before holidays",
-    overview: "Lead times grow by roughly a third in the weeks before major holidays, and the effect is consistent across suppliers.",
-    status: "Current",
-    source: "Commerce · supplier review",
-    confidence: "Moderate",
+    title: "Customer behavior",
+    summary: "Reusable knowledge about how customers respond to products, offers, or experiences.",
+    related: [{ label: "Research", ref: "r01" }, { label: "Marketing" }, { label: "Product Strategy" }],
   },
   {
-    id: "e-deliveries",
-    cls: "evidence",
-    title: "Supplier delivery records, two years",
-    overview: "Order and delivery dates by supplier. Gaps in the records are kept as gaps, never estimated.",
-    status: "Complete",
-    source: "Supplier records",
-  },
-  {
-    id: "p-reorder",
-    cls: "procedures",
-    title: "Reorder timing, version 2",
-    overview: "Orders placed ahead of a holiday now allow for longer lead times.",
-    status: "Active",
-    source: "Commerce manager",
-  },
-  {
-    id: "k-explainers",
-    cls: "knowledge",
-    title: "Short explainers hold attention longer",
-    overview: "Shorter explainers kept a larger share of viewers to the end than longer cuts of the same material.",
-    status: "Current",
-    source: "Media · audience review",
-    confidence: "Moderate",
-  },
-  {
-    id: "e-retention",
-    cls: "evidence",
-    title: "Audience retention across forty videos",
-    overview: "Watch-through by length and structure for forty published pieces.",
-    status: "Complete",
-    source: "Channel analytics",
-  },
-  {
-    id: "p-structure",
-    cls: "procedures",
-    title: "Explainer structure guide, v2",
-    overview: "The structure every explainer follows, revised after the retention review.",
-    status: "Active",
-    source: "Media manager",
-  },
-  {
-    id: "o-ops",
-    cls: "organization",
-    title: "Operations manager",
-    overview: "Owns reporting, scheduling and how work moves between teams.",
-    status: "Active role",
-    source: "Organization",
-  },
-  {
-    id: "o-commerce",
-    cls: "organization",
-    title: "Commerce manager",
-    overview: "Owns purchasing, listings and pricing for the commerce business.",
-    status: "Active role",
-    source: "Organization",
-  },
-  {
-    id: "o-media",
-    cls: "organization",
-    title: "Media manager",
-    overview: "Owns research, production and publishing for the media properties.",
-    status: "Active role",
-    source: "Organization",
-  },
-  {
-    id: "g-publish",
-    cls: "governance",
-    title: "Nothing is published without owner review",
-    overview: "Anything public waits for the owner's explicit approval of that specific piece.",
-    status: "In force",
-    source: "Owner decision",
-  },
-  {
-    id: "g-spend",
-    cls: "governance",
-    title: "Spending above set limits needs approval",
-    overview: "Managers can commit spending within a defined range. Anything beyond it goes to the owner.",
-    status: "In force",
-    source: "Owner decision",
+    id: "r08",
+    type: "Learning",
+    cls: "experience",
+    title: "Operational lesson",
+    summary: "Something learned through real work that can improve how similar work is handled next time.",
+    related: [{ label: "Procedure", ref: "r04" }, { label: "Operations" }, { label: "Evidence", ref: "r02" }],
   },
 ];
 
-export const RELATIONS: ExampleRelation[] = [
-  { from: "e-formats", to: "k-briefing", type: "supports" },
-  { from: "x-ignored", to: "k-briefing", type: "informed" },
-  { from: "k-briefing", to: "p-briefing", type: "changed" },
-  { from: "p-briefing", to: "p-briefing-v2", type: "supersedes" },
-  { from: "p-briefing", to: "o-ops", type: "owned by" },
-  { from: "e-deliveries", to: "k-season", type: "supports" },
-  { from: "k-season", to: "p-reorder", type: "changed" },
-  { from: "p-reorder", to: "o-commerce", type: "owned by" },
-  { from: "g-spend", to: "o-commerce", type: "governs" },
-  { from: "e-retention", to: "k-explainers", type: "supports" },
-  { from: "k-explainers", to: "p-structure", type: "changed" },
-  { from: "p-structure", to: "o-media", type: "owned by" },
-  { from: "g-publish", to: "o-media", type: "governs" },
-  { from: "k-explainers", to: "k-briefing", type: "related to" },
-  { from: "o-commerce", to: "o-ops", type: "works with" },
-  { from: "o-media", to: "o-ops", type: "works with" },
-];
-
-export const CLASS_INFO: Record<ExampleRecord["cls"], { name: string; blurb: string }> = {
-  knowledge: { name: "Knowledge", blurb: "What the company holds to be true, and how confident it is." },
-  evidence: { name: "Evidence", blurb: "The results, records and experiments behind it." },
-  experience: { name: "Experience", blurb: "What happened when the company tried something." },
-  procedures: { name: "Procedures", blurb: "How the work is done now, and what changed it." },
-  organization: { name: "Organization", blurb: "Who is responsible for what." },
-  governance: { name: "Governance", blurb: "What is allowed, and who decides." },
-};
-
-/** Short, fictional examples used by the hero and the homepage Cerebro visual. */
-export const FOCUS_LABELS = [
-  { cls: "knowledge", title: "Weekly briefings get acted on; daily ones don't" },
-  { cls: "knowledge", title: "Supplier lead times stretch before holidays" },
-  { cls: "knowledge", title: "Short explainers hold attention longer" },
-  { cls: "evidence", title: "Delivery records, two years" },
-  { cls: "evidence", title: "Retention across forty videos" },
-  { cls: "evidence", title: "Campaign test: two audiences, four weeks" },
-  { cls: "experience", title: "A daily report went unread for a month" },
-  { cls: "experience", title: "A rushed price change was reversed" },
-  { cls: "procedures", title: "Owner briefing, weekly format v3" },
-  { cls: "procedures", title: "Reorder timing, version 2" },
-  { cls: "procedures", title: "Explainer structure guide, v2" },
-  { cls: "organization", title: "Operations manager owns reporting" },
-  { cls: "organization", title: "Research agent works for media and commerce" },
-  { cls: "governance", title: "Spending above set limits needs approval" },
-  { cls: "governance", title: "Nothing is published without review" },
-] as const;
+/** Tooltip labels for the home hero's knowledge universe: the same illustrative records. */
+export const FOCUS_LABELS = RECORDS.map((r) => ({ cls: r.cls, kind: r.type, title: r.title }));

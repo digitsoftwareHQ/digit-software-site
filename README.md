@@ -21,33 +21,31 @@ Astro telemetry is disabled in every script.
 ```
 src/
   pages/               index (home), company, platform, businesses, technology, privacy, terms, 404
-  pages/company/journal/[slug].astro   one page per journal entry
-  content/journal/     journal entries (Markdown; see _README.md there)
   layouts/             BaseLayout (head, metadata, header, footer), LegalLayout
   components/          Header, Footer
   components/home/     homepage sections
-  components/shared/   pieces used on more than one page (Mission Control screen, Cerebro explorer,
-                       platform stack, business emblems, page hero, contact CTA, cycle diagram)
-  scripts/universe.ts  knowledge-universe renderer (hero, homepage Cerebro, Cerebro explorer)
-  scripts/site.ts      header state, mobile menu, scroll reveals
-  data/                site constants and navigation, businesses, the fictional Cerebro example
+  components/shared/   pieces used on more than one page (page hero, platform stack, Mission Control screen,
+                       Cerebro explorer, cycle diagram, business emblems, closing band, contact section)
+  scripts/universe.ts  knowledge-universe renderer (home hero, Cerebro explorer)
+  scripts/site.ts      header state, mobile navigation, scroll reveals
+  data/site.ts         site name, description, page titles and descriptions, navigation
+  data/businesses.ts   the five business areas
+  data/cerebro-example.ts  the illustrative Cerebro records and knowledge kinds
   styles/global.css    design tokens and shared primitives
 public/                favicons, brand mark, social card, CNAME
-tools/og/              source for the social card (public/assets/digit-social-v4.png)
+tools/og/              source for the social card (public/assets/digit-social-v5.png)
 scripts/check-site.mjs post-build checks
 ```
 
 ## Content rules
 
-- Nothing on the site is live company data. Product visuals (the knowledge universe, Mission Control, the
-  Cerebro example) are illustrative, built from fictional, public-safe examples.
-- Describe what Digit does and what the platform enables. Keep internal system names, development status,
-  milestones and private operational detail off the site.
-- The journal only carries real writing. It shows an intentional empty state until the first entry exists.
+- Public copy comes from the approved copy document. Change wording there first, then here.
+- Nothing on the site is live company data. The Mission Control screen, the Cerebro explorer and the platform
+  model are illustrative and say so.
+- No status language (coming soon, beta, in development), no invented metrics, customers or partners, no em dashes.
 - No analytics, cookies, embeds or third-party scripts. Fonts (Mona Sans, JetBrains Mono, both OFL-1.1) are
   self-hosted. `npm run check` fails the build if anything loads from another origin. If that ever changes,
   update the privacy policy in the same change.
-- `src/data/site.ts` holds the site name, description, social card and navigation.
 
 ## Deploying
 

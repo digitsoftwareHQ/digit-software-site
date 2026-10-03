@@ -1,89 +1,76 @@
 ---
-import { CLASS_INFO, RECORDS, RELATIONS } from "../../data/cerebro-example";
+import { RECORDS } from "../../data/cerebro-example";
 import { CLASSES } from "../../scripts/universe";
 
-const start = RECORDS[0];
 const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
-// The starting record's relationships are rendered on the server so the inspector is complete without JavaScript.
-const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.id).map((r) => {
-  const other = RECORDS.find((x) => x.id === (r.from === start.id ? r.to : r.from))!;
-  return { verb: r.from === start.id ? `${r.type} →` : `← ${r.type}`, title: other.title, color: colorOf(other.cls) };
-});
 ---
 
 <div class="cerebro-explorer">
-    <div class="explorer reveal" data-cerebro>
+  <div class="explorer reveal" data-cerebro>
     <div class="field" data-cerebro-stage>
       <canvas aria-hidden="true" data-cerebro-canvas></canvas>
       <div class="labels" aria-hidden="true" data-cerebro-labels></div>
-      <p class="label hint" aria-hidden="true">
-        <span class="hint-fine">Hover to focus · select to inspect</span><span class="hint-touch">Tap a point to inspect it</span>
-      </p>
+      <button type="button" class="pause" data-cerebro-pause aria-pressed="false">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-pause" d="M5 3.5v9M11 3.5v9" /><path class="i-play" d="M5 3.5l7 4.5-7 4.5z" /></svg>
+        <span data-pause-label>Pause movement</span>
+      </button>
     </div>
 
-    <aside class="inspector" aria-labelledby="cerebro-record-title" data-inspector>
-      <p class="label">Cerebro record <span class="ex">Example</span></p>
-      <h3 class="i-title" id="cerebro-record-title" tabindex="-1" data-i-title>{start.title}</h3>
-      <div class="chips">
-        <span class="chip" data-i-kind style={`--c: ${CLASSES.find((c) => c.key === start.cls)!.color}`}>
-          {CLASS_INFO[start.cls].name}
-        </span>
-        <span class="chip" data-i-status>{start.status}</span>
+    <aside class="inspector" aria-label="Connected knowledge" data-inspector>
+      <div class="map-view" data-map-view>
+        <p class="label panel-label">Connected knowledge</p>
+        <p class="support">Illustrative records showing how different kinds of company knowledge can relate to one another.</p>
+        <label class="search">
+          <span class="sr-only">Search records</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5L14 14" /></svg>
+          <input type="search" placeholder="Search knowledge" autocomplete="off" data-cerebro-search />
+        </label>
+        <ul class="records" data-records>
+          {
+            RECORDS.map((r) => (
+              <li data-record-item={r.id} data-search={`${r.type} ${r.title} ${r.summary} ${r.related.map((x) => x.label).join(" ")}`.toLowerCase()}>
+                <button type="button" data-open={r.id} aria-label={`Open record: ${r.title}`} style={`--c: ${colorOf(r.cls)}`}>
+                  <i />
+                  <span class="t">{r.title}</span>
+                  <span class="k">{r.type}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
       </div>
-      <p class="i-overview" data-i-overview>{start.overview}</p>
-      <dl class="kv">
-        <dt>Source</dt>
-        <dd data-i-source>{start.source}</dd>
-        <dt>Confidence</dt>
-        <dd data-i-confidence>{start.confidence ?? "Not assessed"}</dd>
-      </dl>
-      <p class="label rel-label">Relationships</p>
-      <ul class="rels" data-i-rels>
-        {
-          startRels.map((r) => (
-            <li>
-              <button type="button" style={`--c: ${r.color}`}>
-                <i />
-                <span class="v">{r.verb}</span>
-                <span class="t">{r.title}</span>
-              </button>
-            </li>
-          ))
-        }
-      </ul>
+
+      <div class="record-view" data-record-view hidden>
+        <div class="record-head">
+          <span class="chip" data-r-type></span>
+          <button type="button" class="close" data-close aria-label="Close record">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" /></svg>
+          </button>
+        </div>
+        <h3 class="r-title" tabindex="-1" data-r-title></h3>
+        <p class="label sec">Overview</p>
+        <p class="r-summary" data-r-summary></p>
+        <p class="label sec">Related knowledge</p>
+        <ul class="related" aria-label="Relationships" data-r-related></ul>
+        <button type="button" class="back" data-back>Return to knowledge map</button>
+      </div>
     </aside>
   </div>
-
-  <ul class="legend reveal" aria-label="Kinds of knowledge">
-    {
-      CLASSES.map((c) => (
-        <li style={`--c: ${c.color}`}>
-          <p>
-            <i />
-            {CLASS_INFO[c.key as keyof typeof CLASS_INFO].name}
-          </p>
-          <span>{CLASS_INFO[c.key as keyof typeof CLASS_INFO].blurb}</span>
-        </li>
-      ))
-    }
-  </ul>
-  <p class="label caption reveal">Example records from a fictional organization. Each color is a kind of knowledge.</p>
-
 </div>
 
 <script>
   import { CLASSES, Universe, classCenters, rng, type Graph, type GraphNode } from "../../scripts/universe";
-  import { CLASS_INFO, RECORDS, RELATIONS } from "../../data/cerebro-example";
+  import { RECORDS } from "../../data/cerebro-example";
 
   const root = document.querySelector<HTMLElement>("[data-cerebro]");
   const canvas = document.querySelector<HTMLCanvasElement>("[data-cerebro-canvas]");
   const labels = document.querySelector<HTMLElement>("[data-cerebro-labels]");
   const stage = document.querySelector<HTMLElement>("[data-cerebro-stage]");
+  const idx = new Map(CLASSES.map((c, i) => [c.key, i]));
 
   function buildGraph(): Graph {
     const rand = rng(31);
     const centers = classCenters(CLASSES.length, 150);
-    const idx = new Map(CLASSES.map((c, i) => [c.key, i]));
     const nodes: GraphNode[] = [];
     const perClass = new Map<number, number>();
     for (const r of RECORDS) {
@@ -92,38 +79,35 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
       perClass.set(c, k + 1);
       const [cx, cy, cz] = centers[c];
       const a = k * 2.399963 + c;
-      const d = k === 0 ? 8 : 34 + 16 * k;
-      nodes.push({
-        x: cx + Math.cos(a) * d,
-        y: cy + Math.sin(a) * d * 0.7,
-        z: cz + Math.sin(a * 1.7) * d * 0.6,
-        c,
-        tier: k === 0 ? 0 : 1,
-        id: r.id,
-        title: r.title,
-      });
+      const d = k === 0 ? 8 : 40 + 18 * k;
+      nodes.push({ x: cx + Math.cos(a) * d, y: cy + Math.sin(a) * d * 0.7, z: cz + Math.sin(a * 1.7) * d * 0.6, c, tier: 0, id: r.id, title: r.title });
     }
     const byId = new Map(nodes.map((n, i) => [n.id!, i]));
-    const edges = RELATIONS.map((rel) => ({ a: byId.get(rel.from)!, b: byId.get(rel.to)!, strong: true }));
-    // Quiet detail around each kind: the rest of the fictional company's records.
+    const seen = new Set<string>();
+    const edges: Graph["edges"] = [];
+    for (const r of RECORDS) {
+      for (const rel of r.related) {
+        if (!rel.ref) continue;
+        const a = byId.get(r.id)!, b = byId.get(rel.ref)!;
+        const key = a < b ? `${a}-${b}` : `${b}-${a}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        edges.push({ a, b, strong: true });
+      }
+    }
+    // Quiet detail around each kind: the rest of an organization's knowledge.
     CLASSES.forEach((_, c) => {
       const [cx, cy, cz] = centers[c];
-      for (let i = 0; i < 11; i++) {
+      for (let i = 0; i < 12; i++) {
         const u = rand(), v = rand(), w = rand();
         const r = 30 + 90 * Math.cbrt(w);
         const th = 2 * Math.PI * u, ph = Math.acos(2 * v - 1);
-        nodes.push({
-          x: cx + r * Math.sin(ph) * Math.cos(th),
-          y: cy + r * Math.cos(ph) * 0.8,
-          z: cz + r * Math.sin(ph) * Math.sin(th),
-          c,
-          tier: 2,
-        });
+        nodes.push({ x: cx + r * Math.sin(ph) * Math.cos(th), y: cy + r * Math.cos(ph) * 0.8, z: cz + r * Math.sin(ph) * Math.sin(th), c, tier: 2 });
         const me = nodes.length - 1;
         let best = -1;
         let bd = Infinity;
         for (let j = 0; j < me; j++) {
-          if (nodes[j].c !== c || j === me) continue;
+          if (nodes[j].c !== c) continue;
           const dd = (nodes[j].x - nodes[me].x) ** 2 + (nodes[j].y - nodes[me].y) ** 2 + (nodes[j].z - nodes[me].z) ** 2;
           if (dd < bd) {
             bd = dd;
@@ -139,83 +123,123 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
   if (root && canvas && labels && stage) {
     const graph = buildGraph();
     const ids = graph.nodes.map((n) => n.id);
-    const title = root.querySelector<HTMLElement>("[data-i-title]")!;
-    const kind = root.querySelector<HTMLElement>("[data-i-kind]")!;
-    const status = root.querySelector<HTMLElement>("[data-i-status]")!;
-    const overview = root.querySelector<HTMLElement>("[data-i-overview]")!;
-    const source = root.querySelector<HTMLElement>("[data-i-source]")!;
-    const confidence = root.querySelector<HTMLElement>("[data-i-confidence]")!;
-    const rels = root.querySelector<HTMLElement>("[data-i-rels]")!;
     const recById = new Map(RECORDS.map((r) => [r.id, r]));
+    const colorOf = (cls: string) => CLASSES.find((c) => c.key === cls)!.color;
 
+    const mapView = root.querySelector<HTMLElement>("[data-map-view]")!;
+    const recordView = root.querySelector<HTMLElement>("[data-record-view]")!;
+    const type = root.querySelector<HTMLElement>("[data-r-type]")!;
+    const title = root.querySelector<HTMLElement>("[data-r-title]")!;
+    const summary = root.querySelector<HTMLElement>("[data-r-summary]")!;
+    const related = root.querySelector<HTMLElement>("[data-r-related]")!;
+    const search = root.querySelector<HTMLInputElement>("[data-cerebro-search]")!;
+    const pause = root.querySelector<HTMLButtonElement>("[data-cerebro-pause]")!;
+    const pauseLabel = root.querySelector<HTMLElement>("[data-pause-label]")!;
     let universe: Universe | null = null;
+    let openedFrom: HTMLElement | null = null;
 
-    const show = (id: string, moveFocus: boolean) => {
+    const open = (id: string, moveFocus: boolean) => {
       const r = recById.get(id);
       if (!r) return;
-      const cls = CLASSES.find((c) => c.key === r.cls)!;
+      type.textContent = r.type;
+      type.style.setProperty("--c", colorOf(r.cls));
       title.textContent = r.title;
-      kind.textContent = CLASS_INFO[r.cls].name;
-      kind.style.setProperty("--c", cls.color);
-      status.textContent = r.status;
-      overview.textContent = r.overview;
-      source.textContent = r.source;
-      confidence.textContent = r.confidence ?? "Not assessed";
-      rels.textContent = "";
-      for (const rel of RELATIONS) {
-        if (rel.from !== id && rel.to !== id) continue;
-        const otherId = rel.from === id ? rel.to : rel.from;
-        const other = recById.get(otherId)!;
+      summary.textContent = r.summary;
+      related.textContent = "";
+      for (const rel of r.related) {
         const li = document.createElement("li");
-        const b = document.createElement("button");
-        b.type = "button";
-        const oc = CLASSES.find((c) => c.key === other.cls)!;
-        b.style.setProperty("--c", oc.color);
-        const verb = rel.from === id ? `${rel.type} →` : `← ${rel.type}`;
-        b.innerHTML = `<i></i><span class="v"></span><span class="t"></span>`;
-        b.querySelector(".v")!.textContent = verb;
-        b.querySelector(".t")!.textContent = other.title;
-        b.addEventListener("click", () => select(otherId, true));
-        li.appendChild(b);
-        rels.appendChild(li);
+        const target = rel.ref ? recById.get(rel.ref) : undefined;
+        if (target) {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.style.setProperty("--c", colorOf(target.cls));
+          b.setAttribute("aria-label", `Open record: ${target.title}`);
+          b.innerHTML = `<i></i><span></span>`;
+          b.querySelector("span")!.textContent = rel.label;
+          b.addEventListener("click", () => open(target.id, true));
+          li.appendChild(b);
+        } else {
+          const span = document.createElement("span");
+          span.className = "tag";
+          span.textContent = rel.label;
+          li.appendChild(span);
+        }
+        related.appendChild(li);
       }
+      mapView.hidden = true;
+      recordView.hidden = false;
+      const i = ids.indexOf(id);
+      if (i >= 0) universe?.pin(i);
       if (moveFocus) title.focus({ preventScroll: true });
     };
 
-    const select = (id: string, fromKeyboardOrList: boolean) => {
-      const i = ids.indexOf(id);
-      if (i < 0) return;
-      universe?.pin(i);
-      show(id, fromKeyboardOrList);
+    const close = () => {
+      recordView.hidden = true;
+      mapView.hidden = false;
+      universe?.pin(null);
+      (openedFrom ?? search).focus({ preventScroll: true });
     };
+
+    root.querySelectorAll<HTMLButtonElement>("[data-open]").forEach((b) =>
+      b.addEventListener("click", () => {
+        openedFrom = b;
+        open(b.dataset.open!, true);
+      }),
+    );
+    root.querySelector("[data-close]")!.addEventListener("click", close);
+    root.querySelector("[data-back]")!.addEventListener("click", close);
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !recordView.hidden) close();
+    });
+
+    search.addEventListener("input", () => {
+      const q = search.value.trim().toLowerCase();
+      root.querySelectorAll<HTMLElement>("[data-record-item]").forEach((li) => {
+        li.hidden = !!q && !li.dataset.search!.includes(q);
+      });
+    });
+    search.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      const first = root.querySelector<HTMLButtonElement>("[data-record-item]:not([hidden]) [data-open]");
+      if (first) {
+        e.preventDefault();
+        first.click();
+      }
+    });
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) pause.hidden = true;
+    pause.addEventListener("click", () => {
+      const paused = pause.getAttribute("aria-pressed") !== "true";
+      pause.setAttribute("aria-pressed", String(paused));
+      pauseLabel.textContent = paused ? "Resume movement" : "Pause movement";
+      universe?.setPaused(paused);
+    });
 
     const init = () => {
       universe = new Universe(canvas, {
         graph,
         center: (W, H) => ({ x: W * 0.5, y: H * 0.5 }),
         radius: (W, H) => Math.min(W * 0.6, H * 0.78),
-        nebula: 0.7,
         yaw: 0.2,
         pitch: -0.18,
         spin: 0.11,
         sway: 0.42,
-        focusEvery: 0,
+        focusEvery: 4200,
         labelLayer: labels,
         pointerTarget: stage,
         hoverFocus: true,
         intro: false,
         pullDepth: 160,
+        nebula: 0.7,
         onFocus: (i) => {
           if (i === null) return;
           const id = graph.nodes[i].id;
-          if (id) show(id, false);
+          if (id) open(id, false);
         },
       });
-      universe.pin(0);
-      show(RECORDS[0].id, false);
     };
 
-    // Build lazily, just before the section scrolls into view.
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
@@ -230,7 +254,6 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
 </script>
 
 <style>
-
   .explorer {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 380px;
@@ -263,26 +286,51 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
     pointer-events: none;
   }
 
-  .hint {
+  .pause {
     position: absolute;
-    left: 18px;
+    left: 14px;
     bottom: 14px;
-    font-size: 10.5px;
-    pointer-events: none;
+    z-index: 2000;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px 7px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(4, 10, 22, 0.75);
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: color var(--fast) var(--ease), border-color var(--fast) var(--ease);
   }
 
-  .hint-touch {
+  .pause:hover {
+    color: var(--ink);
+    border-color: rgba(127, 227, 255, 0.5);
+  }
+
+  .pause svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .pause .i-play {
+    display: none;
+    fill: currentColor;
+  }
+
+  .pause[aria-pressed="true"] .i-pause {
     display: none;
   }
 
-  @media (hover: none) {
-    .hint-fine {
-      display: none;
-    }
-
-    .hint-touch {
-      display: inline;
-    }
+  .pause[aria-pressed="true"] .i-play {
+    display: inline;
   }
 
   .inspector {
@@ -295,100 +343,85 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
     box-shadow: var(--shadow-float);
   }
 
-  .ex {
-    margin-left: 8px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid var(--line-2);
-    color: var(--ink-3);
-    font-size: 10px;
-  }
-
-  .i-title {
-    margin-top: 14px;
-    font-size: 22px;
-    font-weight: 580;
-    font-stretch: 108%;
-    letter-spacing: -0.015em;
-    line-height: 1.25;
-    outline-offset: 6px;
-  }
-
-  .chips {
+  .map-view,
+  .record-view {
     display: flex;
-    gap: 8px;
-    margin-top: 14px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex: 1;
   }
 
-  .chip {
-    display: inline-flex;
+  .map-view[hidden],
+  .record-view[hidden] {
+    display: none;
+  }
+
+  .support {
+    margin-top: 10px;
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+
+  .search {
+    margin-top: 18px;
+    display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 4px 11px;
-    border-radius: 999px;
+    gap: 10px;
+    padding: 0 12px;
+    border-radius: 12px;
     border: 1px solid var(--line-2);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: var(--ink-2);
+    background: rgba(2, 6, 14, 0.6);
+    transition: border-color var(--fast) var(--ease);
   }
 
-  .chip[data-i-kind] {
-    color: var(--c);
-    border-color: color-mix(in srgb, var(--c) 45%, transparent);
+  .search:focus-within {
+    border-color: rgba(127, 227, 255, 0.6);
   }
 
-  .chip[data-i-kind]::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--c);
-    box-shadow: 0 0 8px var(--c);
+  .search svg {
+    flex: none;
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: var(--ink-3);
+    stroke-width: 1.5;
+    stroke-linecap: round;
   }
 
-  .i-overview {
-    margin-top: 16px;
-    color: var(--ink-2);
-    font-size: 15px;
+  .search input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: 14.5px;
+    outline: none;
   }
 
-  .kv {
-    display: grid;
-    grid-template-columns: 96px minmax(0, 1fr);
-    gap: 8px 12px;
-    margin: 18px 0 0;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-  }
-
-  .kv dt {
+  .search input::placeholder {
     color: var(--ink-3);
   }
 
-  .kv dd {
-    margin: 0;
-    color: var(--ink);
-  }
-
-  .rel-label {
-    margin-top: 22px;
-  }
-
-  .rels {
+  .records,
+  .related {
     list-style: none;
-    margin: 10px 0 0;
+    margin: 14px 0 0;
     padding: 0;
     display: grid;
     gap: 6px;
   }
 
-  .rels :global(button) {
+  .records li[hidden] {
+    display: none;
+  }
+
+  .records button,
+  .related :global(button),
+  .related :global(.tag) {
     width: 100%;
     display: grid;
-    grid-template-columns: 8px auto minmax(0, 1fr);
+    grid-template-columns: 8px minmax(0, 1fr) auto;
     gap: 10px;
     align-items: baseline;
     padding: 9px 12px;
@@ -399,16 +432,22 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
     font: inherit;
     font-size: 14px;
     text-align: left;
+  }
+
+  .records button,
+  .related :global(button) {
     cursor: pointer;
     transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
   }
 
-  .rels :global(button:hover) {
+  .records button:hover,
+  .related :global(button:hover) {
     border-color: rgba(127, 227, 255, 0.45);
     background: rgba(39, 196, 255, 0.06);
   }
 
-  .rels :global(button i) {
+  .records i,
+  .related :global(i) {
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -417,62 +456,114 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
     transform: translateY(-1px);
   }
 
-  .rels :global(.v) {
+  .records .k {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
     color: var(--ink-3);
-    white-space: nowrap;
   }
 
-  .legend {
-    list-style: none;
-    margin: 24px 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 16px;
+  .related :global(.tag) {
+    display: block;
+    color: var(--ink-2);
+    border-style: dashed;
   }
 
-  .legend li {
-    padding-top: 14px;
-    border-top: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
-  }
-
-  .legend p {
+  .record-head {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 560;
+    justify-content: space-between;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--c, var(--cyan)) 45%, transparent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--c, var(--cyan));
+  }
+
+  .chip::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--c, var(--cyan));
+    box-shadow: 0 0 8px var(--c, var(--cyan));
+  }
+
+  .close {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: var(--ink);
+    border-color: rgba(127, 227, 255, 0.45);
+  }
+
+  .close svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .r-title {
+    margin-top: 16px;
+    font-size: 24px;
+    font-weight: 580;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    outline-offset: 6px;
+  }
+
+  .sec {
+    margin-top: 22px;
+  }
+
+  .r-summary {
+    margin-top: 8px;
+    color: var(--ink-2);
     font-size: 15px;
   }
 
-  .legend i {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--c);
-    box-shadow: 0 0 10px var(--c);
+  .back {
+    margin-top: auto;
+    padding: 20px 0 0;
+    align-self: flex-start;
+    border: 0;
+    background: none;
+    color: var(--cyan-hi);
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 560;
+    cursor: pointer;
   }
 
-  .legend span {
-    display: block;
-    margin-top: 6px;
-    font-size: 13.5px;
-    color: var(--ink-3);
-    line-height: 1.5;
+  .back::before {
+    content: "← ";
   }
 
-  .caption {
-    margin-top: 28px;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    max-width: 80ch;
+  .back:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-
-
-
-
-
 
   @media (max-width: 1080px) {
     .explorer {
@@ -482,28 +573,11 @@ const startRels = RELATIONS.filter((r) => r.from === start.id || r.to === start.
     .field {
       min-height: 480px;
     }
-
-    .legend {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
   }
 
   @media (max-width: 600px) {
     .field {
       min-height: 400px;
-    }
-
-    .legend {
-      grid-template-columns: 1fr;
-    }
-
-    .legend {
-      gap: 0;
-    }
-
-    .legend li {
-      padding: 12px 0;
     }
 
     .inspector {

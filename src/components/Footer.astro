@@ -1,5 +1,5 @@
 ---
-import { FOOTER_NAV, SITE } from "../data/site";
+import { LEGAL_NAV, NAV, SITE } from "../data/site";
 const year = new Date().getFullYear();
 ---
 
@@ -7,27 +7,31 @@ const year = new Date().getFullYear();
   <div class="wrap">
     <div class="top">
       <div class="about">
-        <a class="brand" href="/" aria-label="Digit Software, home">
+        <a class="brand" href="/" aria-label="Go to homepage">
           <img src="/assets/digit-mark.svg" alt="" width="24" height="24" loading="lazy" />
           <span>Digit <span>Software</span></span>
         </a>
-        <p>Software for companies that run themselves, and get better at it.</p>
-        <a class="mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        <p>{SITE.description}</p>
       </div>
-      {FOOTER_NAV.map((col) => (
-        <nav class="col" aria-label={col.title}>
-          <a class="label col-title" href={col.href}>{col.title}</a>
-          <ul>
-            {col.links.map((l) => (
-              <li><a href={l.href}>{l.label}</a></li>
-            ))}
-          </ul>
-        </nav>
-      ))}
+      <nav class="col" aria-label="Navigation">
+        <p class="label">Navigation</p>
+        <ul>
+          {NAV.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <nav class="col" aria-label="Legal">
+        <p class="label">Legal</p>
+        <ul>
+          {LEGAL_NAV.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
     </div>
     <div class="bottom">
       <p>&copy; {year} Digit Software. All rights reserved.</p>
-      <p class="label">digit.software</p>
     </div>
   </div>
 </footer>
@@ -42,17 +46,8 @@ const year = new Date().getFullYear();
 
   .top {
     display: grid;
-    grid-template-columns: minmax(0, 1.5fr) repeat(5, minmax(0, 1fr));
-    gap: 32px;
-  }
-
-  .col-title {
-    text-decoration: none;
-    transition: color var(--fast) var(--ease);
-  }
-
-  .col-title:hover {
-    color: var(--ink);
+    grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+    gap: 40px;
   }
 
   .brand {
@@ -82,36 +77,22 @@ const year = new Date().getFullYear();
     font-size: 15px;
   }
 
-  .mail {
-    display: inline-block;
-    margin-top: 18px;
-    font-size: 15px;
-    color: var(--cyan-hi);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(127, 227, 255, 0.3);
-    transition: border-color var(--fast) var(--ease);
-  }
-
-  .mail:hover {
-    border-color: var(--cyan-hi);
-  }
-
   .col ul {
     list-style: none;
     margin: 16px 0 0;
     padding: 0;
     display: grid;
-    gap: 9px;
+    gap: 10px;
   }
 
-  .col li a {
-    font-size: 14.5px;
+  .col a {
+    font-size: 15px;
     color: var(--ink-2);
     text-decoration: none;
     transition: color var(--fast) var(--ease);
   }
 
-  .col li a:hover {
+  .col a:hover {
     color: var(--ink);
   }
 
@@ -119,29 +100,18 @@ const year = new Date().getFullYear();
     margin-top: 64px;
     padding-top: 24px;
     border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
     font-size: 13px;
     color: var(--ink-3);
   }
 
-  @media (max-width: 1080px) {
+  @media (max-width: 640px) {
     .top {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      row-gap: 44px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 40px;
     }
 
     .about {
       grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .top {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      row-gap: 36px;
     }
   }
 </style>

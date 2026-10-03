@@ -1,32 +1,30 @@
 ---
 const reserved = [
-  { t: "Money", d: "Spending, pricing above set limits, and financial commitments." },
-  { t: "Security", d: "Access, accounts, credentials, and anything that widens permissions." },
-  { t: "Direction", d: "Strategy, priorities, and which businesses to start or stop." },
-  { t: "Public actions", d: "Publishing, launching, and speaking for the company." },
-  { t: "The irreversible", d: "Anything that cannot be undone." },
+  { t: "Money", d: "Material spending and financial commitments." },
+  { t: "Security", d: "Access, credentials, permissions, and sensitive changes." },
+  { t: "Direction", d: "Strategy and decisions that materially change the business." },
+  { t: "External Actions", d: "Important actions that represent or commit the business." },
+  { t: "Irreversible Actions", d: "Decisions that cannot easily be undone." },
 ];
 ---
 
-<section class="section governance" id="governance" aria-labelledby="governance-title">
+<section class="section governance" id="autonomy" aria-labelledby="governance-title">
   <div class="wrap">
     <div class="authority">
       <div class="auth-copy reveal">
-        <p class="label kicker">Governed autonomy</p>
-        <h2 class="h2 auth-title" id="governance-title">Autonomy where it helps. Human authority where it matters.</h2>
+        <p class="label kicker">Autonomy</p>
+        <h2 class="h2 auth-title" id="governance-title">Autonomy with limits.</h2>
         <p class="body big">
-          Agents handle routine work on their own, and quickly. Anything with real consequences waits for the owner, and
-          Mission Control shows what is being asked, who is asking, and the evidence behind it.
+          Digit can handle routine work without waiting for approval at every step. Some decisions still belong with the
+          people responsible for the business.
         </p>
         <p class="body">
-          Authority is granted for each kind of work and widened only by the owner, after that work has proven reliable. No
-          part of the system can approve its own request or expand its own permissions.
+          Spending, security, company direction, external commitments, and actions that are difficult to reverse can require
+          a person before anything happens. The software operates within those limits.
         </p>
-        <p class="axiom">Capability is not authority.</p>
       </div>
 
       <div class="auth-side reveal" style="--d: 120ms">
-        <p class="label">Reserved for the owner</p>
         <ul class="reserved">
           {
             reserved.map((r) => (
@@ -43,11 +41,11 @@ const reserved = [
             ))
           }
         </ul>
-        <ol class="flow" aria-label="How a consequential action moves">
-          <li><b>Agents</b> propose</li>
-          <li><b>Owner</b> decides</li>
-          <li><b>The system</b> carries it out</li>
-          <li><b>Cerebro</b> records it</li>
+        <ol class="flow" aria-label="Decision flow">
+          <li><b>System</b> prepares</li>
+          <li><b>Person</b> decides</li>
+          <li><b>System</b> acts</li>
+          <li><b>Outcome</b> is recorded</li>
         </ol>
       </div>
     </div>
@@ -91,7 +89,7 @@ const reserved = [
   }
   .reserved {
     list-style: none;
-    margin: 18px 0 0;
+    margin: 0;
     padding: 0;
   }
   .reserved li {
@@ -100,6 +98,11 @@ const reserved = [
     gap: 12px;
     padding: 14px 0;
     border-top: 1px solid var(--line);
+  }
+
+  .reserved li:first-child {
+    border-top: 0;
+    padding-top: 0;
   }
   .reserved svg {
     width: 16px;

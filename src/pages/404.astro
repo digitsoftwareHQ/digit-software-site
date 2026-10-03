@@ -1,13 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
-<BaseLayout title="Page not found" description="This page does not exist." path="/404" noindex>
+<BaseLayout title="Page not found | Digit Software" description="The page you're looking for does not exist or may have moved." path="/404" noindex>
   <section class="nf wrap">
-    <p class="label kicker">404</p>
-    <h1 class="h2">This page doesn't exist.</h1>
-    <p class="lede">It may have moved when the site was rebuilt. Everything starts from the home page.</p>
-    <a class="btn btn--primary" href="/">Go to the home page</a>
+    <h1 class="h2">Page not found.</h1>
+    <p class="lede">The page you're looking for does not exist or may have moved.</p>
+    <div class="ctas">
+      <a class="btn btn--primary" href="/">Back to Digit Software <Fragment set:html={arrow} /></a>
+      <a class="btn btn--ghost" href="/platform">Our Platform</a>
+    </div>
   </section>
 </BaseLayout>
 
@@ -20,5 +23,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     align-items: flex-start;
     gap: 24px;
     padding-block: 96px;
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
   }
 </style>

@@ -8,30 +8,37 @@ const layers: StackLayer[] = [
   {
     id: "mission-control",
     name: "Mission Control",
-    role: "The owner's command center",
-    text: "The whole company in one place: what is happening, what it means, and what needs a decision.",
+    role: "See the whole operation",
+    text: "See what is happening across the business, what needs attention, how work is progressing, and where a decision is needed.",
     art: "tiles",
+    href: "/platform#mission-control",
+    ariaLabel: "View Mission Control",
   },
   {
     id: "agents",
     name: "Agents",
-    role: "The operation itself",
-    text: "Agents with defined roles run the day-to-day work, coordinate with each other and escalate what matters.",
+    role: "Specialized software at work",
+    text: "Agents research, analyze, create, review, monitor, and carry out work across different parts of the business.",
     art: "teams",
+    href: "/technology#agents",
   },
   {
     id: "cerebro",
     name: "Cerebro",
-    role: "Institutional intelligence",
-    text: "Everything the company knows and has learned, connected, with the evidence behind it.",
+    role: "The brain behind the business",
+    text: "Knowledge, evidence, experience, procedures, and decisions stay connected and available to the systems that need them.",
     art: "cluster",
+    href: "/platform#cerebro",
+    ariaLabel: "View Cerebro",
   },
   {
     id: "execution",
-    name: "Governed execution",
-    role: "How work gets done",
-    text: "Every action runs with a role, a scope and a record, inside the authority the owner has granted.",
+    name: "Execution",
+    role: "Turn decisions into action",
+    text: "The execution layer coordinates agents, connects them to the systems they need, and keeps track of what happens along the way.",
     art: "rails",
+    href: "/technology#execution",
+    ariaLabel: "View execution layer",
   },
 ];
 ---
@@ -40,14 +47,17 @@ const layers: StackLayer[] = [
   <div class="wrap">
     <div class="head">
       <div class="section-head reveal">
-        <p class="label kicker">The Digit platform</p>
-        <h2 class="h2" id="platform-title">Built like a company, because it runs one.</h2>
+        <p class="label kicker">Our Platform</p>
+        <h2 class="h2" id="platform-title">Software that's intelligent enough to run businesses.</h2>
         <p class="lede">
-          An autonomous company needs what any well-run company has: clear direction, people responsible for the work, a
-          memory of what happened, and rules about who decides what. Digit brings all of it together in one system.
+          Most business software gives people tools to do their jobs. Ours is built to take on more of the work itself.
+        </p>
+        <p class="lede">
+          The platform brings together specialized agents, software for coordinating their work, shared intelligence built
+          from what the business learns, and the infrastructure needed to turn decisions into actions.
         </p>
       </div>
-      <a class="btn btn--ghost cta reveal" href="/platform">Explore the platform <Fragment set:html={arrow} /></a>
+      <a class="btn btn--ghost cta reveal" href="/platform">Explore the Platform <Fragment set:html={arrow} /></a>
     </div>
 
     <div class="stack-wrap">
@@ -73,6 +83,10 @@ const layers: StackLayer[] = [
 
   .cta {
     flex: none;
+  }
+
+  .section-head .lede + .lede {
+    margin-top: 1em;
   }
 
   .stack-wrap {

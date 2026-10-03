@@ -12,27 +12,26 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
 
   <div class="wrap hero-inner">
     <div class="hero-copy" data-hero-copy>
-      <p class="label kicker hero-in" style="--d: 120ms">Digit Software</p>
-      <h1 class="display hero-title" id="hero-title">
-        <span class="hero-in" style="--d: 220ms">Software for companies <br class="br-wide" />that run themselves.</span>
-        <span class="lit hero-in" style="--d: 420ms">And get better at it.</span>
+      <h1 class="display hero-title hero-in" id="hero-title" style="--d: 200ms">
+        <span>Software for businesses that can think, operate,</span> <span class="lit">and improve on their own.</span>
       </h1>
-      <p class="lede hero-in" style="--d: 640ms">
-        Digit builds software that helps businesses think, operate and improve on their own, while the people who own
-        them stay in control of what matters.
+      <p class="lede hero-in" style="--d: 560ms">
+        We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real business
+        operations.
       </p>
-      <div class="ctas hero-in" style="--d: 800ms">
-        <a class="btn btn--primary" href="/platform">Explore the platform <Fragment set:html={arrow} /></a>
-        <a class="btn btn--ghost" href="#operations">How it works</a>
+      <p class="lede second hero-in" style="--d: 680ms">
+        Digit uses that technology to build and operate businesses of its own, creating systems that learn from experience
+        and become more capable over time.
+      </p>
+      <div class="ctas hero-in" style="--d: 820ms">
+        <a class="btn btn--primary" href="/platform">Our Platform <Fragment set:html={arrow} /></a>
+        <a class="btn btn--ghost" href="/company">About Us</a>
       </div>
     </div>
   </div>
 
-  <div class="wrap hero-foot hero-in" style="--d: 1200ms">
-    <a class="scroll-cue" href="#platform" aria-label="Scroll to the platform">
-      <span class="label">Scroll</span>
-      <i aria-hidden="true"></i>
-    </a>
+  <div class="wrap hero-foot hero-in" style="--d: 1200ms" aria-hidden="true">
+    <span class="scroll-cue"><i></i></span>
   </div>
 </section>
 
@@ -53,7 +52,7 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
     if (!canvas || !copy) return;
     const c = canvas.getBoundingClientRect();
     const rects: { l: number; t: number; r: number; b: number }[] = [];
-    copy.querySelectorAll<HTMLElement>("h1 > span, .lede, .ctas, .kicker").forEach((el) => {
+    copy.querySelectorAll<HTMLElement>("h1 > span, .lede, .ctas").forEach((el) => {
       const range = document.createRange();
       range.selectNodeContents(el);
       const list = el.classList.contains("ctas") ? [el.getBoundingClientRect()] : [...range.getClientRects()];
@@ -165,31 +164,25 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   }
 
   .hero-title {
-    font-size: clamp(42px, 5vw, 78px);
+    font-size: clamp(40px, 4.6vw, 72px);
+    max-width: 13.5em;
   }
 
-  .br-wide {
-    display: none;
-  }
 
-  @media (min-width: 1080px) {
-    .br-wide {
-      display: inline;
-    }
-  }
-
-  .hero-title > span {
-    display: block;
-  }
 
   .hero-title .lit {
-    margin-top: 0.06em;
     padding-bottom: 0.08em;
   }
 
   .hero-copy .lede {
-    margin-top: 32px;
-    max-width: 31em;
+    margin-top: 30px;
+    max-width: 34em;
+  }
+
+  .hero-copy .lede.second {
+    margin-top: 14px;
+    font-size: clamp(16px, 1.3vw, 18px);
+    color: var(--ink-3);
   }
 
   .ctas {
@@ -213,7 +206,6 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   }
 
   .scroll-cue {
-    pointer-events: auto;
     display: inline-flex;
     flex-direction: column;
     align-items: center;

@@ -16,7 +16,7 @@ const toggleLabel = document.querySelector<HTMLElement>("[data-menu-label]");
 if (toggle && menu) {
   const setOpen = (open: boolean, restoreFocus = false) => {
     toggle.setAttribute("aria-expanded", String(open));
-    if (toggleLabel) toggleLabel.textContent = open ? "Close menu" : "Open menu";
+    if (toggleLabel) toggleLabel.textContent = open ? "Close navigation" : "Open navigation";
     menu.hidden = !open;
     document.body.classList.toggle("menu-open", open);
     document.documentElement.style.overflow = open ? "hidden" : "";

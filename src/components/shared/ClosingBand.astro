@@ -1,0 +1,59 @@
+---
+/** A closing statement at the end of a page, leading on to the next destination. */
+interface Props {
+  id?: string;
+  headline: string;
+  body: string[];
+  cta: { href: string; label: string };
+}
+const { id = "closing", headline, body, cta } = Astro.props;
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<section class="section closing" id={id} aria-labelledby={`${id}-title`}>
+  <div class="wrap inner">
+    <div class="line reveal" aria-hidden="true"></div>
+    <h2 class="h2 reveal" id={`${id}-title`}>{headline}</h2>
+    <div class="body reveal">
+      {body.map((p) => <p class="lede">{p}</p>)}
+    </div>
+    <a class="btn btn--ghost reveal" href={cta.href}>{cta.label} <Fragment set:html={arrow} /></a>
+  </div>
+</section>
+
+<style>
+  .closing {
+    border-top: 1px solid var(--line);
+    background:
+      radial-gradient(900px 420px at 50% 0%, rgba(39, 150, 255, 0.09), transparent 70%),
+      var(--bg-0);
+  }
+
+  .inner {
+    max-width: calc(980px + var(--gutter) * 2);
+  }
+
+  .line {
+    width: 56px;
+    height: 1px;
+    margin-bottom: 36px;
+    background: linear-gradient(90deg, var(--cyan), rgba(39, 196, 255, 0));
+    box-shadow: 0 0 12px rgba(39, 196, 255, 0.6);
+  }
+
+  .h2 {
+    max-width: 18em;
+  }
+
+  .body {
+    margin-top: 26px;
+  }
+
+  .body .lede + .lede {
+    margin-top: 1em;
+  }
+
+  .btn {
+    margin-top: 40px;
+  }
+</style>

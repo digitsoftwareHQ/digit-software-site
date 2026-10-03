@@ -1,13 +1,19 @@
 ---
-/** Hero for inner pages: kicker, title, lede, an optional on-page index, and a page-specific backdrop slot. */
+/** Hero for inner pages: eyebrow, title, body paragraphs, calls to action, and a page-specific backdrop slot. */
+interface Link {
+  href: string;
+  label: string;
+}
 interface Props {
   kicker: string;
   title: string;
-  lede: string;
-  index?: { href: string; label: string }[];
+  body: string[];
+  primary?: Link;
+  secondary?: Link;
   tone?: "company" | "platform" | "businesses" | "technology";
 }
-const { kicker, title, lede, index = [], tone = "company" } = Astro.props;
+const { kicker, title, body, primary, secondary, tone = "company" } = Astro.props;
+const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
 <section class:list={["page-hero", `tone-${tone}`]} aria-labelledby="page-title">
@@ -15,21 +21,23 @@ const { kicker, title, lede, index = [], tone = "company" } = Astro.props;
   <div class="wrap inner">
     <p class="label kicker hero-in" style="--d: 80ms">{kicker}</p>
     <h1 class="display title hero-in" id="page-title" style="--d: 160ms" set:html={title} />
-    <p class="lede hero-in" style="--d: 320ms">{lede}</p>
+    <div class="copy hero-in" style="--d: 320ms">
+      {body.map((p, i) => <p class:list={["lede", { first: i === 0 }]}>{p}</p>)}
+    </div>
     {
-      index.length > 0 && (
-        <nav class="index hero-in" style="--d: 460ms" aria-label="On this page">
-          <ol>
-            {index.map((it, i) => (
-              <li>
-                <a href={it.href}>
-                  <span class="label">{String(i + 1).padStart(2, "0")}</span>
-                  {it.label}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
+      (primary || secondary) && (
+        <div class="ctas hero-in" style="--d: 460ms">
+          {primary && (
+            <a class="btn btn--primary" href={primary.href}>
+              {primary.label} <Fragment set:html={arrow} />
+            </a>
+          )}
+          {secondary && (
+            <a class="btn btn--ghost" href={secondary.href}>
+              {secondary.label}
+            </a>
+          )}
+        </div>
       )
     }
     <slot />
@@ -89,51 +97,20 @@ const { kicker, title, lede, index = [], tone = "company" } = Astro.props;
     color: var(--ink-3);
   }
 
-  .lede {
+  .copy {
     margin-top: 32px;
-    max-width: 38em;
+    max-width: 40em;
   }
 
-  .index {
-    margin-top: clamp(48px, 6vw, 72px);
+  .copy .lede + .lede {
+    margin-top: 1em;
   }
 
-  .index ol {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .ctas {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .index a {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 16px 9px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--line-2);
-    background: rgba(8, 16, 32, 0.5);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-2);
-    text-decoration: none;
-    transition:
-      border-color var(--fast) var(--ease),
-      color var(--fast) var(--ease),
-      background var(--fast) var(--ease);
-  }
-
-  .index a .label {
-    font-size: 10.5px;
-    color: var(--cyan);
-  }
-
-  .index a:hover {
-    color: var(--ink);
-    border-color: rgba(127, 227, 255, 0.5);
-    background: rgba(39, 196, 255, 0.07);
+    gap: 12px;
+    margin-top: 40px;
   }
 
   .js .hero-in {
