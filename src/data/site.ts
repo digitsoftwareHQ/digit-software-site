@@ -9,7 +9,7 @@ export const SITE = {
 /** Page titles and meta descriptions. */
 export const SEO = {
   home: {
-    title: "Digit Software | Engineering the Infrastructure of the Future",
+    title: "Digit | Engineering the Infrastructure of the Future",
     description:
       "Digit Software engineers intelligent software, autonomous systems, and the infrastructure behind businesses that can operate and improve with increasing independence.",
   },
