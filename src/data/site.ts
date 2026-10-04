@@ -14,22 +14,22 @@ export const SEO = {
       "Digit Software engineers intelligent software, autonomous systems, and the infrastructure behind businesses that can operate and improve with increasing independence.",
   },
   company: {
-    title: "Company | Digit Software",
+    title: "Company | Digit",
     description:
       "Learn how Digit Software builds technology for autonomous business operations and uses it across a portfolio of businesses it owns and manages.",
   },
   platform: {
-    title: "Platform | Digit Software",
+    title: "Platform | Digit",
     description:
       "Explore the software Digit is building to coordinate business operations, specialized agents, execution, institutional knowledge, and human oversight.",
   },
   businesses: {
-    title: "Businesses | Digit Software",
+    title: "Businesses | Digit",
     description:
       "Explore Digit Software's portfolio across e-commerce, media, marketing, web solutions, and software development.",
   },
   technology: {
-    title: "Technology | Digit Software",
+    title: "Technology | Digit",
     description:
       "Explore the execution, knowledge, governance, integrations, and reliability systems behind Digit's autonomous business software.",
   },
