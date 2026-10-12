@@ -22,9 +22,6 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
       <p class="lede hero-in" style="--d: 560ms" {...edit(c.lede, "text", ["size", "width", "above", "below"])}>
         {c.lede.text}
       </p>
-      <p class="lede second hero-in" style="--d: 680ms" {...edit(c.support, "text", ["size", "width", "above", "below"])}>
-        {c.support.text}
-      </p>
       <div class="ctas hero-in" style="--d: 820ms">
         <a class="btn btn--primary" href="/platform" {...edit(c.primary, "cta", [], { href: "/platform" })}>{c.primary.text} <Fragment set:html={arrow} /></a>
         <a class="btn btn--ghost" href="/company" {...edit(c.secondary, "cta", [], { href: "/company" })}>{c.secondary.text}</a>
@@ -179,12 +176,6 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   .hero-copy .lede {
     --measure: 34em;
     margin-top: 30px;
-  }
-
-  .hero-copy .lede.second {
-    margin-top: 14px;
-    --fs: clamp(16px, 1.3vw, 18px);
-    color: var(--ink-3);
   }
 
   .ctas {

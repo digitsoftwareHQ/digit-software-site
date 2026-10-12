@@ -126,7 +126,8 @@ ok(results.every((r) => r.status === "fulfilled"), "12 concurrent saves to one f
 const finalSteps = JSON.parse(readFileSync(scratchFile("home"), "utf8")).improvement.steps;
 ok(finalSteps.every((s) => s.title.endsWith("(edited)") && s.body.endsWith("(edited)")), "no concurrent save is lost");
 ok(readdirSync(join(SCRATCH, "src", "content")).every((f) => !f.endsWith(".tmp")), "no temporary files are left behind");
-const dupe = await Promise.allSettled([0, 1].map(() => store.write({ key: "home:hero.lede", value: "A", expected: { value: JSON.parse(before["home.json"]).hero.lede, format: {} } })));
+const lede = await store.read("home:hero.lede");
+const dupe = await Promise.allSettled([0, 1].map(() => store.write({ key: "home:hero.lede", value: "A", expected: { value: lede.value, format: lede.format } })));
 ok(dupe.filter((r) => r.status === "fulfilled").length === 1 && dupe.some((r) => r.reason?.status === 409), "two saves from the same starting text: one wins, the other is refused");
 rmSync(SCRATCH, { recursive: true, force: true });
 

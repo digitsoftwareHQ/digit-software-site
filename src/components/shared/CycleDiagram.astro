@@ -34,9 +34,10 @@ const lines = center?.text ?? [];
     margin: 0;
   }
 
+  /* Fills its column up to --cycle-size; a page can set a larger size on a wrapper. */
   .cycle svg {
     width: 100%;
-    max-width: 440px;
+    max-width: var(--cycle-size, 440px);
     margin-inline: auto;
     overflow: visible;
   }

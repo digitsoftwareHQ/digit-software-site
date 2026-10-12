@@ -15,7 +15,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
   <div class="wrap bar">
     <a class="brand" href="/" aria-label="Go to homepage" aria-current={path === "/" ? "page" : undefined}>
       <img src="/assets/digit-mark.svg" alt="" width="28" height="28" />
-      <span class="brand-word">Digit <span>Software</span></span>
+      <span class="brand-word">Digit</span>
     </a>
 
     <nav class="primary" aria-label="Primary">
@@ -109,11 +109,6 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     font-weight: 650;
     font-stretch: 114%;
     letter-spacing: -0.02em;
-  }
-
-  .brand-word span {
-    font-weight: 450;
-    color: var(--ink-3);
   }
 
   .primary ul {

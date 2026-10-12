@@ -3,6 +3,7 @@ import { home } from "../../content/home";
 import { edit, parts } from "../../content/schema";
 
 const c = home.technology;
+const [first, ...more] = parts(c.body);
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 /** Where each card leads, in the order of the cards in home.json. */
 const hrefs = [
@@ -23,10 +24,15 @@ const hrefs = [
       <div class="section-head reveal">
         <p class="label kicker" {...edit(c.eyebrow, "eyebrow")}>{c.eyebrow.text}</p>
         <h2 class="h2" id="tech-title" {...edit(c.headline, "heading", ["size", "above", "below"])}>{c.headline.text}</h2>
-        {parts(c.body).map(({ text, part }) => <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
+      </div>
+      <div class="copy copy--first reveal">
+        {first && <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part: first.part })}>{first.text}</p>}
         <p class="closing" {...edit(c.closing, "text", ["above", "below"])}>{c.closing.text}</p>
       </div>
-      <a class="btn btn--ghost cta reveal" href="/technology" {...edit(c.cta, "cta", [], { href: "/technology" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
+      <div class="copy copy--more reveal">
+        {more.map(({ text, part }) => <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
+        <a class="btn btn--ghost cta" href="/technology" {...edit(c.cta, "cta", [], { href: "/technology" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
+      </div>
     </div>
 
     <ol class="spec">
@@ -55,19 +61,37 @@ const hrefs = [
     border-block: 1px solid var(--line);
   }
 
+  /* The headline runs across the top at its own measure. Below it, two columns that start level: the first paragraph
+     and the closing line on the left; the rest of the copy and the CTA on the right.
+     The left column is a little narrower, so the shorter left copy and the longer right copy run to similar heights.
+     Tablets and phones stack everything in reading order. */
   .head {
+    display: grid;
+    grid-template-columns: minmax(0, 9fr) minmax(0, 11fr);
+    column-gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .section-head {
+    grid-column: 1 / -1;
+  }
+
+  .copy {
+    margin-top: 28px;
+  }
+
+  .copy--first {
+    grid-area: 2 / 1;
+  }
+
+  .copy--more {
+    grid-area: 2 / 2;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 32px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .cta {
-    flex: none;
-  }
-
-  .section-head .lede + .lede {
+  .copy .lede + .lede {
     margin-top: 1em;
   }
 
@@ -78,11 +102,46 @@ const hrefs = [
     font-stretch: 106%;
     letter-spacing: -0.01em;
     color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .cta {
+    margin-top: 30px;
+  }
+
+  /* The right column takes the first paragraph's spacing step, so both columns start level. */
+  @media (min-width: 961px) {
+    .head:has(> .copy--first > .lede[data-v-above="looser"]) > .copy--more {
+      padding-top: var(--v-space-looser);
+    }
+
+    .head:has(> .copy--first > .lede[data-v-above="tighter"]) > .copy--more {
+      translate: 0 calc(var(--v-space-tighter) * -1);
+    }
+  }
+
+  @media (max-width: 960px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .copy--first,
+    .copy--more {
+      grid-area: auto;
+    }
+
+    .copy--more {
+      margin-top: 0;
+    }
+
+    .copy--more > .lede:first-child {
+      margin-top: 24px;
+    }
   }
 
   .spec {
     list-style: none;
-    margin: clamp(48px, 6vw, 72px) 0 0;
+    margin: clamp(56px, 7vw, 96px) 0 0;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));

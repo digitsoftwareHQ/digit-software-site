@@ -18,7 +18,7 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
         {parts(c.body).map(({ text, part }) => <p class="lede" {...edit(c.body, "paragraphs", ["width", "above", "below"], { part })}>{text}</p>)}
         <a class="btn btn--ghost cta" href="/businesses" {...edit(c.cta, "cta", [], { href: "/businesses" })}>{c.cta.text} <Fragment set:html={arrow} /></a>
       </div>
-      <div class="reveal" style="--d: 120ms">
+      <div class="diagram reveal" style="--d: 120ms">
         <CycleDiagram center={c.diagram} />
       </div>
     </div>
@@ -47,9 +47,15 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
 
   .grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    /* The diagram fills the right column, so this split sets its size on desktop. */
+    grid-template-columns: minmax(0, 1.09fr) minmax(0, 1fr);
     gap: clamp(32px, 6vw, 96px);
     align-items: center;
+  }
+
+  /* About 27% larger than the diagram's default 440px; the column caps it on desktop. */
+  .diagram {
+    --cycle-size: 557px;
   }
 
   .copy .lede {

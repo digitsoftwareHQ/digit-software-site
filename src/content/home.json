@@ -6,10 +6,9 @@
       "below": "looser"
     },
     "titleAccent": "and improve on their own.",
-    "lede": "We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real world business operations.",
-    "support": {
-      "text": "Digit uses that technology to build and operate businesses of its own, creating systems that learn, and become more capable over time.",
-      "above": "looser"
+    "lede": {
+      "text": "We engineer intelligent software, autonomous systems, and the infrastructure that turns them into real world business operations.",
+      "below": "looser"
     },
     "primary": "Our Platform",
     "secondary": "About Us"
@@ -22,12 +21,16 @@
     },
     "lead": {
       "text": "Digit develops software designed to help businesses become smarter, more efficient, and increasingly more autonomous.",
-      "size": "smaller"
+      "size": "smaller",
+      "below": "looser"
     },
-    "body": [
-      "We use that technology across businesses we own in e-commerce, media, marketing, web solutions, and software development. Running those businesses gives us a practical way to test what we build, learn from real operations, and find out where the technology needs to get better.",
-      "Over time, the same technology can support businesses outside Digit through software products, infrastructure, and systems built for their operations."
-    ],
+    "body": {
+      "text": [
+        "We engineer intelligent software, autonomous systems, and integrated platforms that streamline operations, automate complex workflows, and support smarter decision-making. Our solutions are designed to adapt, scale, and evolve alongside the businesses they serve."
+      ],
+      "above": "looser",
+      "below": "looser"
+    },
     "cta": "Learn More"
   },
   "businesses": {
@@ -151,7 +154,7 @@
     ]
   },
   "autonomy": {
-    "eyebrow": "Autonomy",
+    "eyebrow": "Governance",
     "headline": "Autonomy with limits.",
     "lead": "Digit can handle routine work without waiting for approval at every step. Some decisions still belong with the people responsible for the business.",
     "body": {
@@ -241,27 +244,27 @@
         "body": "The next operation starts with better context, better decisions, and a stronger system."
       }
     ],
-    "againLine": "Then it repeats the cycle with a better starting point.",
+    "againLine": "A continuous cycle of learning, adaptation, and improvement.",
     "ledger": [
       {
         "term": "Success",
-        "body": "Something worth repeating."
+        "body": "Results that inform future decisions."
       },
       {
         "term": "Failure",
-        "body": "Something worth understanding."
+        "body": "Setbacks that reveal opportunities to improve."
       },
       {
         "term": "Experiment",
-        "body": "A way to test an idea."
+        "body": "Testing new ideas to discover what works."
       },
       {
         "term": "Evidence",
-        "body": "Something the business can learn from."
+        "body": "Real-world data that guides better decisions."
       },
       {
         "term": "Knowledge",
-        "body": "Something the business can use."
+        "body": "Insights retained and applied to future operations."
       }
     ]
   },
