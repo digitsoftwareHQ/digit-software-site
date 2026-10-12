@@ -3,6 +3,8 @@ import { home } from "../../content/home";
 import { edit } from "../../content/schema";
 
 const c = home.hero;
+/** The accent's first word ("and") and the rest, so phones can keep that word white (see .lit-rest below). */
+const [accentLead, accentRest] = c.titleAccent.text.split(/ (.*)/s);
 const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 ---
 
@@ -17,7 +19,7 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
   <div class="wrap hero-inner">
     <div class="hero-copy" data-hero-copy>
       <h1 class="display hero-title hero-in" id="hero-title" style="--d: 200ms" {...edit(c.title, "heading", ["size", "width", "below"])}>
-        <span>{c.title.text}</span> <span class="lit" {...edit(c.titleAccent, "heading")}>{c.titleAccent.text}</span>
+        <span>{c.title.text}</span> <span class="lit" {...edit(c.titleAccent, "heading")}>{accentRest ? <Fragment><span class="lit-lead">{accentLead}</span> <span class="lit-rest">{accentRest}</span></Fragment> : c.titleAccent.text}</span>
       </h1>
       <p class="lede hero-in" style="--d: 560ms" {...edit(c.lede, "text", ["size", "width", "above", "below"])}>
         {c.lede.text}
@@ -171,6 +173,19 @@ const arrow = `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="
 
   .hero-title .lit {
     padding-bottom: 0.08em;
+  }
+
+  /* Most phones break the headline after "and", leaving it alone at the end of a white line, so on phones it stays
+     white and the gradient starts at "improve": the rest takes the accent's own gradient, restarting at its first letter. */
+  @media (max-width: 600px) {
+    .hero-title .lit-lead {
+      color: var(--ink);
+    }
+
+    .hero-title .lit-rest {
+      background: inherit;
+      padding-bottom: 0.08em;
+    }
   }
 
   .hero-copy .lede {
